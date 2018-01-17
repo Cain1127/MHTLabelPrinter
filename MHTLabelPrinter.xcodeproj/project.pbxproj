@@ -8,20 +8,100 @@
 
 /* Begin PBXBuildFile section */
 		5C243C0D1FF2468100AFC3FD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C243C0C1FF2468100AFC3FD /* AppDelegate.swift */; };
-		5C243C0F1FF2468100AFC3FD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C243C0E1FF2468100AFC3FD /* ViewController.swift */; };
 		5C243C121FF2468100AFC3FD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C243C101FF2468100AFC3FD /* Main.storyboard */; };
 		5C243C141FF2468100AFC3FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C243C131FF2468100AFC3FD /* Assets.xcassets */; };
-		5C243C171FF2468100AFC3FD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C243C151FF2468100AFC3FD /* LaunchScreen.storyboard */; };
+		5CC11D9E2005D0600051D6D4 /* FzhBluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC11D992005D0600051D6D4 /* FzhBluetooth.m */; };
+		5CC11D9F2005D0600051D6D4 /* FzhString.m in Sources */ = {isa = PBXBuildFile; fileRef = 5CC11D9A2005D0600051D6D4 /* FzhString.m */; };
+		84264C77200F41FE0011DFEC /* double_paper.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84264C61200F41FD0011DFEC /* double_paper.txt */; };
+		84264C78200F41FE0011DFEC /* mbymx4830.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84264C63200F41FD0011DFEC /* mbymx4830.txt */; };
+		84264C79200F41FE0011DFEC /* long_tail_fold_auspicious.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84264C64200F41FD0011DFEC /* long_tail_fold_auspicious.txt */; };
+		84264C7A200F41FE0011DFEC /* short_tail_fold.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84264C65200F41FD0011DFEC /* short_tail_fold.txt */; };
+		84264C7B200F41FE0011DFEC /* yptm.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84264C66200F41FD0011DFEC /* yptm.txt */; };
+		84264C7C200F41FE0011DFEC /* long_tail_fold.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84264C67200F41FD0011DFEC /* long_tail_fold.txt */; };
+		84264C7D200F41FE0011DFEC /* mbymx4840.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84264C69200F41FD0011DFEC /* mbymx4840.txt */; };
+		84264C7E200F41FE0011DFEC /* mbymx4870.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84264C6B200F41FD0011DFEC /* mbymx4870.txt */; };
+		84264C7F200F41FE0011DFEC /* long_tail_fold.png in Resources */ = {isa = PBXBuildFile; fileRef = 84264C6C200F41FD0011DFEC /* long_tail_fold.png */; };
+		84264C80200F41FE0011DFEC /* t_type_label.png in Resources */ = {isa = PBXBuildFile; fileRef = 84264C6E200F41FD0011DFEC /* t_type_label.png */; };
+		84264C81200F41FE0011DFEC /* long_tail_fold_auspicious.png in Resources */ = {isa = PBXBuildFile; fileRef = 84264C6F200F41FD0011DFEC /* long_tail_fold_auspicious.png */; };
+		84264C82200F41FE0011DFEC /* long_tail_fold.png in Resources */ = {isa = PBXBuildFile; fileRef = 84264C70200F41FD0011DFEC /* long_tail_fold.png */; };
+		84264C83200F41FE0011DFEC /* commodity_label_price.png in Resources */ = {isa = PBXBuildFile; fileRef = 84264C71200F41FD0011DFEC /* commodity_label_price.png */; };
+		84264C84200F41FE0011DFEC /* mbymx4860.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84264C73200F41FD0011DFEC /* mbymx4860.txt */; };
+		84264C85200F41FE0011DFEC /* mbymx4850.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84264C75200F41FD0011DFEC /* mbymx4850.txt */; };
+		84264C86200F41FE0011DFEC /* commodity_label_price.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84264C76200F41FD0011DFEC /* commodity_label_price.txt */; };
+		84D95261200DFF1C009F1C5D /* TemplateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D95260200DFF1C009F1C5D /* TemplateModel.swift */; };
+		84D95263200E0080009F1C5D /* TemplateQCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D95262200E0080009F1C5D /* TemplateQCModel.swift */; };
+		84D95265200E0153009F1C5D /* TemplateTextModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D95264200E0153009F1C5D /* TemplateTextModel.swift */; };
+		84D95267200E020C009F1C5D /* TemplateImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D95266200E020C009F1C5D /* TemplateImageModel.swift */; };
+		84D95268200E0B7F009F1C5D /* mbymx4830.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 84D9525F200DF60A009F1C5D /* mbymx4830.geojson */; };
+		9335D1BF1FFE116B00E9DDAC /* addLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9335D1BE1FFE116B00E9DDAC /* addLabelViewController.swift */; };
+		9335D1C11FFE119900E9DDAC /* labelModelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9335D1C01FFE119900E9DDAC /* labelModelViewController.swift */; };
+		933EFA601FF341430036CCE4 /* MHTNavC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFA5F1FF341430036CCE4 /* MHTNavC.swift */; };
+		933EFA621FF343A80036CCE4 /* MHTparameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFA611FF343A80036CCE4 /* MHTparameters.swift */; };
+		933EFA661FF351900036CCE4 /* MHTBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFA651FF351900036CCE4 /* MHTBase.swift */; };
+		933EFA691FF36B990036CCE4 /* homeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFA671FF36B990036CCE4 /* homeVC.swift */; };
+		933EFA6A1FF36B990036CCE4 /* homeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933EFA681FF36B990036CCE4 /* homeVC.xib */; };
+		93BD67561FF387B0001112D3 /* setViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BD67551FF387B0001112D3 /* setViewController.swift */; };
+		93C21546200270C100E6C7B3 /* mapleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C21545200270C100E6C7B3 /* mapleButton.swift */; };
+		93C215C820039C1600E6C7B3 /* quickPrintVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C215C720039C1600E6C7B3 /* quickPrintVC.swift */; };
+		93C215CC2003B3E500E6C7B3 /* mapleScroollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C215CA2003B3E500E6C7B3 /* mapleScroollView.m */; };
+		93C215D02003C02400E6C7B3 /* sysModelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C215CE2003C02400E6C7B3 /* sysModelCell.swift */; };
+		93C215D12003C02400E6C7B3 /* sysModelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93C215CF2003C02400E6C7B3 /* sysModelCell.xib */; };
+		93E9EFF91FFCE67000B58FC5 /* setTBCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9EFF71FFCE66F00B58FC5 /* setTBCell.swift */; };
+		93E9EFFA1FFCE67000B58FC5 /* setTBCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E9EFF81FFCE67000B58FC5 /* setTBCell.xib */; };
+		93E9EFFD1FFCFF9D00B58FC5 /* bluetoothMVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9EFFC1FFCFF9D00B58FC5 /* bluetoothMVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5C243C091FF2468100AFC3FD /* MHTLabelPrinter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MHTLabelPrinter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C243C0C1FF2468100AFC3FD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5C243C0E1FF2468100AFC3FD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5C243C111FF2468100AFC3FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5C243C131FF2468100AFC3FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		5C243C161FF2468100AFC3FD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5C243C181FF2468100AFC3FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5CC11D992005D0600051D6D4 /* FzhBluetooth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FzhBluetooth.m; sourceTree = "<group>"; };
+		5CC11D9A2005D0600051D6D4 /* FzhString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FzhString.m; sourceTree = "<group>"; };
+		5CC11D9B2005D0600051D6D4 /* FzhBluetooth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FzhBluetooth.h; sourceTree = "<group>"; };
+		5CC11D9C2005D0600051D6D4 /* FzhCallBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FzhCallBlock.h; sourceTree = "<group>"; };
+		5CC11D9D2005D0600051D6D4 /* FzhString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FzhString.h; sourceTree = "<group>"; };
+		84264C61200F41FD0011DFEC /* double_paper.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = double_paper.txt; sourceTree = "<group>"; };
+		84264C63200F41FD0011DFEC /* mbymx4830.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mbymx4830.txt; sourceTree = "<group>"; };
+		84264C64200F41FD0011DFEC /* long_tail_fold_auspicious.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = long_tail_fold_auspicious.txt; sourceTree = "<group>"; };
+		84264C65200F41FD0011DFEC /* short_tail_fold.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = short_tail_fold.txt; sourceTree = "<group>"; };
+		84264C66200F41FD0011DFEC /* yptm.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = yptm.txt; sourceTree = "<group>"; };
+		84264C67200F41FD0011DFEC /* long_tail_fold.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = long_tail_fold.txt; sourceTree = "<group>"; };
+		84264C69200F41FD0011DFEC /* mbymx4840.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mbymx4840.txt; sourceTree = "<group>"; };
+		84264C6B200F41FD0011DFEC /* mbymx4870.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mbymx4870.txt; sourceTree = "<group>"; };
+		84264C6C200F41FD0011DFEC /* long_tail_fold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = long_tail_fold.png; sourceTree = "<group>"; };
+		84264C6E200F41FD0011DFEC /* t_type_label.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = t_type_label.png; sourceTree = "<group>"; };
+		84264C6F200F41FD0011DFEC /* long_tail_fold_auspicious.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = long_tail_fold_auspicious.png; sourceTree = "<group>"; };
+		84264C70200F41FD0011DFEC /* long_tail_fold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = long_tail_fold.png; sourceTree = "<group>"; };
+		84264C71200F41FD0011DFEC /* commodity_label_price.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = commodity_label_price.png; sourceTree = "<group>"; };
+		84264C73200F41FD0011DFEC /* mbymx4860.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mbymx4860.txt; sourceTree = "<group>"; };
+		84264C75200F41FD0011DFEC /* mbymx4850.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mbymx4850.txt; sourceTree = "<group>"; };
+		84264C76200F41FD0011DFEC /* commodity_label_price.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = commodity_label_price.txt; sourceTree = "<group>"; };
+		84D9525C200DF48D009F1C5D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		84D9525F200DF60A009F1C5D /* mbymx4830.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = mbymx4830.geojson; sourceTree = "<group>"; };
+		84D95260200DFF1C009F1C5D /* TemplateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateModel.swift; sourceTree = "<group>"; };
+		84D95262200E0080009F1C5D /* TemplateQCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateQCModel.swift; sourceTree = "<group>"; };
+		84D95264200E0153009F1C5D /* TemplateTextModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateTextModel.swift; sourceTree = "<group>"; };
+		84D95266200E020C009F1C5D /* TemplateImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateImageModel.swift; sourceTree = "<group>"; };
+		9335D1BE1FFE116B00E9DDAC /* addLabelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addLabelViewController.swift; sourceTree = "<group>"; };
+		9335D1C01FFE119900E9DDAC /* labelModelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = labelModelViewController.swift; sourceTree = "<group>"; };
+		933EFA5F1FF341430036CCE4 /* MHTNavC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHTNavC.swift; sourceTree = "<group>"; };
+		933EFA611FF343A80036CCE4 /* MHTparameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHTparameters.swift; sourceTree = "<group>"; };
+		933EFA651FF351900036CCE4 /* MHTBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHTBase.swift; sourceTree = "<group>"; };
+		933EFA671FF36B990036CCE4 /* homeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeVC.swift; sourceTree = "<group>"; };
+		933EFA681FF36B990036CCE4 /* homeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = homeVC.xib; sourceTree = "<group>"; };
+		93BD67551FF387B0001112D3 /* setViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setViewController.swift; sourceTree = "<group>"; };
+		93C21545200270C100E6C7B3 /* mapleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapleButton.swift; sourceTree = "<group>"; };
+		93C215C720039C1600E6C7B3 /* quickPrintVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = quickPrintVC.swift; sourceTree = "<group>"; };
+		93C215CA2003B3E500E6C7B3 /* mapleScroollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mapleScroollView.m; sourceTree = "<group>"; };
+		93C215CB2003B3E500E6C7B3 /* mapleScroollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mapleScroollView.h; sourceTree = "<group>"; };
+		93C215CD2003B40C00E6C7B3 /* MHTHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MHTHeader.h; sourceTree = "<group>"; };
+		93C215CE2003C02400E6C7B3 /* sysModelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysModelCell.swift; sourceTree = "<group>"; };
+		93C215CF2003C02400E6C7B3 /* sysModelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = sysModelCell.xib; sourceTree = "<group>"; };
+		93E9EFF71FFCE66F00B58FC5 /* setTBCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setTBCell.swift; sourceTree = "<group>"; };
+		93E9EFF81FFCE67000B58FC5 /* setTBCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = setTBCell.xib; sourceTree = "<group>"; };
+		93E9EFFC1FFCFF9D00B58FC5 /* bluetoothMVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetoothMVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +118,10 @@
 		5C243C001FF2468100AFC3FD = {
 			isa = PBXGroup;
 			children = (
+				84264C60200F41FD0011DFEC /* temple */,
+				5CC11D972005D0600051D6D4 /* MHTThird */,
+				933EFA5A1FF340580036CCE4 /* MHTControlles */,
+				933EFA5B1FF340580036CCE4 /* MHTTools */,
 				5C243C0B1FF2468100AFC3FD /* MHTLabelPrinter */,
 				5C243C0A1FF2468100AFC3FD /* Products */,
 			);
@@ -55,13 +139,203 @@
 			isa = PBXGroup;
 			children = (
 				5C243C0C1FF2468100AFC3FD /* AppDelegate.swift */,
-				5C243C0E1FF2468100AFC3FD /* ViewController.swift */,
 				5C243C101FF2468100AFC3FD /* Main.storyboard */,
 				5C243C131FF2468100AFC3FD /* Assets.xcassets */,
-				5C243C151FF2468100AFC3FD /* LaunchScreen.storyboard */,
 				5C243C181FF2468100AFC3FD /* Info.plist */,
+				93C215CD2003B40C00E6C7B3 /* MHTHeader.h */,
+				84D9525F200DF60A009F1C5D /* mbymx4830.geojson */,
 			);
 			path = MHTLabelPrinter;
+			sourceTree = "<group>";
+		};
+		5CC11D972005D0600051D6D4 /* MHTThird */ = {
+			isa = PBXGroup;
+			children = (
+				5CC11D982005D0600051D6D4 /* MHTBluetooth */,
+			);
+			path = MHTThird;
+			sourceTree = "<group>";
+		};
+		5CC11D982005D0600051D6D4 /* MHTBluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				5CC11D992005D0600051D6D4 /* FzhBluetooth.m */,
+				5CC11D9B2005D0600051D6D4 /* FzhBluetooth.h */,
+				5CC11D9C2005D0600051D6D4 /* FzhCallBlock.h */,
+				5CC11D9A2005D0600051D6D4 /* FzhString.m */,
+				5CC11D9D2005D0600051D6D4 /* FzhString.h */,
+			);
+			path = MHTBluetooth;
+			sourceTree = "<group>";
+		};
+		84264C60200F41FD0011DFEC /* temple */ = {
+			isa = PBXGroup;
+			children = (
+				84264C61200F41FD0011DFEC /* double_paper.txt */,
+				84264C62200F41FD0011DFEC /* 4830 */,
+				84264C64200F41FD0011DFEC /* long_tail_fold_auspicious.txt */,
+				84264C65200F41FD0011DFEC /* short_tail_fold.txt */,
+				84264C66200F41FD0011DFEC /* yptm.txt */,
+				84264C67200F41FD0011DFEC /* long_tail_fold.txt */,
+				84264C68200F41FD0011DFEC /* 4840 */,
+				84264C6A200F41FD0011DFEC /* 4870 */,
+				84264C6C200F41FD0011DFEC /* long_tail_fold.png */,
+				84264C6D200F41FD0011DFEC /* image */,
+				84264C72200F41FD0011DFEC /* 4860 */,
+				84264C74200F41FD0011DFEC /* 4850 */,
+				84264C76200F41FD0011DFEC /* commodity_label_price.txt */,
+			);
+			path = temple;
+			sourceTree = "<group>";
+		};
+		84264C62200F41FD0011DFEC /* 4830 */ = {
+			isa = PBXGroup;
+			children = (
+				84264C63200F41FD0011DFEC /* mbymx4830.txt */,
+			);
+			path = 4830;
+			sourceTree = "<group>";
+		};
+		84264C68200F41FD0011DFEC /* 4840 */ = {
+			isa = PBXGroup;
+			children = (
+				84264C69200F41FD0011DFEC /* mbymx4840.txt */,
+			);
+			path = 4840;
+			sourceTree = "<group>";
+		};
+		84264C6A200F41FD0011DFEC /* 4870 */ = {
+			isa = PBXGroup;
+			children = (
+				84264C6B200F41FD0011DFEC /* mbymx4870.txt */,
+			);
+			path = 4870;
+			sourceTree = "<group>";
+		};
+		84264C6D200F41FD0011DFEC /* image */ = {
+			isa = PBXGroup;
+			children = (
+				84264C6E200F41FD0011DFEC /* t_type_label.png */,
+				84264C6F200F41FD0011DFEC /* long_tail_fold_auspicious.png */,
+				84264C70200F41FD0011DFEC /* long_tail_fold.png */,
+				84264C71200F41FD0011DFEC /* commodity_label_price.png */,
+			);
+			path = image;
+			sourceTree = "<group>";
+		};
+		84264C72200F41FD0011DFEC /* 4860 */ = {
+			isa = PBXGroup;
+			children = (
+				84264C73200F41FD0011DFEC /* mbymx4860.txt */,
+			);
+			path = 4860;
+			sourceTree = "<group>";
+		};
+		84264C74200F41FD0011DFEC /* 4850 */ = {
+			isa = PBXGroup;
+			children = (
+				84264C75200F41FD0011DFEC /* mbymx4850.txt */,
+			);
+			path = 4850;
+			sourceTree = "<group>";
+		};
+		933EFA5A1FF340580036CCE4 /* MHTControlles */ = {
+			isa = PBXGroup;
+			children = (
+				933EFA5C1FF340730036CCE4 /* HomeView */,
+			);
+			path = MHTControlles;
+			sourceTree = "<group>";
+		};
+		933EFA5B1FF340580036CCE4 /* MHTTools */ = {
+			isa = PBXGroup;
+			children = (
+				93C215C92003B3E500E6C7B3 /* maple_ScrollPage */,
+				933EFA611FF343A80036CCE4 /* MHTparameters.swift */,
+				933EFA651FF351900036CCE4 /* MHTBase.swift */,
+				93C21545200270C100E6C7B3 /* mapleButton.swift */,
+			);
+			path = MHTTools;
+			sourceTree = "<group>";
+		};
+		933EFA5C1FF340730036CCE4 /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				93E9EFFB1FFCFF6400B58FC5 /* LinkBluetooth */,
+				93BD67511FF3875B001112D3 /* AddLabel */,
+				93BD67531FF3875B001112D3 /* LabelModel */,
+				93BD67501FF3875B001112D3 /* PrintLabel */,
+				93BD67521FF3875B001112D3 /* QuickPrint */,
+				93BD67541FF3875B001112D3 /* Set */,
+				933EFA5F1FF341430036CCE4 /* MHTNavC.swift */,
+				933EFA671FF36B990036CCE4 /* homeVC.swift */,
+				933EFA681FF36B990036CCE4 /* homeVC.xib */,
+			);
+			path = HomeView;
+			sourceTree = "<group>";
+		};
+		93BD67501FF3875B001112D3 /* PrintLabel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PrintLabel;
+			sourceTree = "<group>";
+		};
+		93BD67511FF3875B001112D3 /* AddLabel */ = {
+			isa = PBXGroup;
+			children = (
+				9335D1BE1FFE116B00E9DDAC /* addLabelViewController.swift */,
+			);
+			path = AddLabel;
+			sourceTree = "<group>";
+		};
+		93BD67521FF3875B001112D3 /* QuickPrint */ = {
+			isa = PBXGroup;
+			children = (
+				93C215C720039C1600E6C7B3 /* quickPrintVC.swift */,
+			);
+			path = QuickPrint;
+			sourceTree = "<group>";
+		};
+		93BD67531FF3875B001112D3 /* LabelModel */ = {
+			isa = PBXGroup;
+			children = (
+				9335D1C01FFE119900E9DDAC /* labelModelViewController.swift */,
+				93C215CE2003C02400E6C7B3 /* sysModelCell.swift */,
+				93C215CF2003C02400E6C7B3 /* sysModelCell.xib */,
+				84D95260200DFF1C009F1C5D /* TemplateModel.swift */,
+				84D95262200E0080009F1C5D /* TemplateQCModel.swift */,
+				84D95264200E0153009F1C5D /* TemplateTextModel.swift */,
+				84D95266200E020C009F1C5D /* TemplateImageModel.swift */,
+			);
+			path = LabelModel;
+			sourceTree = "<group>";
+		};
+		93BD67541FF3875B001112D3 /* Set */ = {
+			isa = PBXGroup;
+			children = (
+				93BD67551FF387B0001112D3 /* setViewController.swift */,
+				93E9EFF71FFCE66F00B58FC5 /* setTBCell.swift */,
+				93E9EFF81FFCE67000B58FC5 /* setTBCell.xib */,
+			);
+			path = Set;
+			sourceTree = "<group>";
+		};
+		93C215C92003B3E500E6C7B3 /* maple_ScrollPage */ = {
+			isa = PBXGroup;
+			children = (
+				93C215CA2003B3E500E6C7B3 /* mapleScroollView.m */,
+				93C215CB2003B3E500E6C7B3 /* mapleScroollView.h */,
+			);
+			path = maple_ScrollPage;
+			sourceTree = "<group>";
+		};
+		93E9EFFB1FFCFF6400B58FC5 /* LinkBluetooth */ = {
+			isa = PBXGroup;
+			children = (
+				93E9EFFC1FFCFF9D00B58FC5 /* bluetoothMVC.swift */,
+			);
+			path = LinkBluetooth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -123,9 +397,28 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C243C171FF2468100AFC3FD /* LaunchScreen.storyboard in Resources */,
+				84264C79200F41FE0011DFEC /* long_tail_fold_auspicious.txt in Resources */,
+				84264C7F200F41FE0011DFEC /* long_tail_fold.png in Resources */,
+				84264C77200F41FE0011DFEC /* double_paper.txt in Resources */,
+				84264C7B200F41FE0011DFEC /* yptm.txt in Resources */,
+				84264C83200F41FE0011DFEC /* commodity_label_price.png in Resources */,
+				84264C7A200F41FE0011DFEC /* short_tail_fold.txt in Resources */,
+				84D95268200E0B7F009F1C5D /* mbymx4830.geojson in Resources */,
+				84264C7D200F41FE0011DFEC /* mbymx4840.txt in Resources */,
+				84264C80200F41FE0011DFEC /* t_type_label.png in Resources */,
+				93E9EFFA1FFCE67000B58FC5 /* setTBCell.xib in Resources */,
+				84264C7E200F41FE0011DFEC /* mbymx4870.txt in Resources */,
+				84264C85200F41FE0011DFEC /* mbymx4850.txt in Resources */,
+				933EFA6A1FF36B990036CCE4 /* homeVC.xib in Resources */,
 				5C243C141FF2468100AFC3FD /* Assets.xcassets in Resources */,
 				5C243C121FF2468100AFC3FD /* Main.storyboard in Resources */,
+				84264C7C200F41FE0011DFEC /* long_tail_fold.txt in Resources */,
+				93C215D12003C02400E6C7B3 /* sysModelCell.xib in Resources */,
+				84264C81200F41FE0011DFEC /* long_tail_fold_auspicious.png in Resources */,
+				84264C82200F41FE0011DFEC /* long_tail_fold.png in Resources */,
+				84264C84200F41FE0011DFEC /* mbymx4860.txt in Resources */,
+				84264C78200F41FE0011DFEC /* mbymx4830.txt in Resources */,
+				84264C86200F41FE0011DFEC /* commodity_label_price.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,8 +429,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C243C0F1FF2468100AFC3FD /* ViewController.swift in Sources */,
+				933EFA691FF36B990036CCE4 /* homeVC.swift in Sources */,
+				93E9EFFD1FFCFF9D00B58FC5 /* bluetoothMVC.swift in Sources */,
+				5CC11D9E2005D0600051D6D4 /* FzhBluetooth.m in Sources */,
+				93C215CC2003B3E500E6C7B3 /* mapleScroollView.m in Sources */,
 				5C243C0D1FF2468100AFC3FD /* AppDelegate.swift in Sources */,
+				5CC11D9F2005D0600051D6D4 /* FzhString.m in Sources */,
+				933EFA601FF341430036CCE4 /* MHTNavC.swift in Sources */,
+				9335D1BF1FFE116B00E9DDAC /* addLabelViewController.swift in Sources */,
+				84D95265200E0153009F1C5D /* TemplateTextModel.swift in Sources */,
+				93BD67561FF387B0001112D3 /* setViewController.swift in Sources */,
+				93E9EFF91FFCE67000B58FC5 /* setTBCell.swift in Sources */,
+				84D95267200E020C009F1C5D /* TemplateImageModel.swift in Sources */,
+				933EFA661FF351900036CCE4 /* MHTBase.swift in Sources */,
+				93C215C820039C1600E6C7B3 /* quickPrintVC.swift in Sources */,
+				93C21546200270C100E6C7B3 /* mapleButton.swift in Sources */,
+				84D95263200E0080009F1C5D /* TemplateQCModel.swift in Sources */,
+				84D95261200DFF1C009F1C5D /* TemplateModel.swift in Sources */,
+				933EFA621FF343A80036CCE4 /* MHTparameters.swift in Sources */,
+				9335D1C11FFE119900E9DDAC /* labelModelViewController.swift in Sources */,
+				93C215D02003C02400E6C7B3 /* sysModelCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,16 +459,9 @@
 			isa = PBXVariantGroup;
 			children = (
 				5C243C111FF2468100AFC3FD /* Base */,
+				84D9525C200DF48D009F1C5D /* en */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		5C243C151FF2468100AFC3FD /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5C243C161FF2468100AFC3FD /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -274,6 +578,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4ZSRSABKV3;
 				INFOPLIST_FILE = MHTLabelPrinter/Info.plist;
@@ -281,8 +586,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MHT.MHTLabelPrinter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/MHTLabelPrinter/MHTHeader.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -290,6 +596,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4ZSRSABKV3;
 				INFOPLIST_FILE = MHTLabelPrinter/Info.plist;
@@ -297,8 +604,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.MHT.MHTLabelPrinter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/MHTLabelPrinter/MHTHeader.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
