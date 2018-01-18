@@ -156,7 +156,7 @@
                                     <color key="textColor" red="0.99999600649999998" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addLaebl" translatesAutoresizingMaskIntoConstraints="NO" id="0lC-TU-2rO">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="addLabel" translatesAutoresizingMaskIntoConstraints="NO" id="0lC-TU-2rO">
                                     <rect key="frame" x="-5" y="35" width="102.5" height="102"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zsz-Zp-D3S">
@@ -242,7 +242,7 @@
         </view>
     </objects>
     <resources>
-        <image name="addLaebl" width="102" height="102"/>
+        <image name="addLabel" width="102" height="102"/>
         <image name="dividingLineH" width="160" height="2"/>
         <image name="dividingLineV" width="2" height="43"/>
         <image name="homeBluetooth" width="30" height="30"/>

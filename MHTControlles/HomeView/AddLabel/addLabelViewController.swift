@@ -10,35 +10,27 @@ import UIKit
 
 class addLabelViewController: UIViewController {
     fileprivate var editView:UIView!
-    fileprivate var editViewB:UIView!
     fileprivate var pageView:UIView!
     fileprivate var mainScrollView:UIScrollView!
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        
-    }
     
+    // 是否多选
+    fileprivate var isMultSelected = false
+    
+    // 是否锁定
+    fileprivate var isLock = false
+    
+    // 界面加载后，创建自定义的UI
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setAddLabellUI()
-
     }
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-    }
+    
+    // 创建自自定义UI
     func setAddLabellUI() -> Void {
         let navMaxY = self.navigationController?.navigationBar.frame.maxY
-        
-//        self.title = MHTBase.internationalStringWith(str: "新建标签")
-        
-        let navRBtn1 = UIBarButtonItem.init(image: UIImage.init(named: "navDeleting"), style: .plain, target: self, action: nil)
-        
-//        navRBtn1.imageInsets = UIEdgeInsetsMake(0, 10, 0, -10)
+        let navRBtn1 = UIBarButtonItem.init(image: UIImage.init(named: "navDeleting"), style: .plain, target: self, action: #selector(deleteElementAction(sender:)))
         let navRBtn2 = UIBarButtonItem.init(image: UIImage.init(named: "navPrint"), style: .done, target: self, action: nil)
-//        navRBtn2.imageInsets = UIEdgeInsetsMake(0, 30, 0, -30)
-        let navRBtn3 = UIBarButtonItem.init(image: UIImage.init(named: "navMSelect"), style: .done, target: self, action: nil)
-//        navRBtn3.imageInsets = UIEdgeInsetsMake(0, 50, 0, -50)
+        let navRBtn3 = UIBarButtonItem.init(image: UIImage.init(named: "navMSelect"), style: .done, target: self, action: #selector(multSelectedChangeAction(sender:)))
 
         let navSpace = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: self, action: nil)
         navSpace.width = -50
@@ -48,23 +40,27 @@ class addLabelViewController: UIViewController {
         addLBI.image = UIImage.init(named: "homeMainIV")
         self.view.addSubview(addLBI)
         
-        editViewB = UIView.init(frame: CGRect.init(x: 9, y: navMaxY! + 79, width: SCREEN_width-18, height: (SCREEN_width-20)*3/5 + 2))
-        editViewB.backgroundColor = UIColor.black
-        self.view.addSubview(editViewB)
-        
-        editView = UIView.init(frame: CGRect.init(x: 10, y: navMaxY! + 80, width: SCREEN_width-20, height: (SCREEN_width-20)*3/5))
+        // 当前编辑区
+        editView = UIView.init(frame: CGRect.init(x: 10, y: navMaxY! + 80, width: SCREEN_width-20, height: (SCREEN_width - 20) * 5 / 8))
         editView.backgroundColor = UIColor.white
+        editView.layer.borderWidth = 0.5
+        editView.layer.borderColor = UIColor.black.cgColor
         self.view.addSubview(editView)
+        
+        let tapSingle = UITapGestureRecognizer(target: self, action: #selector(elementEditViewTapAction(gesture:)))
+        tapSingle.numberOfTapsRequired = 1
+        tapSingle.numberOfTouchesRequired = 1
+        editView.addGestureRecognizer(tapSingle)
         
         let aLBottomStrY = editView.frame.maxY + 79
         pageView = UIView.init(frame: CGRect.init(x: 0, y: aLBottomStrY, width: SCREEN_width, height: SCREEN_height - aLBottomStrY))
         pageView.backgroundColor = UIColor.white
         self.view.addSubview(pageView)
         addPageScrollView()
-
     }
+    
+    // 添加底部分页滚动内容
     func addPageScrollView() -> Void {
-        
         let pageTA1 = [MHTBase.internationalStringWith(str: "标签"),MHTBase.internationalStringWith(str: "插入"),MHTBase.internationalStringWith(str: "属性")]
         let pageScrollView = mapleScroollView.init()
         pageScrollView.lineColor = UIColor.clear
@@ -88,21 +84,15 @@ class addLabelViewController: UIViewController {
             let mapleView = UIView.init(frame: CGRect.init(x: CGFloat(m) * SCREEN_width, y: 0, width: SCREEN_width, height: pageView.bounds.height - 40))
             switch m {
             case 0 :
-                let btnImage = ["AddNew","","","","","","","",""]
+                let btnImage = ["AddNew","AddOpen","AddSave","AddSaveas","AddCopy","AddLock","AddDate","AddUpload","AddSelectMult"]
                 let btnTitle = [MHTBase.internationalStringWith(str: "新建"),MHTBase.internationalStringWith(str: "打开"),MHTBase.internationalStringWith(str: "保存"),MHTBase.internationalStringWith(str: "另存为"),MHTBase.internationalStringWith(str: "拷贝"),MHTBase.internationalStringWith(str: "锁定"),MHTBase.internationalStringWith(str: "打印"),MHTBase.internationalStringWith(str: "上传"),MHTBase.internationalStringWith(str: "多选")]
                 for i in 0...2 {
                     for j in 0...3 {
-                        if i==2&&j==1{
+                        if i == 2 && j == 1 {
                             break
                         }
-                        let addBtnV = UIView.init(frame: CGRect.init(x: 0 + CGFloat(j)*SCREEN_width/4, y: CGFloat(i)*mapleView.bounds.height/3, width: SCREEN_width/4, height: mapleView.bounds.height/3))
-                        addBtnV.backgroundColor = UIColor.green
+                        let addBtnV = self.createmapleViewButton(imageName: btnImage[4*i+j], title: btnTitle[4*i+j], frame: CGRect.init(x: 0 + CGFloat(j)*SCREEN_width/4, y: CGFloat(i)*mapleView.bounds.height/3, width: SCREEN_width/4, height: mapleView.bounds.height/3))
                         mapleView.addSubview(addBtnV)
-                        let addBtn = UIButton.init(frame: CGRect.init(x: 5, y: 5, width: addBtnV.bounds.width-10, height: addBtnV.bounds.height-10))
-                        addBtn.setTitle(btnTitle[4*i+j], for: .normal)
-                        addBtn.backgroundColor = UIColor.red
-                        addBtnV.addSubview(addBtn)
-                        
                     }
                 }
             case 1:
@@ -110,23 +100,16 @@ class addLabelViewController: UIViewController {
                 let btnTitle = [MHTBase.internationalStringWith(str: "文本"),MHTBase.internationalStringWith(str: "一维码"),MHTBase.internationalStringWith(str: "二维码"),MHTBase.internationalStringWith(str: "图片"),MHTBase.internationalStringWith(str: "Logo"),MHTBase.internationalStringWith(str: "线条"),MHTBase.internationalStringWith(str: "矩形"),MHTBase.internationalStringWith(str: "表格"),MHTBase.internationalStringWith(str: "日期")]
                 for i in 0...2 {
                     for j in 0...3 {
-                        if i==2&&j==1{
+                        if i == 2 && j == 1 {
                             break
                         }
-                        let addBtnV = UIView.init(frame: CGRect.init(x: 0 + CGFloat(j)*SCREEN_width/4, y: CGFloat(i)*mapleView.bounds.height/3, width: SCREEN_width/4, height: mapleView.bounds.height/3))
+                        let addBtnV = self.createmapleViewButton(imageName: btnImage[4*i+j], title: btnTitle[4*i+j], frame: CGRect.init(x: 0 + CGFloat(j)*SCREEN_width/4, y: CGFloat(i)*mapleView.bounds.height/3, width: SCREEN_width/4, height: mapleView.bounds.height/3))
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(insertElementTabButtonAction(_:)))
+                        tap.numberOfTapsRequired = 1
+                        tap.numberOfTouchesRequired = 1
+                        addBtnV.tag = 4*i+j
+                        addBtnV.addGestureRecognizer(tap)
                         mapleView.addSubview(addBtnV)
-                        
-                        // 图片
-                        let addImageView = UIImageView(frame: CGRect.init(x: 5, y: 5, width: addBtnV.bounds.width-10, height: addBtnV.bounds.height-10));
-                        addImageView.isUserInteractionEnabled = true;
-                        addImageView.image = UIImage(named: btnImage[4*i+j]);
-                        addBtnV.addSubview(addImageView)
-                        
-                        // 按钮标题
-                        let addBtn = UIButton.init(frame: CGRect.init(x: 5, y: 5, width: addBtnV.bounds.width-10, height: addBtnV.bounds.height - 20))
-                        addBtn.setTitle(btnTitle[4*i+j], for: .normal)
-                        addBtnV.addSubview(addBtn)
-                        
                     }
                 }
             case 2:
@@ -138,14 +121,177 @@ class addLabelViewController: UIViewController {
         }
         self.mainScrollView.contentOffset = CGPoint.init(x: SCREEN_width, y: 0)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    
+    // 分页的按钮统一创建函数
+    func createmapleViewButton(imageName: String, title: String, frame: CGRect) -> UIView {
+        let addBtnV = UIView.init(frame: frame)
+        
+        // 图片
+        let tempImageSize = CGFloat(36);
+        let tempImageY = (addBtnV.bounds.height - CGFloat(19) - tempImageSize) / 2;
+        let tempImageX = (addBtnV.bounds.width - tempImageSize) / 2;
+        let addImageView = UIImageView(frame: CGRect.init(x: tempImageX, y: tempImageY, width: tempImageSize, height: tempImageSize));
+        addImageView.isUserInteractionEnabled = true;
+        addImageView.image = UIImage(named: imageName);
+        addBtnV.addSubview(addImageView)
+        
+        // 按钮标题
+        let addBtn = UIButton.init(frame: CGRect.init(x: 5, y: addImageView.frame.maxY + 3, width: addBtnV.bounds.width-10, height: 16))
+        addBtn.setTitle(title, for: .normal)
+        addBtn.setTitleColor(UIColor.black, for: .normal)
+        addBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        addBtnV.addSubview(addBtn)
+        
+        return addBtnV
     }
     
-
+    func addTapActionForElementView(elementView: ElementView) -> Void {
+        // 添加单击事件
+        let tapSingle = UITapGestureRecognizer(target: self, action: #selector(elementSingleTapAction(_:)))
+        tapSingle.numberOfTapsRequired = 1
+        tapSingle.numberOfTouchesRequired = 1
+        elementView.addGestureRecognizer(tapSingle)
+        
+        // 添加双击事件
+        let tapDouble = UITapGestureRecognizer(target: self, action: #selector(elementDoubleTapAction(gesture:)))
+        tapDouble.numberOfTapsRequired = 2
+        tapDouble.numberOfTouchesRequired = 1
+        elementView.addGestureRecognizer(tapDouble)
+    }
 }
-extension addLabelViewController:UIScrollViewDelegate {
+
+/**
+ * 控制器中的按钮事件
+ */
+extension addLabelViewController {
+    // 清空元素的选择状态
+    func clearElementSelected() -> Void {
+        for subView in self.editView.subviews {
+            let subElementView = subView as! ElementView
+            subElementView.setIsSelected(isSelected: false)
+        }
+    }
+    
+    // 删除元素按钮事件
+    @objc func deleteElementAction(sender: UIBarButtonItem) -> Void {
+        for subView in self.editView.subviews {
+            let subElementView = subView as! ElementView
+            if(subElementView.getIsSelected()) {
+                subElementView.removeFromSuperview()
+            }
+        }
+    }
+    
+    // 多选，单选切换事件
+    @objc func multSelectedChangeAction(sender: UIBarButtonItem) -> Void {
+        self.isMultSelected = !self.isMultSelected
+        if(self.isMultSelected) {
+            sender.image = UIImage(named: "navSSelect")
+        } else {
+            sender.image = UIImage(named: "navMSelect")
+            
+            // 多选变成单选后，必须将所有已选择的元素控件变为未选择
+            self.clearElementSelected()
+        }
+     }
+    
+    // 插入分页中的按钮事件处理
+    @objc func insertElementTabButtonAction(_ gesture: UIGestureRecognizer) -> Void {
+        let tag = gesture.view?.tag ?? -1
+        let subViewNum = self.editView.subviews.count
+        let xPoint = CGFloat(5 + subViewNum * 16)
+        let yPoint = CGFloat(5 + subViewNum * 16)
+        switch tag {
+            case 0:
+                print("insertElementTabButtonAction 0")
+            case 1:
+                let width = CGFloat(20 * 8)
+                let height = CGFloat(10 * 8)
+                let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
+                let yPointResize = ((yPoint + height) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
+                let barcodeView = BarcodeElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height))
+                let barcodeString = "双击编辑"
+                let barcodeImage = MHTBase.creatBarCodeImage(content: barcodeString, size: barcodeView.frame.size)
+                barcodeView.imageView!.image = barcodeImage
+                barcodeView.titleLabel!.text = barcodeString
+                self.editView.addSubview(barcodeView)
+            
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: barcodeView)
+            case 2:
+                let width = CGFloat(10 * 8)
+                let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
+                let yPointResize = ((yPoint + width) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
+                let barcodeView = QRCodeElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: width))
+                let barcodeString = "双击编辑"
+                let barcodeImage = MHTBase.creatQRCodeImage(content: barcodeString, iconName: nil, size: barcodeView.frame.size)
+                barcodeView.imageView!.image = barcodeImage
+                barcodeView.title = barcodeString
+                self.editView.addSubview(barcodeView)
+            
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: barcodeView)
+            case 3:
+                print("insertElementTabButtonAction 3")
+            case 4:
+                print("insertElementTabButtonAction 4")
+            case 5:
+                print("insertElementTabButtonAction 5")
+            case 6:
+                print("insertElementTabButtonAction 6")
+            case 7:
+                print("insertElementTabButtonAction 7")
+            case 8:
+                print("insertElementTabButtonAction 8")
+            default:
+                print("insertElementTabButtonAction -1")
+        }
+    }
+    
+    // 标签分页中的按钮事件处理
+    @objc func labelTabButtonAction(_ gesture: UIGestureRecognizer) -> Void {
+        
+    }
+    
+    // 属性分页事件
+    @objc func propertyTabAction() -> Void {
+        
+    }
+    
+    // 编辑view的单击，主要是将已选择的元素取消选择状态
+    @objc func elementEditViewTapAction(gesture: UIGestureRecognizer) -> Void {
+        self.clearElementSelected()
+    }
+    
+    // 编辑窗口中的元素单击事件
+    @objc func elementSingleTapAction(_ gesture: UIGestureRecognizer) -> Void {
+        let tempView = gesture.view! as! ElementView
+        
+        // 判断当前是单选还是多选
+        if(!self.isMultSelected) {
+            self.clearElementSelected()
+        }
+        
+        tempView.setIsSelected(isSelected: true)
+    }
+    
+    // 编辑窗口中的元素双击事件
+    @objc func elementDoubleTapAction(gesture: UIGestureRecognizer) -> Void {
+        let tempView = gesture.view! as! ElementView
+        
+        // 判断当前是单选还是多选
+        if(!self.isMultSelected) {
+            self.clearElementSelected()
+        }
+        
+        tempView.setIsSelected(isSelected: true)
+    }
+}
+
+/**
+ * 滚动事件代理
+ */
+extension addLabelViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = mainScrollView.contentOffset.x / SCREEN_width
         mapleScroollView.setViewIndex(Int(index))
