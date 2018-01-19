@@ -37,18 +37,19 @@
 		84A7194D2011C2850038E47D /* TemplateMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194C2011C2850038E47D /* TemplateMenuCell.swift */; };
 		84A7194F2011C2970038E47D /* TemplateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194E2011C2970038E47D /* TemplateCell.swift */; };
 		84A719532011CE970038E47D /* SystemTemplateConfigJSON.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 84A719522011CE970038E47D /* SystemTemplateConfigJSON.geojson */; };
+		84A719552011E42E0038E47D /* UserTemplateConfigJSON.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 84A719542011E42E0038E47D /* UserTemplateConfigJSON.geojson */; };
 		84D95261200DFF1C009F1C5D /* TemplateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D95260200DFF1C009F1C5D /* TemplateModel.swift */; };
 		84D95263200E0080009F1C5D /* TemplateQCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D95262200E0080009F1C5D /* TemplateQCModel.swift */; };
 		84D95265200E0153009F1C5D /* TemplateTextModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D95264200E0153009F1C5D /* TemplateTextModel.swift */; };
 		84D95267200E020C009F1C5D /* TemplateImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D95266200E020C009F1C5D /* TemplateImageModel.swift */; };
 		84D95268200E0B7F009F1C5D /* mbymx4830.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 84D9525F200DF60A009F1C5D /* mbymx4830.geojson */; };
-		9335D1BF1FFE116B00E9DDAC /* addLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9335D1BE1FFE116B00E9DDAC /* addLabelViewController.swift */; };
-		9335D1C11FFE119900E9DDAC /* labelModelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9335D1C01FFE119900E9DDAC /* labelModelViewController.swift */; };
+		9335D1BF1FFE116B00E9DDAC /* AddLabelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9335D1BE1FFE116B00E9DDAC /* AddLabelViewController.swift */; };
+		9335D1C11FFE119900E9DDAC /* LabelModelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9335D1C01FFE119900E9DDAC /* LabelModelViewController.swift */; };
 		933EFA601FF341430036CCE4 /* MHTNavC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFA5F1FF341430036CCE4 /* MHTNavC.swift */; };
 		933EFA621FF343A80036CCE4 /* MHTparameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFA611FF343A80036CCE4 /* MHTparameters.swift */; };
 		933EFA661FF351900036CCE4 /* MHTBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFA651FF351900036CCE4 /* MHTBase.swift */; };
-		933EFA691FF36B990036CCE4 /* homeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFA671FF36B990036CCE4 /* homeVC.swift */; };
-		933EFA6A1FF36B990036CCE4 /* homeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933EFA681FF36B990036CCE4 /* homeVC.xib */; };
+		933EFA691FF36B990036CCE4 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 933EFA671FF36B990036CCE4 /* HomeVC.swift */; };
+		933EFA6A1FF36B990036CCE4 /* HomeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933EFA681FF36B990036CCE4 /* HomeVC.xib */; };
 		93BD67561FF387B0001112D3 /* setViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BD67551FF387B0001112D3 /* setViewController.swift */; };
 		93C21546200270C100E6C7B3 /* mapleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C21545200270C100E6C7B3 /* mapleButton.swift */; };
 		93C215C820039C1600E6C7B3 /* quickPrintVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C215C720039C1600E6C7B3 /* quickPrintVC.swift */; };
@@ -94,19 +95,20 @@
 		84A7194C2011C2850038E47D /* TemplateMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateMenuCell.swift; sourceTree = "<group>"; };
 		84A7194E2011C2970038E47D /* TemplateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateCell.swift; sourceTree = "<group>"; };
 		84A719522011CE970038E47D /* SystemTemplateConfigJSON.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = SystemTemplateConfigJSON.geojson; sourceTree = "<group>"; };
+		84A719542011E42E0038E47D /* UserTemplateConfigJSON.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = UserTemplateConfigJSON.geojson; sourceTree = "<group>"; };
 		84D9525C200DF48D009F1C5D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		84D9525F200DF60A009F1C5D /* mbymx4830.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = mbymx4830.geojson; sourceTree = "<group>"; };
 		84D95260200DFF1C009F1C5D /* TemplateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateModel.swift; sourceTree = "<group>"; };
 		84D95262200E0080009F1C5D /* TemplateQCModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateQCModel.swift; sourceTree = "<group>"; };
 		84D95264200E0153009F1C5D /* TemplateTextModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateTextModel.swift; sourceTree = "<group>"; };
 		84D95266200E020C009F1C5D /* TemplateImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateImageModel.swift; sourceTree = "<group>"; };
-		9335D1BE1FFE116B00E9DDAC /* addLabelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addLabelViewController.swift; sourceTree = "<group>"; };
-		9335D1C01FFE119900E9DDAC /* labelModelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = labelModelViewController.swift; sourceTree = "<group>"; };
+		9335D1BE1FFE116B00E9DDAC /* AddLabelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLabelViewController.swift; sourceTree = "<group>"; };
+		9335D1C01FFE119900E9DDAC /* LabelModelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelModelViewController.swift; sourceTree = "<group>"; };
 		933EFA5F1FF341430036CCE4 /* MHTNavC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHTNavC.swift; sourceTree = "<group>"; };
 		933EFA611FF343A80036CCE4 /* MHTparameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHTparameters.swift; sourceTree = "<group>"; };
 		933EFA651FF351900036CCE4 /* MHTBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MHTBase.swift; sourceTree = "<group>"; };
-		933EFA671FF36B990036CCE4 /* homeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeVC.swift; sourceTree = "<group>"; };
-		933EFA681FF36B990036CCE4 /* homeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = homeVC.xib; sourceTree = "<group>"; };
+		933EFA671FF36B990036CCE4 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
+		933EFA681FF36B990036CCE4 /* HomeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeVC.xib; sourceTree = "<group>"; };
 		93BD67551FF387B0001112D3 /* setViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setViewController.swift; sourceTree = "<group>"; };
 		93C21545200270C100E6C7B3 /* mapleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapleButton.swift; sourceTree = "<group>"; };
 		93C215C720039C1600E6C7B3 /* quickPrintVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = quickPrintVC.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 				84264C74200F41FD0011DFEC /* 4850 */,
 				84264C76200F41FD0011DFEC /* commodity_label_price.json */,
 				84A719522011CE970038E47D /* SystemTemplateConfigJSON.geojson */,
+				84A719542011E42E0038E47D /* UserTemplateConfigJSON.geojson */,
 			);
 			path = temple;
 			sourceTree = "<group>";
@@ -296,8 +299,8 @@
 				93BD67521FF3875B001112D3 /* QuickPrint */,
 				93BD67541FF3875B001112D3 /* Set */,
 				933EFA5F1FF341430036CCE4 /* MHTNavC.swift */,
-				933EFA671FF36B990036CCE4 /* homeVC.swift */,
-				933EFA681FF36B990036CCE4 /* homeVC.xib */,
+				933EFA671FF36B990036CCE4 /* HomeVC.swift */,
+				933EFA681FF36B990036CCE4 /* HomeVC.xib */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -312,7 +315,7 @@
 		93BD67511FF3875B001112D3 /* AddLabel */ = {
 			isa = PBXGroup;
 			children = (
-				9335D1BE1FFE116B00E9DDAC /* addLabelViewController.swift */,
+				9335D1BE1FFE116B00E9DDAC /* AddLabelViewController.swift */,
 			);
 			path = AddLabel;
 			sourceTree = "<group>";
@@ -328,7 +331,7 @@
 		93BD67531FF3875B001112D3 /* LabelModel */ = {
 			isa = PBXGroup;
 			children = (
-				9335D1C01FFE119900E9DDAC /* labelModelViewController.swift */,
+				9335D1C01FFE119900E9DDAC /* LabelModelViewController.swift */,
 				84D95260200DFF1C009F1C5D /* TemplateModel.swift */,
 				84D95262200E0080009F1C5D /* TemplateQCModel.swift */,
 				84D95264200E0153009F1C5D /* TemplateTextModel.swift */,
@@ -435,11 +438,12 @@
 				84264C7A200F41FE0011DFEC /* short_tail_fold.json in Resources */,
 				84D95268200E0B7F009F1C5D /* mbymx4830.geojson in Resources */,
 				84264C7D200F41FE0011DFEC /* mbymx4840.json in Resources */,
+				84A719552011E42E0038E47D /* UserTemplateConfigJSON.geojson in Resources */,
 				84264C80200F41FE0011DFEC /* t_type_label.png in Resources */,
 				93E9EFFA1FFCE67000B58FC5 /* setTBCell.xib in Resources */,
 				84264C7E200F41FE0011DFEC /* mbymx4870.json in Resources */,
 				84264C85200F41FE0011DFEC /* mbymx4850.json in Resources */,
-				933EFA6A1FF36B990036CCE4 /* homeVC.xib in Resources */,
+				933EFA6A1FF36B990036CCE4 /* HomeVC.xib in Resources */,
 				5C243C141FF2468100AFC3FD /* Assets.xcassets in Resources */,
 				5C243C121FF2468100AFC3FD /* Main.storyboard in Resources */,
 				84264C7C200F41FE0011DFEC /* long_tail_fold.json in Resources */,
@@ -458,7 +462,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				933EFA691FF36B990036CCE4 /* homeVC.swift in Sources */,
+				933EFA691FF36B990036CCE4 /* HomeVC.swift in Sources */,
 				93E9EFFD1FFCFF9D00B58FC5 /* bluetoothMVC.swift in Sources */,
 				5CC11D9E2005D0600051D6D4 /* FzhBluetooth.m in Sources */,
 				84A7194D2011C2850038E47D /* TemplateMenuCell.swift in Sources */,
@@ -467,7 +471,7 @@
 				5CC11D9F2005D0600051D6D4 /* FzhString.m in Sources */,
 				84A7194B2010AEA20038E47D /* SystemTemplateConfigModel.swift in Sources */,
 				933EFA601FF341430036CCE4 /* MHTNavC.swift in Sources */,
-				9335D1BF1FFE116B00E9DDAC /* addLabelViewController.swift in Sources */,
+				9335D1BF1FFE116B00E9DDAC /* AddLabelViewController.swift in Sources */,
 				84D95265200E0153009F1C5D /* TemplateTextModel.swift in Sources */,
 				93BD67561FF387B0001112D3 /* setViewController.swift in Sources */,
 				93E9EFF91FFCE67000B58FC5 /* setTBCell.swift in Sources */,
@@ -484,7 +488,7 @@
 				84264C8D201088DF0011DFEC /* QRCodeElementView.swift in Sources */,
 				84D95261200DFF1C009F1C5D /* TemplateModel.swift in Sources */,
 				933EFA621FF343A80036CCE4 /* MHTparameters.swift in Sources */,
-				9335D1C11FFE119900E9DDAC /* labelModelViewController.swift in Sources */,
+				9335D1C11FFE119900E9DDAC /* LabelModelViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

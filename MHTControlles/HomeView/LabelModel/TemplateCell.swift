@@ -33,7 +33,22 @@ class TemplateCell: UITableViewCell {
     }
     
     // 根据数据，更新UI
-    func updateUIWithModel(model: TemplateModel) {
+    func updateUIWithModel(model: TemplateModel, width: CGFloat, height: CGFloat) {
+        // 清空原来UI
+        self.templateImageView.removeFromSuperview()
+        self.templateImageView = nil
+        self.titleLabel.removeFromSuperview()
+        self.titleLabel = nil
+        
+        self.titleLabel = UILabel.init(frame: CGRect(x: 16, y: height - 16 - 5, width: width - 16 * 2, height: 16))
+        self.titleLabel.font = UIFont.systemFont(ofSize: CGFloat(14 * MHTBase.autoScreen()))
+        self.titleLabel.textAlignment = NSTextAlignment.center
+        
+        self.templateImageView = UIImageView.init(frame: CGRect(x: 16, y: 16, width: width - 16 * 2, height: height - 16 - 16 - 10))
+        self.templateImageView.isUserInteractionEnabled = true
+        self.contentView.addSubview(self.titleLabel)
+        self.contentView.addSubview(self.templateImageView)
+        
         // 将图片转为base64
 //        let imageData = UIImagePNGRepresentation(image)
 //        let base64String = imageData!.base64EncodedStringWithOptions

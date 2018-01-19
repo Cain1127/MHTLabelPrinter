@@ -1,5 +1,5 @@
 //
-//  addLabelViewController.swift
+//  AddLabelViewController.swift
 //  MHTLabelPrinter
 //
 //  Created by 程骋 on 2018/1/4.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class addLabelViewController: UIViewController {
+class AddLabelViewController: UIViewController {
     fileprivate var editView:UIView!
     fileprivate var pageView:UIView!
     fileprivate var mainScrollView:UIScrollView!
@@ -160,7 +160,7 @@ class addLabelViewController: UIViewController {
 /**
  * 控制器中的按钮事件
  */
-extension addLabelViewController {
+extension AddLabelViewController {
     // 清空元素的选择状态
     func clearElementSelected() -> Void {
         for subView in self.editView.subviews {
@@ -288,7 +288,7 @@ extension addLabelViewController {
 /**
  * 滚动事件代理
  */
-extension addLabelViewController: UIScrollViewDelegate {
+extension AddLabelViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = mainScrollView.contentOffset.x / SCREEN_width
         mapleScroollView.setViewIndex(Int(index))

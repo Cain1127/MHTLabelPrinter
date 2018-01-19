@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow.init(frame: UIScreen.main.bounds)
-        let nacVC = MHTNavC.init(rootViewController: homeVC())
+        let nacVC = MHTNavC.init(rootViewController: HomeVC())
         window?.rootViewController = nacVC
         window?.makeKeyAndVisible()
         return true

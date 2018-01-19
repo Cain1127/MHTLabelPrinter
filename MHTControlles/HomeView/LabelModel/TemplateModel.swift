@@ -11,21 +11,21 @@ import Foundation
 struct TemplateModel: Codable {
     var labelName: String!;
     
-    var width: Int!;
+    var width: Float!;
     
-    var height: Int!;
+    var height: Float!;
     
     var proportion: Float!;
     
-    var concentration: Int!;
+    var concentration: Float!;
     
-    var printingDirection: Int!;
+    var printingDirection: Float!;
     
     var mirror: Bool!;
     
-    var tailDirection: Int!;
+    var tailDirection: Float!;
     
-    var tailLength: Int!;
+    var tailLength: Float!;
     
     // 
     var qcControls: Array<TemplateQCModel>!;

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class homeVC: UIViewController {
+class HomeVC: UIViewController {
     @IBOutlet weak var addLabelL: UIButton!
     @IBOutlet weak var printLabelL: UILabel!
     @IBOutlet weak var quickPrintL: UILabel!
@@ -19,7 +19,6 @@ class homeVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         setHomeNavUI()
-        
     }
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +26,6 @@ class homeVC: UIViewController {
         let mm = mapleButton()
         mm.intervalSpace = 30
         mm.typeNum = 3
-        
-        
-        
     }
     //maple_mark-------🍁🍁🍁🍁🍁🍁导航
     func setHomeNavUI() {
@@ -49,7 +45,7 @@ class homeVC: UIViewController {
     }
     //maple_mark-------🍁🍁🍁🍁🍁🍁点击屏幕创建标签
     @IBAction func creatLabelBtn(_ sender: UIButton) {
-        self.navigationController?.pushViewController(addLabelViewController(), animated: true)
+        self.navigationController?.pushViewController(AddLabelViewController(), animated: true)
     }
     //maple_mark-------🍁🍁🍁🍁🍁🍁连接蓝牙
     @IBAction func linkBluetoothBtn(_ sender: UIButton) {
@@ -57,7 +53,7 @@ class homeVC: UIViewController {
     }
     //maple_mark-------🍁🍁🍁🍁🍁🍁新建标签
     @IBAction func addLabelBtn(_ sender: UIButton) {
-        self.navigationController?.pushViewController(addLabelViewController(), animated: true)
+        self.navigationController?.pushViewController(AddLabelViewController(), animated: true)
 
     }
     //maple_mark-------🍁🍁🍁🍁🍁🍁打印标签
@@ -71,7 +67,7 @@ class homeVC: UIViewController {
     //maple_mark-------🍁🍁🍁🍁🍁🍁便签模版
     @IBAction func labelModelBtn(_ sender: UIButton) {
         
-        self.navigationController?.pushViewController(labelModelViewController(), animated: true)
+        self.navigationController?.pushViewController(LabelModelViewController(), animated: true)
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

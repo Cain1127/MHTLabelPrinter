@@ -16,7 +16,7 @@ struct TemplateQCModel: Codable {
     
     var selectRect: String!;
     
-    var rotate: Int!;
+    var rotate: Float!;
     
     var rotate_x: Double!;
     
@@ -24,13 +24,13 @@ struct TemplateQCModel: Codable {
     
     var text: String!;
     
-    var ERROR_LEVEL: Int!;
+    var ERROR_LEVEL: Float!;
     
     var WORD_SPACE: Double!;
     
-    var DRAW_TEXT_POSITION: Int;
+    var DRAW_TEXT_POSITION: Float;
     
     var TEXT_STATE: Int!;
     
-    var TEXT_SIZE: Int;
+    var TEXT_SIZE: Float;
 }
