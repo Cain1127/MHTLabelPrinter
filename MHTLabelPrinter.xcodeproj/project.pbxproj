@@ -31,9 +31,12 @@
 		84264C8920105F9B0011DFEC /* ElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84264C8820105F9B0011DFEC /* ElementView.swift */; };
 		84264C8B20106E7E0011DFEC /* BarcodeElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84264C8A20106E7E0011DFEC /* BarcodeElementView.swift */; };
 		84264C8D201088DF0011DFEC /* QRCodeElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84264C8C201088DF0011DFEC /* QRCodeElementView.swift */; };
-		84A719452010921E0038E47D /* SystemTemplateConfigPlist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 84A719442010921E0038E47D /* SystemTemplateConfigPlist.plist */; };
 		84A7194720109A0C0038E47D /* ElementVerticalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194620109A0C0038E47D /* ElementVerticalView.swift */; };
 		84A7194920109CDB0038E47D /* ElementHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194820109CDB0038E47D /* ElementHorizontalView.swift */; };
+		84A7194B2010AEA20038E47D /* SystemTemplateConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194A2010AEA20038E47D /* SystemTemplateConfigModel.swift */; };
+		84A7194D2011C2850038E47D /* TemplateMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194C2011C2850038E47D /* TemplateMenuCell.swift */; };
+		84A7194F2011C2970038E47D /* TemplateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194E2011C2970038E47D /* TemplateCell.swift */; };
+		84A719532011CE970038E47D /* SystemTemplateConfigJSON.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 84A719522011CE970038E47D /* SystemTemplateConfigJSON.geojson */; };
 		84D95261200DFF1C009F1C5D /* TemplateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D95260200DFF1C009F1C5D /* TemplateModel.swift */; };
 		84D95263200E0080009F1C5D /* TemplateQCModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D95262200E0080009F1C5D /* TemplateQCModel.swift */; };
 		84D95265200E0153009F1C5D /* TemplateTextModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D95264200E0153009F1C5D /* TemplateTextModel.swift */; };
@@ -50,8 +53,6 @@
 		93C21546200270C100E6C7B3 /* mapleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C21545200270C100E6C7B3 /* mapleButton.swift */; };
 		93C215C820039C1600E6C7B3 /* quickPrintVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C215C720039C1600E6C7B3 /* quickPrintVC.swift */; };
 		93C215CC2003B3E500E6C7B3 /* mapleScroollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C215CA2003B3E500E6C7B3 /* mapleScroollView.m */; };
-		93C215D02003C02400E6C7B3 /* sysModelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C215CE2003C02400E6C7B3 /* sysModelCell.swift */; };
-		93C215D12003C02400E6C7B3 /* sysModelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93C215CF2003C02400E6C7B3 /* sysModelCell.xib */; };
 		93E9EFF91FFCE67000B58FC5 /* setTBCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9EFF71FFCE66F00B58FC5 /* setTBCell.swift */; };
 		93E9EFFA1FFCE67000B58FC5 /* setTBCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E9EFF81FFCE67000B58FC5 /* setTBCell.xib */; };
 		93E9EFFD1FFCFF9D00B58FC5 /* bluetoothMVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9EFFC1FFCFF9D00B58FC5 /* bluetoothMVC.swift */; };
@@ -87,9 +88,12 @@
 		84264C8820105F9B0011DFEC /* ElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementView.swift; sourceTree = "<group>"; };
 		84264C8A20106E7E0011DFEC /* BarcodeElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeElementView.swift; sourceTree = "<group>"; };
 		84264C8C201088DF0011DFEC /* QRCodeElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeElementView.swift; sourceTree = "<group>"; };
-		84A719442010921E0038E47D /* SystemTemplateConfigPlist.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = SystemTemplateConfigPlist.plist; sourceTree = "<group>"; };
 		84A7194620109A0C0038E47D /* ElementVerticalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementVerticalView.swift; sourceTree = "<group>"; };
 		84A7194820109CDB0038E47D /* ElementHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementHorizontalView.swift; sourceTree = "<group>"; };
+		84A7194A2010AEA20038E47D /* SystemTemplateConfigModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTemplateConfigModel.swift; sourceTree = "<group>"; };
+		84A7194C2011C2850038E47D /* TemplateMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateMenuCell.swift; sourceTree = "<group>"; };
+		84A7194E2011C2970038E47D /* TemplateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateCell.swift; sourceTree = "<group>"; };
+		84A719522011CE970038E47D /* SystemTemplateConfigJSON.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = SystemTemplateConfigJSON.geojson; sourceTree = "<group>"; };
 		84D9525C200DF48D009F1C5D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		84D9525F200DF60A009F1C5D /* mbymx4830.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = mbymx4830.geojson; sourceTree = "<group>"; };
 		84D95260200DFF1C009F1C5D /* TemplateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateModel.swift; sourceTree = "<group>"; };
@@ -109,8 +113,6 @@
 		93C215CA2003B3E500E6C7B3 /* mapleScroollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mapleScroollView.m; sourceTree = "<group>"; };
 		93C215CB2003B3E500E6C7B3 /* mapleScroollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mapleScroollView.h; sourceTree = "<group>"; };
 		93C215CD2003B40C00E6C7B3 /* MHTHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MHTHeader.h; sourceTree = "<group>"; };
-		93C215CE2003C02400E6C7B3 /* sysModelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sysModelCell.swift; sourceTree = "<group>"; };
-		93C215CF2003C02400E6C7B3 /* sysModelCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = sysModelCell.xib; sourceTree = "<group>"; };
 		93E9EFF71FFCE66F00B58FC5 /* setTBCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setTBCell.swift; sourceTree = "<group>"; };
 		93E9EFF81FFCE67000B58FC5 /* setTBCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = setTBCell.xib; sourceTree = "<group>"; };
 		93E9EFFC1FFCFF9D00B58FC5 /* bluetoothMVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetoothMVC.swift; sourceTree = "<group>"; };
@@ -196,7 +198,7 @@
 				84264C72200F41FD0011DFEC /* 4860 */,
 				84264C74200F41FD0011DFEC /* 4850 */,
 				84264C76200F41FD0011DFEC /* commodity_label_price.json */,
-				84A719442010921E0038E47D /* SystemTemplateConfigPlist.plist */,
+				84A719522011CE970038E47D /* SystemTemplateConfigJSON.geojson */,
 			);
 			path = temple;
 			sourceTree = "<group>";
@@ -327,12 +329,13 @@
 			isa = PBXGroup;
 			children = (
 				9335D1C01FFE119900E9DDAC /* labelModelViewController.swift */,
-				93C215CE2003C02400E6C7B3 /* sysModelCell.swift */,
-				93C215CF2003C02400E6C7B3 /* sysModelCell.xib */,
 				84D95260200DFF1C009F1C5D /* TemplateModel.swift */,
 				84D95262200E0080009F1C5D /* TemplateQCModel.swift */,
 				84D95264200E0153009F1C5D /* TemplateTextModel.swift */,
 				84D95266200E020C009F1C5D /* TemplateImageModel.swift */,
+				84A7194A2010AEA20038E47D /* SystemTemplateConfigModel.swift */,
+				84A7194C2011C2850038E47D /* TemplateMenuCell.swift */,
+				84A7194E2011C2970038E47D /* TemplateCell.swift */,
 			);
 			path = LabelModel;
 			sourceTree = "<group>";
@@ -423,7 +426,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84A719452010921E0038E47D /* SystemTemplateConfigPlist.plist in Resources */,
+				84A719532011CE970038E47D /* SystemTemplateConfigJSON.geojson in Resources */,
 				84264C79200F41FE0011DFEC /* long_tail_fold_auspicious.json in Resources */,
 				84264C7F200F41FE0011DFEC /* long_tail_fold.png in Resources */,
 				84264C77200F41FE0011DFEC /* double_paper.json in Resources */,
@@ -440,7 +443,6 @@
 				5C243C141FF2468100AFC3FD /* Assets.xcassets in Resources */,
 				5C243C121FF2468100AFC3FD /* Main.storyboard in Resources */,
 				84264C7C200F41FE0011DFEC /* long_tail_fold.json in Resources */,
-				93C215D12003C02400E6C7B3 /* sysModelCell.xib in Resources */,
 				84264C81200F41FE0011DFEC /* long_tail_fold_auspicious.png in Resources */,
 				84264C82200F41FE0011DFEC /* long_tail_fold.png in Resources */,
 				84264C84200F41FE0011DFEC /* mbymx4860.json in Resources */,
@@ -459,9 +461,11 @@
 				933EFA691FF36B990036CCE4 /* homeVC.swift in Sources */,
 				93E9EFFD1FFCFF9D00B58FC5 /* bluetoothMVC.swift in Sources */,
 				5CC11D9E2005D0600051D6D4 /* FzhBluetooth.m in Sources */,
+				84A7194D2011C2850038E47D /* TemplateMenuCell.swift in Sources */,
 				93C215CC2003B3E500E6C7B3 /* mapleScroollView.m in Sources */,
 				5C243C0D1FF2468100AFC3FD /* AppDelegate.swift in Sources */,
 				5CC11D9F2005D0600051D6D4 /* FzhString.m in Sources */,
+				84A7194B2010AEA20038E47D /* SystemTemplateConfigModel.swift in Sources */,
 				933EFA601FF341430036CCE4 /* MHTNavC.swift in Sources */,
 				9335D1BF1FFE116B00E9DDAC /* addLabelViewController.swift in Sources */,
 				84D95265200E0153009F1C5D /* TemplateTextModel.swift in Sources */,
@@ -471,6 +475,7 @@
 				84D95267200E020C009F1C5D /* TemplateImageModel.swift in Sources */,
 				933EFA661FF351900036CCE4 /* MHTBase.swift in Sources */,
 				84264C8920105F9B0011DFEC /* ElementView.swift in Sources */,
+				84A7194F2011C2970038E47D /* TemplateCell.swift in Sources */,
 				93C215C820039C1600E6C7B3 /* quickPrintVC.swift in Sources */,
 				84A7194920109CDB0038E47D /* ElementHorizontalView.swift in Sources */,
 				93C21546200270C100E6C7B3 /* mapleButton.swift in Sources */,
@@ -480,7 +485,6 @@
 				84D95261200DFF1C009F1C5D /* TemplateModel.swift in Sources */,
 				933EFA621FF343A80036CCE4 /* MHTparameters.swift in Sources */,
 				9335D1C11FFE119900E9DDAC /* labelModelViewController.swift in Sources */,
-				93C215D02003C02400E6C7B3 /* sysModelCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

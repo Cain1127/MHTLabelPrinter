@@ -1,0 +1,31 @@
+ [
+  {
+  "fileNameArray": [
+                    "mbymx4830",
+                    "mbymx4840",
+                    "mbymx4850",
+                    "mbymx4860",
+                    "mbymx4870"
+                    ],
+  "name": "default"
+  },
+  {
+  "fileNameArray": [
+                    "long_tail_fold",
+                    "long_tail_fold_auspicious"
+                    ],
+  "name": "珠宝模板"
+  },
+  {
+  "fileNameArray": [
+                    "commodity_label_price"
+                    ],
+  "name": "价格模板"
+  },
+  {
+  "fileNameArray": [
+                    "double_paper"
+                    ],
+  "name": "双纸模板"
+  }
+]

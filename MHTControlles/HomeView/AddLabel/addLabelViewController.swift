@@ -16,9 +16,6 @@ class addLabelViewController: UIViewController {
     // 是否多选
     fileprivate var isMultSelected = false
     
-    // 是否锁定
-    fileprivate var isLock = false
-    
     // 界面加载后，创建自定义的UI
     override func viewDidLoad() {
         super.viewDidLoad()

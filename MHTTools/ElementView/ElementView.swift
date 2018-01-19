@@ -9,7 +9,8 @@
 import UIKit
 
 class ElementView: UIView {    
-    var isSelected: Bool = false;
+    var isSelected: Bool = false
+    var isLock: Bool = false
     
     /**
      * 重写构造函数
