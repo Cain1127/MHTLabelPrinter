@@ -46,6 +46,11 @@ class ElementView: UIView {
     func getIsSelected() -> Bool {
         return self.isSelected
     }
+    
+    // 回收键盘
+    func resignKeyboardAction() -> Void {
+        
+    }
 }
 
 extension ElementView {

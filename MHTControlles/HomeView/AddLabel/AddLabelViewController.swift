@@ -42,18 +42,18 @@ class AddLabelViewController: UIViewController {
         self.view.addSubview(addLBI)
         
         // 当前编辑区
-        editView = UIView.init(frame: CGRect.init(x: 10, y: navMaxY! + 80, width: SCREEN_width-20, height: (SCREEN_width - 20) * 5 / 8))
-        editView.backgroundColor = UIColor.white
-        editView.layer.borderWidth = 0.5
-        editView.layer.borderColor = UIColor.black.cgColor
-        self.view.addSubview(editView)
+        self.editView = UIView.init(frame: CGRect.init(x: 10, y: navMaxY! + 80, width: SCREEN_width-20, height: (SCREEN_width - 20) * 5 / 8))
+        self.editView.backgroundColor = UIColor.white
+        self.editView.layer.borderWidth = 0.5
+        self.editView.layer.borderColor = UIColor.black.cgColor
+        self.view.addSubview(self.editView)
         
         let tapSingle = UITapGestureRecognizer(target: self, action: #selector(elementEditViewTapAction(gesture:)))
         tapSingle.numberOfTapsRequired = 1
         tapSingle.numberOfTouchesRequired = 1
-        editView.addGestureRecognizer(tapSingle)
+        self.editView.addGestureRecognizer(tapSingle)
         
-        let aLBottomStrY = editView.frame.maxY + 79
+        let aLBottomStrY = self.editView.frame.maxY + 79
         pageView = UIView.init(frame: CGRect.init(x: 0, y: aLBottomStrY, width: SCREEN_width, height: SCREEN_height - aLBottomStrY))
         pageView.backgroundColor = UIColor.white
         self.view.addSubview(pageView)
@@ -184,6 +184,7 @@ extension AddLabelViewController {
         for subView in self.editView.subviews {
             let subElementView = subView as! ElementView
             subElementView.setIsSelected(isSelected: false)
+            subElementView.resignKeyboardAction()
         }
     }
     
@@ -223,7 +224,7 @@ extension AddLabelViewController {
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
                 let yPointResize = ((yPoint + height) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
                 let tempView = TextElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height))
-                tempView.textView?.text = "请输入内容"
+                tempView.setTextString(text: "请输入内容")
                 self.editView.addSubview(tempView)
                 
                 // 添加单击和双击事件
@@ -365,20 +366,8 @@ extension AddLabelViewController {
         
         // 判断类型
         if(tempView.isKind(of: TextElementView.self)) {
-            let alertController = UIAlertController(title: "请输入内容", message: "\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
-            
-            // 自定义输入框
-            let tempTextView = UITextView.init(frame: CGRect(x: 16, y: 40, width: alertController.view.bounds.size.width - 52, height: 160))
-            alertController.view.addSubview(tempTextView)
-            
-            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-            let okAction = UIAlertAction(title: "确定", style: .default, handler: {
-                action in
-                
-            })
-            alertController.addAction(cancelAction)
-            alertController.addAction(okAction)
-            self.present(alertController, animated: true, completion: nil)
+            let textElementView = tempView as! TextElementView
+            textElementView.setTextEdit(isEdit: true)
         }
         
         if(tempView.isKind(of: BarcodeElementView.self)) {
