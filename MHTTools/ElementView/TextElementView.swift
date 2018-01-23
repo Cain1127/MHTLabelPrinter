@@ -25,6 +25,7 @@ class TextElementView: ElementHorizontalView {
         self.textLabel?.numberOfLines = 0
         
         super.init(frame: frame)
+        self.addDoneButtonOnKeyboard()
         self.textView?.delegate = self
         self.addSubview(self.textLabel!)
         self.addSubview(self.textView!)
@@ -81,17 +82,50 @@ class TextElementView: ElementHorizontalView {
         self.textView?.frame.size.height = newHeight
         self.textLabel?.frame.size.height = newHeight
         self.frame.size.height = newHeight
+        
+        let widthButtonYPoint = (newHeight - (self.widthChangeButton?.frame.height)!) / 2
+        self.widthChangeButton?.frame = CGRect(x: (self.widthChangeButton?.frame.minX)!,
+                                               y: widthButtonYPoint,
+                                               width: (self.widthChangeButton?.frame.width)!,
+                                               height: (self.widthChangeButton?.frame.height)!)
+    }
+    
+    //在键盘上添加“完成“按钮
+    func addDoneButtonOnKeyboard() {
+        let doneToolbar = UIToolbar()
+        
+        //左侧的空隙
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                        target: nil, action: nil)
+        //右侧的完成按钮
+        let done: UIBarButtonItem = UIBarButtonItem(title: "确定", style: .done,
+                                                    target: self,
+                                                    action: #selector(keyboardDoneButtonAction))
+        
+        var items:[UIBarButtonItem] = []
+        items.append(flexSpace)
+        items.append(done)
+        
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        self.textView?.inputAccessoryView = doneToolbar
     }
     
     // 重写回收键盘方法
     override func resignKeyboardAction() -> Void {
-        self.textView?.resignFirstResponder()
-        self.textView?.isHidden = true
-        self.textLabel?.isHidden = false
+        self.setTextEdit(isEdit: false)
     }
 }
 
 extension TextElementView: UITextViewDelegate {
+    //“确定“按钮点击响应
+    @objc func keyboardDoneButtonAction() {
+        //收起键盘
+        self.textLabel?.text = self.textView?.text
+        self.resetUIHeightWithWidth(width: (self.textLabel?.frame.width)!)
+        self.setTextEdit(isEdit: false)
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         // 计算需要的高度
         self.textLabel?.text = textView.text
