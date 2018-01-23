@@ -252,13 +252,33 @@ extension AddLabelViewController {
             case 3:
                 print("insertElementTabButtonAction 3")
             case 4:
-                print("insertElementTabButtonAction 4")
+                ToastView.instance.showToast(content: "敬请期待")
             case 5:
-                print("insertElementTabButtonAction 5")
+                let width = CGFloat(16 * 8)
+                let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
+                let yPointResize = ((yPoint + width) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
+                let barcodeView = LineElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: 4))
+                self.editView.addSubview(barcodeView)
+                
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: barcodeView)
+                
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: barcodeView)
             case 6:
-                print("insertElementTabButtonAction 6")
+                let width = CGFloat(20 * 8)
+                let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
+                let yPointResize = ((yPoint + width) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
+                let barcodeView = RectElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: width / 2))
+                self.editView.addSubview(barcodeView)
+                
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: barcodeView)
+                
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: barcodeView)
             case 7:
-                print("insertElementTabButtonAction 7")
+                ToastView.instance.showToast(content: "敬请期待")
             case 8:
                 print("insertElementTabButtonAction 8")
             default:
