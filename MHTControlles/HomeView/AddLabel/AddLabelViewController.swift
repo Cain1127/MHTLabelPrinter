@@ -17,6 +17,9 @@ class AddLabelViewController: UIViewController {
     // 是否多选
     fileprivate var isMultSelected = false
     
+    // 是否剪辑图片
+    fileprivate var isEditPickedImage = false
+    
     // 界面加载后，创建自定义的UI
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -250,7 +253,23 @@ extension AddLabelViewController {
                 // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
                 self.addPanActionForElement(elementView: barcodeView)
             case 3:
-                print("insertElementTabButtonAction 3")
+                let alertController = UIAlertController(title: "提示",
+                                                        message: "是否要剪辑图片？", preferredStyle: .actionSheet)
+                let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                let noAction = UIAlertAction(title: "不要剪辑", style: .default, handler: {
+                    action in
+                    self.isEditPickedImage = false
+                    self.pickImageFromAlbum()
+                })
+                let yesAction = UIAlertAction(title: "剪辑", style: .default, handler: {
+                    action in
+                    self.isEditPickedImage = true
+                    self.pickImageFromAlbum()
+                })
+                alertController.addAction(cancelAction)
+                alertController.addAction(noAction)
+                alertController.addAction(yesAction)
+                self.present(alertController, animated: true, completion: nil)
             case 4:
                 ToastView.instance.showToast(content: "敬请期待")
             case 5:
@@ -332,6 +351,31 @@ extension AddLabelViewController {
         
         tempView.setIsSelected(isSelected: true)
     }
+    
+    // 选择相册图片事件
+    func pickImageFromAlbum() {
+        //判断设置是否支持图片库
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+            //初始化图片控制器
+            let picker = UIImagePickerController()
+            
+            //设置代理
+            picker.delegate = self
+            
+            //指定图片控制器类型
+            picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+            
+            //设置是否允许编辑
+            picker.allowsEditing = false
+            
+            //弹出控制器，显示界面
+            self.present(picker, animated: true, completion: {
+                () -> Void in
+            })
+        } else {
+            print("读取相册错误")
+        }
+    }
 }
 
 /**
@@ -341,5 +385,44 @@ extension AddLabelViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = mainScrollView.contentOffset.x / SCREEN_width
         self.pageScrollView.setViewIndex(Int(index))
+    }
+}
+
+/**
+ * 相册代理
+ */
+extension AddLabelViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    //选择图片成功后代理
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        //显示的图片 UIImagePickerControllerOriginalImage UIImagePickerControllerEditedImage
+        var image: UIImage! = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        // 判断是否需要压缩
+        if(self.isEditPickedImage) {
+            let imageData = UIImageJPEGRepresentation(image, 0.4)
+            image = UIImage.init(data: imageData!)
+        }
+        
+        let subViewNum = self.editView.subviews.count
+        let xPoint = CGFloat(5 + subViewNum * 16)
+        let yPoint = CGFloat(5 + subViewNum * 16)
+        let width = CGFloat(10 * 8)
+        let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
+        let yPointResize = ((yPoint + width) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
+        let barcodeView = QRCodeElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: width))
+        barcodeView.imageView!.image = image
+        barcodeView.title = "图片"
+        self.editView.addSubview(barcodeView)
+        
+        // 添加单击和双击事件
+        self.addTapActionForElementView(elementView: barcodeView)
+        
+        // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+        self.addPanActionForElement(elementView: barcodeView)
+        
+        //图片控制器退出
+        picker.dismiss(animated: true, completion: {
+            () -> Void in
+        })
     }
 }
