@@ -45,6 +45,11 @@ typedef void (^IndexBlock)(NSString *title,NSInteger index);
  *  @param block 回调
  */
 - (void)getViewIndex:(IndexBlock)block;
+    
+/**
+ * 修改当前的选择下标
+ */
+- (void)setViewIndex:(NSInteger)index;
 
 /**
  *  设置移动的位置

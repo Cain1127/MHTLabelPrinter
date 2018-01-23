@@ -20,9 +20,40 @@ class QRCodeElementView: ElementVerticalView {
         
         super.init(frame: frame)
         self.addSubview(self.imageView!)
+        self.sendSubview(toBack: self.imageView!)
     }
     
     required init(coder: NSCoder) {
         super.init(coder: coder)
+    }
+    
+    override func widthPanAction(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: gesture.view!)
+        if(translation.x > 0) {
+            self.imageView?.frame.size.width = self.oriWidth + translation.x
+        } else {
+            let width = oriWidth + translation.x
+            if(5 >= width) {
+                return
+            }
+
+            self.imageView?.frame.size.width = width
+        }
+        super.widthPanAction(gesture: gesture)
+    }
+    
+    override func heightPanAction(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: gesture.view!)
+        if(translation.y > 0) {
+            self.imageView?.frame.size.height = self.oriHeight + translation.y
+        } else {
+            let height = self.oriHeight + translation.y
+            if(5 >= height) {
+                return
+            }
+
+            self.imageView?.frame.size.height = height
+        }
+        super.heightPanAction(gesture: gesture)
     }
 }

@@ -9,9 +9,10 @@
 import UIKit
 
 class AddLabelViewController: UIViewController {
-    fileprivate var editView:UIView!
-    fileprivate var pageView:UIView!
-    fileprivate var mainScrollView:UIScrollView!
+    fileprivate var editView: UIView!
+    fileprivate var pageView: UIView!
+    fileprivate var mainScrollView: UIScrollView!
+    fileprivate var pageScrollView: mapleScroollView!
     
     // 是否多选
     fileprivate var isMultSelected = false
@@ -59,12 +60,12 @@ class AddLabelViewController: UIViewController {
     // 添加底部分页滚动内容
     func addPageScrollView() -> Void {
         let pageTA1 = [MHTBase.internationalStringWith(str: "标签"),MHTBase.internationalStringWith(str: "插入"),MHTBase.internationalStringWith(str: "属性")]
-        let pageScrollView = mapleScroollView.init()
-        pageScrollView.lineColor = UIColor.clear
-        pageScrollView.setData(pageTA1, normalColor: UIColor.black, select: UIColor.red, font: UIFont.systemFont(ofSize: 14), selectedIndex: 1)
+        self.pageScrollView = mapleScroollView.init()
+        self.pageScrollView.lineColor = UIColor.clear
+        self.pageScrollView.setData(pageTA1, normalColor: UIColor.black, select: UIColor.red, font: UIFont.systemFont(ofSize: 14), selectedIndex: 1)
 
-        pageView.addSubview(pageScrollView)
-        pageScrollView.getIndex({ (title, index) in
+        pageView.addSubview(self.pageScrollView)
+        self.pageScrollView.getIndex({ (title, index) in
             UIView.animate(withDuration: 0.3, animations: {
                 self.mainScrollView.contentOffset = CGPoint.init(x: CGFloat(index) * SCREEN_width, y: 0)
             })
@@ -124,8 +125,8 @@ class AddLabelViewController: UIViewController {
         let addBtnV = UIView.init(frame: frame)
         
         // 图片
-        let tempImageSize = CGFloat(36);
-        let tempImageY = (addBtnV.bounds.height - CGFloat(19) - tempImageSize) / 2;
+        let tempImageSize = addBtnV.bounds.height - CGFloat((5 + 6 + 16) * MHTBase.autoScreen());
+        let tempImageY = CGFloat(5 * MHTBase.autoScreen());
         let tempImageX = (addBtnV.bounds.width - tempImageSize) / 2;
         let addImageView = UIImageView(frame: CGRect.init(x: tempImageX, y: tempImageY, width: tempImageSize, height: tempImageSize));
         addImageView.isUserInteractionEnabled = true;
@@ -133,13 +134,26 @@ class AddLabelViewController: UIViewController {
         addBtnV.addSubview(addImageView)
         
         // 按钮标题
-        let addBtn = UIButton.init(frame: CGRect.init(x: 5, y: addImageView.frame.maxY + 3, width: addBtnV.bounds.width-10, height: 16))
+        let addBtn = UIButton.init(frame: CGRect.init(x: tempImageY, y: addImageView.frame.maxY + CGFloat(3 * MHTBase.autoScreen()), width: addBtnV.bounds.width - 2 * tempImageY, height: CGFloat(16 * MHTBase.autoScreen())))
         addBtn.setTitle(title, for: .normal)
         addBtn.setTitleColor(UIColor.black, for: .normal)
-        addBtn.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        addBtn.titleLabel?.font = UIFont.systemFont(ofSize: CGFloat(14 * MHTBase.autoScreen()))
         addBtnV.addSubview(addBtn)
         
         return addBtnV
+    }
+    
+    func addPanActionForElement(elementView: ElementView) -> Void {
+        let pan = UIPanGestureRecognizer(target:self, action:#selector(elementPanAction(gesture:)))
+        pan.maximumNumberOfTouches = 1
+        if let gesturesArray = elementView.gestureRecognizers {
+            for oriGesture in gesturesArray {
+                if oriGesture.isKind(of: UITapGestureRecognizer.self) {
+                    pan.require(toFail: oriGesture)
+                }
+            }
+        }
+        elementView.addGestureRecognizer(pan)
     }
     
     func addTapActionForElementView(elementView: ElementView) -> Void {
@@ -153,6 +167,7 @@ class AddLabelViewController: UIViewController {
         let tapDouble = UITapGestureRecognizer(target: self, action: #selector(elementDoubleTapAction(gesture:)))
         tapDouble.numberOfTapsRequired = 2
         tapDouble.numberOfTouchesRequired = 1
+        tapDouble.require(toFail: tapSingle)
         elementView.addGestureRecognizer(tapDouble)
     }
 }
@@ -215,6 +230,9 @@ extension AddLabelViewController {
             
                 // 添加单击和双击事件
                 self.addTapActionForElementView(elementView: barcodeView)
+            
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: barcodeView)
             case 2:
                 let width = CGFloat(10 * 8)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
@@ -228,6 +246,9 @@ extension AddLabelViewController {
             
                 // 添加单击和双击事件
                 self.addTapActionForElementView(elementView: barcodeView)
+            
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: barcodeView)
             case 3:
                 print("insertElementTabButtonAction 3")
             case 4:
@@ -272,6 +293,14 @@ extension AddLabelViewController {
         tempView.setIsSelected(isSelected: true)
     }
     
+    // 元素拖动
+    @objc func elementPanAction(gesture: UIGestureRecognizer) -> Void {
+        let point = gesture.location(in: self.editView)
+        
+        //设置矩形的位置
+        gesture.view?.center = point
+    }
+    
     // 编辑窗口中的元素双击事件
     @objc func elementDoubleTapAction(gesture: UIGestureRecognizer) -> Void {
         let tempView = gesture.view! as! ElementView
@@ -291,6 +320,6 @@ extension AddLabelViewController {
 extension AddLabelViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = mainScrollView.contentOffset.x / SCREEN_width
-        mapleScroollView.setViewIndex(Int(index))
+        self.pageScrollView.setViewIndex(Int(index))
     }
 }

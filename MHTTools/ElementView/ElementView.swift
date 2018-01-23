@@ -11,11 +11,15 @@ import UIKit
 class ElementView: UIView {    
     var isSelected: Bool = false
     var isLock: Bool = false
+    var oriWidth = CGFloat(0)
+    var oriHeight = CGFloat(0)
     
     /**
      * 重写构造函数
      */
     override init(frame: CGRect) {
+        self.oriWidth = frame.width
+        self.oriHeight = frame.height
         super.init(frame: frame)
         self.backgroundColor = UIColor.white
     }
@@ -41,5 +45,58 @@ class ElementView: UIView {
     
     func getIsSelected() -> Bool {
         return self.isSelected
+    }
+}
+
+extension ElementView {
+    // 上下滑动事件
+    @objc func heightPanAction(gesture: UIPanGestureRecognizer) -> Void {
+        let translation = gesture.translation(in: gesture.view!)
+        if(translation.y > 0) {
+            // 向下滑动
+            self.frame.size.height = self.oriHeight + translation.y
+        } else {
+            // 向上滑动
+            let height = self.oriHeight + translation.y
+            if(5 >= height) {
+                return
+            }
+            
+            self.frame.size.height = height
+        }
+        
+        // 结束后保存尺寸
+        if(gesture.state == .ended) {
+            var height = self.oriHeight + translation.y
+            height = height >= 5 ? height : 5
+            self.oriHeight = height
+        }
+    }
+    
+    // 左右滑动事件
+    @objc func widthPanAction(gesture: UIPanGestureRecognizer) -> Void {
+        let translation = gesture.translation(in: gesture.view!)
+        
+        if(gesture.state == .changed) {
+            if(translation.x > 0) {
+                // 向右滑动
+                self.frame.size.width = CGFloat(self.oriWidth + translation.x)
+            } else {
+                // 向左滑动
+                let width = self.oriWidth + translation.x
+                if(5 >= width) {
+                    return
+                }
+                
+                self.frame.size.width = width
+            }
+        }
+        
+        // 结束后保存尺寸
+        if(gesture.state == .ended) {
+            var width = self.oriWidth + translation.x
+            width = width >= 5 ? width : 5
+            self.oriWidth = width
+        }
     }
 }

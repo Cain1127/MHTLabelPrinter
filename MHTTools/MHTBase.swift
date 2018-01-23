@@ -28,6 +28,25 @@ class MHTBase: NSObject {
         }
     }
     
+    // 返回模板保存目录
+    class func getTemplateDocumentPath() -> String {
+        // 创建沙盒模板保存目录
+        let home = NSHomeDirectory() as NSString;
+        
+        // 获得Documents路径，使用NSString对象的stringByAppendingPathComponent()方法拼接路径
+        let docPath = home.appendingPathComponent("Documents") as NSString;
+        
+        // 文件操作
+        let fileManager = FileManager.default
+        let filePath: String = docPath.appendingPathComponent("template") as String
+        let exist = fileManager.fileExists(atPath: filePath)
+        if(!exist) {
+            try! fileManager.createDirectory(atPath: filePath, withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        return filePath
+    }
+    
     /// 创建指定大小的的条形码图片
     ///
     /// - Parameters:

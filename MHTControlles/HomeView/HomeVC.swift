@@ -18,6 +18,11 @@ class HomeVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        // 创建沙盒模板文件夹
+        print("document path: " + MHTBase.getTemplateDocumentPath())
+        
+        // 搭建UI
         setHomeNavUI()
     }
     override func viewDidLoad() {
@@ -72,6 +77,4 @@ class HomeVC: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-
 }

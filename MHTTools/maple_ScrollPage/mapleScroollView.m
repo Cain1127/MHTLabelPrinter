@@ -66,7 +66,7 @@
     tempArray = titles;
     CGFloat _width = Bound_Width / titles.count;
     
-    for (int i=0; i<titles.count; i++) {
+    for (int i=0; i < titles.count; i++) {
         UIButton *item = [UIButton buttonWithType:UIButtonTypeCustom];
         item.frame = CGRectMake(i * _width, 0, _width, CGRectGetHeight(self.frame));
         [item setTitle:titles[i] forState:UIControlStateNormal];
@@ -124,7 +124,7 @@
     [[mapleScroollView sharedTabBar] setViewIndex:index];
 }
 
-- (void)setViewIndex:(NSInteger)index{
+- (void)setViewIndex:(NSInteger)index {
     if (index < 0) {
         index = 0;
     }
@@ -150,7 +150,7 @@
     self.selectedBtn = tempBtn;
     
     CGFloat x = index * (Bound_Width / tempArray.count);
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.2 animations:^{
         CGRect frame = self.lineView.frame;
         frame.origin.x = x;
         self.lineView.frame = frame;

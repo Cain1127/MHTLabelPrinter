@@ -9,8 +9,9 @@
 import UIKit
 
 class LabelModelViewController: UIViewController {
-    fileprivate var pageView:UIView!
-    fileprivate var mainScrollView:UIScrollView!
+    fileprivate var pageView: UIView!
+    fileprivate var pageScrollView: mapleScroollView!
+    fileprivate var mainScrollView: UIScrollView!
     
     // 系统模板的列表
     fileprivate var selectedIndexSystemTample = 0
@@ -63,14 +64,14 @@ class LabelModelViewController: UIViewController {
     // 分页标题栏UI搭建
     func addPageScrollView() -> Void {
         let pageTA4 = [ MHTBase.internationalStringWith(str: "系统模板"), MHTBase.internationalStringWith(str: "保存的模板")]
-        let pageScrollView = mapleScroollView.init()
-        pageScrollView.lineColor = UIColor.clear
-        pageScrollView.setData(pageTA4, normalColor: UIColor.black, select: UIColor.red, font: UIFont.systemFont(ofSize: CGFloat(14 * MHTBase.autoScreen())))
+        self.pageScrollView = mapleScroollView.init()
+        self.pageScrollView.lineColor = UIColor.clear
+        self.pageScrollView.setData(pageTA4, normalColor: UIColor.black, select: UIColor.red, font: UIFont.systemFont(ofSize: CGFloat(14 * MHTBase.autoScreen())))
         
-        pageView.addSubview(pageScrollView)
+        pageView.addSubview(self.pageScrollView)
         mapleScroollView.setViewIndex(0)
         
-        pageScrollView.getIndex({ (title, index) in
+        self.pageScrollView.getIndex({ (title, index) in
             UIView.animate(withDuration: 0.3, animations: {
                 self.mainScrollView.contentOffset = CGPoint.init(x: CGFloat(index) * SCREEN_width, y: 0)
             })
@@ -113,16 +114,16 @@ class LabelModelViewController: UIViewController {
         
             switch m {
             case 0 :
-                self.menuUserTemplateTableView = menuTableView
+                self.menuSystemTemplateTableView = menuTableView
                 self.templateSystemTemplateTableView = templateTableView
             case 1:
-                print(1)
+                self.menuUserTemplateTableView = menuTableView
+                self.templateUserTemplateTableView = templateTableView
             default:
                 print(4)
             }
             
             mainScrollView.addSubview(mapleView)
-            
         }
     }
 }
@@ -139,7 +140,7 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
     //返回表格视图上每段应该显示的数据的行数
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // 系统模板的菜单项
-        if(tableView == self.menuUserTemplateTableView) {
+        if(tableView == self.menuSystemTemplateTableView) {
             if(nil == self.dataSourceSystemTemplate) {
                 return 0
             }
@@ -160,13 +161,35 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
+        // 用户模板的菜单项
+        if(tableView == self.menuUserTemplateTableView) {
+            if(nil == self.dataSourceUserTemplate) {
+                return 0
+            }
+            return self.dataSourceUserTemplate!.count;
+        }
+        
+        // 用户模板数据项
+        if(tableView == self.templateUserTemplateTableView) {
+            if(nil == self.dataSourceUserTemplate) {
+                return 0
+            }
+            
+            if self.selectedIndexUserTample < (self.dataSourceUserTemplate?.count)! {
+                let selectedMenu = self.dataSourceUserTemplate![self.selectedIndexUserTample]
+                if let templateDataSource = selectedMenu.dataSource {
+                    return templateDataSource.count
+                }
+            }
+        }
+        
         return 0
     }
     
     // 返回cell的高度
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // 系统模板的菜单项
-        if(tableView == self.menuUserTemplateTableView) {
+        if(tableView == self.menuSystemTemplateTableView || tableView == self.menuUserTemplateTableView) {
             return 60
         }
         
@@ -189,55 +212,85 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
+        // 用户模板数据项
+        if(tableView == self.templateUserTemplateTableView) {
+            if(nil == self.dataSourceUserTemplate) {
+                return 0
+            }
+            
+            if self.selectedIndexUserTample < (self.dataSourceUserTemplate?.count)! {
+                let selectedMenu = self.dataSourceUserTemplate![self.selectedIndexUserTample]
+                if let templateDataSource = selectedMenu.dataSource {
+                    if(indexPath.row < templateDataSource.count) {
+                        let tempTempate = templateDataSource[indexPath.row]
+                        let width = SCREEN_width * 3 / 4 - 32
+                        let imageHeight = CGFloat(tempTempate.height / tempTempate.width) * width
+                        return imageHeight + 16 + 16 + 10
+                    }
+                }
+            }
+        }
+        
         return 0
     }
     
     //返回某行上应该显示的单元格
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // 系统模板的菜单项
-        if(tableView == self.menuUserTemplateTableView) {
-            if(nil != self.dataSourceSystemTemplate) {
-                //定义一个cell标示符，用以区分不同的cell
-                let cellID : String = "MENU_CELL";
-                var cell = tableView.dequeueReusableCell(withIdentifier: cellID) as? TemplateMenuCell;
-                
-                // 检测，拿到一个可用的cell
-                if(cell == nil) {
-                    cell = TemplateMenuCell.init(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellID, width: tableView.frame.width, height: 60)
-                }
-                
+        if(tableView == self.menuSystemTemplateTableView || tableView == menuUserTemplateTableView) {
+            //定义一个cell标示符，用以区分不同的cell
+            let cellID : String = "MENU_CELL";
+            var cell = tableView.dequeueReusableCell(withIdentifier: cellID) as? TemplateMenuCell;
+            
+            // 检测，拿到一个可用的cell
+            if(cell == nil) {
+                cell = TemplateMenuCell.init(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellID, width: tableView.frame.width, height: 60)
+            }
+            
+            // 根据系统或用户模板获取不同的数据模型
+            if(tableView == self.menuSystemTemplateTableView) {
                 let temp = self.dataSourceSystemTemplate![indexPath.row]
                 cell?.titleLabel.text = temp.name
-                if(indexPath.row == self.selectedIndexSystemTample) {
-                    tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.none)
-                }
-                return cell!
             }
+            
+            if(tableView == menuUserTemplateTableView) {
+                let temp = self.dataSourceUserTemplate![indexPath.row]
+                cell?.titleLabel.text = temp.name
+            }
+            
+            if(indexPath.row == self.selectedIndexSystemTample) {
+                tableView.selectRow(at: indexPath, animated: true, scrollPosition: UITableViewScrollPosition.none)
+            }
+            return cell!
         }
         
         // 系统模板数据项
-        if(tableView == self.templateSystemTemplateTableView) {
-            if(nil != self.dataSourceSystemTemplate && self.selectedIndexSystemTample < (self.dataSourceSystemTemplate?.count)!) {
-                let selectedMenu = self.dataSourceSystemTemplate![self.selectedIndexSystemTample]
-                if let templateDataSource = selectedMenu.dataSource {
-                    if(indexPath.row < templateDataSource.count) {
-                        let tempTempate = templateDataSource[indexPath.row]
-                        
-                        let cellID = "TEMPLATE_CELL"
-                        var cell = tableView.dequeueReusableCell(withIdentifier: cellID) as? TemplateCell
-                        
-                        // 检测，拿到一个可用的cell
-                        let width = SCREEN_width * 3 / 4 - 32
-                        let imageHeight = CGFloat(tempTempate.height / tempTempate.width) * width
-                        let cellHeight = imageHeight + 16 + 16 + 10
-                        if(cell == nil) {
-                            cell = TemplateCell.init(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellID, width: tableView.frame.width, height: cellHeight)
-                        }
-                        
-                        // 设置新的图片和标题
-                        cell?.updateUIWithModel(model: tempTempate, width: tableView.frame.width, height: cellHeight)
-                        return cell!
+        if(tableView == self.templateSystemTemplateTableView || tableView == self.templateUserTemplateTableView) {
+            var selectedMenu = SystemTemplateConfigModel.init()
+            if(tableView == self.templateSystemTemplateTableView) {
+                selectedMenu = self.dataSourceSystemTemplate![self.selectedIndexSystemTample]
+            } else {
+                selectedMenu = self.dataSourceUserTemplate![self.selectedIndexUserTample]
+            }
+            
+            if let templateDataSource = selectedMenu.dataSource {
+                if(indexPath.row < templateDataSource.count) {
+                    let tempTempate = templateDataSource[indexPath.row]
+                    
+                    let cellID = "TEMPLATE_CELL"
+                    var cell = tableView.dequeueReusableCell(withIdentifier: cellID) as? TemplateCell
+                    
+                    // 检测，拿到一个可用的cell
+                    let width = SCREEN_width * 3 / 4 - 32
+                    let imageHeight = CGFloat(tempTempate.height / tempTempate.width) * width
+                    let cellHeight = imageHeight + 16 + 16 + 10
+                    if(cell == nil) {
+                        cell = TemplateCell.init(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellID, width: tableView.frame.width, height: cellHeight)
                     }
+                    
+                    // 设置新的图片和标题
+                    cell?.updateUIWithModel(model: tempTempate, width: tableView.frame.width, height: cellHeight)
+                    return cell!
                 }
             }
         }
@@ -260,9 +313,16 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
      * 菜单栏选择事件
      */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if(tableView == self.menuUserTemplateTableView) {
+        if(tableView == self.menuSystemTemplateTableView) {
             self.selectedIndexSystemTample = indexPath.row
+//            self.templateSystemTemplateTableView.setContentOffset(CGPoint.zero, animated: true)
             self.templateSystemTemplateTableView.reloadData()
+        }
+        
+        if(tableView == self.menuUserTemplateTableView) {
+            self.selectedIndexUserTample = indexPath.row
+//            self.templateSystemTemplateTableView.setContentOffset(CGPoint.zero, animated: true)
+            self.templateUserTemplateTableView.reloadData()
         }
     }
 }
@@ -323,13 +383,70 @@ extension LabelModelViewController {
     
     // 用户保存的模板
     func getUserTemplateDataSourceService() -> Void {
+        // 1.获取文件路径
+        let path = Bundle.main.path(forResource: "UserTemplateConfigJSON", ofType: "geojson")
         
+        // 2.通过文件路径创建NSData
+        if let jsonPath = path {
+            let jsonData = NSData.init(contentsOfFile: jsonPath)
+            let decoder = JSONDecoder()
+            self.dataSourceUserTemplate = try! decoder.decode(Array<SystemTemplateConfigModel>.self, from: jsonData! as Data)
+        }
+        
+        // 3. 通过配置文件读取资源文件
+        if self.dataSourceUserTemplate != nil {
+            let fileManager = FileManager.default
+            let readConfigQueue = DispatchQueue.global(qos: .default)
+            readConfigQueue.async(group: nil, qos: .default, flags: [], execute: {
+                for i in 0 ..< self.dataSourceUserTemplate!.count {
+                    let filePath = MHTBase.getTemplateDocumentPath() + "/" + self.dataSourceUserTemplate![i].name
+                    let fileURL = URL(string: filePath)
+                    
+                    // 判断文件夹是否存在
+                    let isDocumentExit = fileManager.fileExists(atPath: filePath)
+                    if(!isDocumentExit) {
+                        try! fileManager.createDirectory(atPath: filePath, withIntermediateDirectories: true, attributes: nil)
+                        continue
+                    }
+                    
+                    let contentsOfURL = try? fileManager.contentsOfDirectory(at: fileURL!,
+                                                                         includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+                    if let fileURLsArray = contentsOfURL {
+                        for fileURL in fileURLsArray {
+                            // 判断是否是模板文件
+                            let fileURLString = fileURL.absoluteString
+                            if(!fileURLString.hasSuffix(".json")) {
+                                continue
+                            }
+                            
+                            let jsonDataTemp = NSData.init(contentsOf: fileURL)
+                            let decoder = JSONDecoder()
+                            let templateModel = try! decoder.decode(TemplateModel.self, from: jsonDataTemp! as Data)
+                            if nil != self.dataSourceUserTemplate![i].dataSource {
+                                self.dataSourceUserTemplate![i].dataSource!.append(templateModel)
+                            } else {
+                                self.dataSourceUserTemplate![i].dataSource = [templateModel]
+                            }
+                        }
+                    }
+                }
+            })
+            
+            // 主线程刷新数据
+            readConfigQueue.async(group: nil, qos: .default, flags: .barrier, execute: {
+                if self.dataSourceUserTemplate != nil {
+                    DispatchQueue.main.async {
+                        self.templateUserTemplateTableView.reloadData()
+                    }
+                }
+            })
+        }
     }
 }
 
 extension LabelModelViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = mainScrollView.contentOffset.x / SCREEN_width
-        mapleScroollView.setViewIndex(Int(index))
+        self.pageScrollView.setViewIndex(Int(index))
     }
 }
