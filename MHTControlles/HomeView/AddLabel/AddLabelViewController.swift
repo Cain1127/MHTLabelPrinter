@@ -170,7 +170,7 @@ class AddLabelViewController: UIViewController {
         let tapDouble = UITapGestureRecognizer(target: self, action: #selector(elementDoubleTapAction(gesture:)))
         tapDouble.numberOfTapsRequired = 2
         tapDouble.numberOfTouchesRequired = 1
-        tapDouble.require(toFail: tapSingle)
+        tapSingle.require(toFail: tapDouble)
         elementView.addGestureRecognizer(tapDouble)
     }
 }
@@ -218,7 +218,19 @@ extension AddLabelViewController {
         let yPoint = CGFloat(5 + subViewNum * 16)
         switch tag {
             case 0:
-                print("insertElementTabButtonAction 0")
+                let width = CGFloat(12 * 8)
+                let height = CGFloat(30)
+                let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
+                let yPointResize = ((yPoint + height) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
+                let tempView = TextElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height))
+                tempView.textView?.text = "请输入内容"
+                self.editView.addSubview(tempView)
+                
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: tempView)
+                
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: tempView)
             case 1:
                 let width = CGFloat(20 * 8)
                 let height = CGFloat(10 * 8)
@@ -350,6 +362,78 @@ extension AddLabelViewController {
         }
         
         tempView.setIsSelected(isSelected: true)
+        
+        // 判断类型
+        if(tempView.isKind(of: TextElementView.self)) {
+            let alertController = UIAlertController(title: "请输入内容", message: "\n\n\n\n\n\n\n", preferredStyle: .actionSheet)
+            
+            // 自定义输入框
+            let tempTextView = UITextView.init(frame: CGRect(x: 16, y: 40, width: alertController.view.bounds.size.width - 52, height: 160))
+            alertController.view.addSubview(tempTextView)
+            
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            let okAction = UIAlertAction(title: "确定", style: .default, handler: {
+                action in
+                
+            })
+            alertController.addAction(cancelAction)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+        
+        if(tempView.isKind(of: BarcodeElementView.self)) {
+            let alertController = UIAlertController(title: "请输入内容", message: nil, preferredStyle: .alert)
+            
+            let barcodeElementView = tempView as! BarcodeElementView
+            alertController.addTextField {
+                (textField: UITextField!) -> Void in
+                textField.text = barcodeElementView.titleLabel?.text
+            }
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            let okAction = UIAlertAction(title: "确定", style: .default, handler: {
+                action in
+                let textField = alertController.textFields!.first!
+                let tempInputText = textField.text
+                if(nil == tempInputText || (tempInputText?.isEmpty)!) {
+                    barcodeElementView.titleLabel?.text = "双击编辑"
+                } else {
+                    // 重新生成条形码
+                    let barcodeImage = MHTBase.creatBarCodeImage(content: tempInputText, size: barcodeElementView.frame.size)
+                    barcodeElementView.imageView!.image = barcodeImage
+                     barcodeElementView.titleLabel?.text = tempInputText
+                }
+            })
+            alertController.addAction(cancelAction)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+        
+        if(tempView.isKind(of: QRCodeElementView.self)) {
+            let alertController = UIAlertController(title: "请输入内容", message: "", preferredStyle: .alert)
+            
+            let qrcodeElementView = tempView as! QRCodeElementView
+            alertController.addTextField {
+                (textField: UITextField!) -> Void in
+                textField.text = qrcodeElementView.title
+            }
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            let okAction = UIAlertAction(title: "确定", style: .default, handler: {
+                action in
+                let textField = alertController.textFields!.first!
+                let tempInputText = textField.text
+                if(nil == tempInputText || (tempInputText?.isEmpty)!) {
+                    qrcodeElementView.title = "双击编辑"
+                } else {
+                    // 重新生成二维码
+                    let qrcodeImage = MHTBase.creatQRCodeImage(content: tempInputText, iconName: nil, size: qrcodeElementView.frame.size)
+                    qrcodeElementView.imageView!.image = qrcodeImage
+                    qrcodeElementView.title = tempInputText
+                }
+            })
+            alertController.addAction(cancelAction)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     
     // 选择相册图片事件
@@ -394,6 +478,7 @@ extension AddLabelViewController: UIScrollViewDelegate {
 extension AddLabelViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     //选择图片成功后代理
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        print(info)
         //显示的图片 UIImagePickerControllerOriginalImage UIImagePickerControllerEditedImage
         var image: UIImage! = info[UIImagePickerControllerOriginalImage] as! UIImage
         

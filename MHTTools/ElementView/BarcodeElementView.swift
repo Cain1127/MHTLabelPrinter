@@ -48,6 +48,13 @@ class BarcodeElementView: ElementVerticalView {
             self.imageView?.frame.size.width = width
             self.titleLabel?.frame.size.width = width
         }
+        
+        if(gesture.state == .ended) {
+            // 重新生成条形码
+            let barcodeImage = MHTBase.creatBarCodeImage(content: self.titleLabel?.text!, size: (self.imageView?.frame.size)!)
+            self.imageView!.image = barcodeImage
+        }
+        
         super.widthPanAction(gesture: gesture)
     }
     
@@ -65,6 +72,13 @@ class BarcodeElementView: ElementVerticalView {
             self.imageView?.frame.size.height = height - 16
             self.titleLabel?.frame.origin.y = height - 16
         }
+        
+        if(gesture.state == .ended) {
+            // 重新生成条形码
+            let barcodeImage = MHTBase.creatBarCodeImage(content: self.titleLabel?.text!, size: (self.imageView?.frame.size)!)
+            self.imageView!.image = barcodeImage
+        }
+        
         super.heightPanAction(gesture: gesture)
     }
 }
