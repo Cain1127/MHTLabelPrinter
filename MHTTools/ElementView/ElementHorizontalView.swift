@@ -11,6 +11,9 @@ import Foundation
 class ElementHorizontalView: ElementView {
     var widthChangeButton: UIImageView?
     
+    // 定义一个放大时的闭包，主要是当前控件变宽时，外部有可能联动变宽其他控件，比如编辑窗口为多选时
+    var widthChangeClosure: ((_ view: ElementView, _ translation: CGPoint, _ status: UIGestureRecognizerState) -> Void)?
+    
     /**
      * 重写构造函数
      */
@@ -49,9 +52,7 @@ class ElementHorizontalView: ElementView {
 }
 
 extension ElementHorizontalView {
-    // 左右滑动事件
-    override func widthPanAction(gesture: UIPanGestureRecognizer) -> Void {
-        let translation = gesture.translation(in: gesture.view!)
+    override func widthChangeAction(translation: CGPoint, status: UIGestureRecognizerState) {
         if(translation.x > 0) {
             // 向右滑动
             let widthButtonXPoint = (self.oriWidth - (self.widthChangeButton?.frame.width)! / 2) + translation.x
@@ -65,13 +66,22 @@ extension ElementHorizontalView {
             if(5 >= width) {
                 return
             }
-
+            
             let widthButtonXPoint = (self.oriWidth - (self.widthChangeButton?.frame.width)! / 2) + translation.x
             self.widthChangeButton?.frame = CGRect(x: widthButtonXPoint,
                                                    y: (self.widthChangeButton?.frame.minY)!,
                                                    width: (self.widthChangeButton?.frame.width)!,
                                                    height: (self.widthChangeButton?.frame.height)!)
         }
-        super.widthPanAction(gesture: gesture)
+        super.widthChangeAction(translation: translation, status: status)
+    }
+    
+    override func widthPanAction(gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: gesture.view!)
+        // 回调宽度改变
+        if((self.widthChangeClosure) != nil) {
+            self.widthChangeClosure!(self, translation, gesture.state)
+        }
+        self.widthChangeAction(translation: translation, status: gesture.state)
     }
 }

@@ -34,8 +34,7 @@ class BarcodeElementView: ElementVerticalView {
         super.init(coder: coder)
     }
     
-    override func widthPanAction(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: gesture.view!)
+    override func widthChangeAction(translation: CGPoint, status: UIGestureRecognizerState) {
         if(translation.x > 0) {
             self.imageView?.frame.size.width = self.oriWidth + translation.x
             self.titleLabel?.frame.size.width = self.oriWidth + translation.x
@@ -49,17 +48,16 @@ class BarcodeElementView: ElementVerticalView {
             self.titleLabel?.frame.size.width = width
         }
         
-        if(gesture.state == .ended) {
+        if(status == .ended) {
             // 重新生成条形码
             let barcodeImage = MHTBase.creatBarCodeImage(content: self.titleLabel?.text!, size: (self.imageView?.frame.size)!)
             self.imageView!.image = barcodeImage
         }
         
-        super.widthPanAction(gesture: gesture)
+        super.widthChangeAction(translation: translation, status: status)
     }
     
-    override func heightPanAction(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: gesture.view!)
+    override func heightChangeAction(translation: CGPoint, status: UIGestureRecognizerState) {
         if(translation.y > 0) {
             self.imageView?.frame.size.height = self.oriHeight + translation.y - 16
             self.titleLabel?.frame.origin.y = self.oriHeight + translation.y - 16
@@ -73,12 +71,12 @@ class BarcodeElementView: ElementVerticalView {
             self.titleLabel?.frame.origin.y = height - 16
         }
         
-        if(gesture.state == .ended) {
+        if(status == .ended) {
             // 重新生成条形码
             let barcodeImage = MHTBase.creatBarCodeImage(content: self.titleLabel?.text!, size: (self.imageView?.frame.size)!)
             self.imageView!.image = barcodeImage
         }
         
-        super.heightPanAction(gesture: gesture)
+        super.heightChangeAction(translation: translation, status: status)
     }
 }

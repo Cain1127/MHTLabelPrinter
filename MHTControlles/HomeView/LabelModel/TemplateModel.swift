@@ -11,32 +11,41 @@ import Foundation
 struct TemplateModel: Codable {
     var labelName: String!;
     
-    var width: Float!;
+    var width: Float?;
     
-    var height: Float!;
+    var height: Float?;
     
-    var proportion: Float!;
+    var proportion: Float?;
     
-    var concentration: Float!;
+    var concentration: Float?;
     
-    var printingDirection: Float!;
+    var printingDirection: Float?;
     
-    var mirror: Bool!;
+    var mirror: Bool?;
     
-    var tailDirection: Float!;
+    var tailDirection: Float?;
     
-    var tailLength: Float!;
+    var tailLength: Float?;
     
-    // 
-    var qcControls: Array<TemplateQCModel>!;
+    //  一维码元素数组
+    var qcControls: Array<TemplateQCModel>?;
     
     // 文本框控件数组
-    var textControl: Array<TemplateTextModel>!;
+    var textControl: Array<TemplateTextModel>?;
     
     // 图片控件
-    var bitmapControls: Array<TemplateImageModel>!;
+    var bitmapControls: Array<TemplateImageModel>?;
     
-    var fileName: String!;
+    var fileName: String?;
     
-    var labelViewBack: String!;
+    var labelViewBack: String?;
+    
+    /**
+     * 初始化
+     */
+    init() {
+        self.labelName = ""
+        self.width = 48
+        self.height = 30
+    }
 }

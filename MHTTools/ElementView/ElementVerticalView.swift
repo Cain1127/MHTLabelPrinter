@@ -11,6 +11,9 @@ import Foundation
 class ElementVerticalView: ElementHorizontalView {
     var heightChangeButton: UIImageView?
     
+    // 定义一个变高时的闭包，主要是当前控件变高时，外部有可能联动变高其他控件，比如编辑窗口为多选时
+    var heightChangeClosure: ((_ view: ElementView, _ translation: CGPoint, _ status: UIGestureRecognizerState) -> Void)?
+    
     /**
      * 重写构造函数
      */
@@ -49,8 +52,7 @@ class ElementVerticalView: ElementHorizontalView {
 
 extension ElementVerticalView {
     // 上下滑动事件
-    override func heightPanAction(gesture: UIPanGestureRecognizer) -> Void {
-        let translation = gesture.translation(in: gesture.view!)
+    override func heightChangeAction(translation: CGPoint, status: UIGestureRecognizerState) -> Void {
         if(translation.y > 0) {
             // 向下滑动
             let heightButtonYPoint = (self.oriHeight - (self.heightChangeButton?.frame.height)! / 2) + translation.y
@@ -83,11 +85,10 @@ extension ElementVerticalView {
                                                    width: (self.widthChangeButton?.frame.width)!,
                                                    height: (self.widthChangeButton?.frame.height)!)
         }
-        super .heightPanAction(gesture: gesture)
+        super.heightChangeAction(translation: translation, status: status)
     }
     
-    override func widthPanAction(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: gesture.view!)
+    override func widthChangeAction(translation: CGPoint, status: UIGestureRecognizerState) {
         if(translation.x > 0) {
             // 向右滑动
             let heightButtonXPoint = (self.oriWidth + translation.x - (self.heightChangeButton?.frame.width)!) / 2
@@ -108,6 +109,16 @@ extension ElementVerticalView {
                                                     width: (self.heightChangeButton?.frame.width)!,
                                                     height: (self.heightChangeButton?.frame.height)!)
         }
-        super.widthPanAction(gesture: gesture)
+        super.widthChangeAction(translation: translation, status: status)
+    }
+    
+    // 上下滑动事件
+    override func heightPanAction(gesture: UIPanGestureRecognizer) -> Void {
+        let translation = gesture.translation(in: gesture.view!)
+        // 回调高度改变
+        if((self.heightChangeClosure) != nil) {
+            self.heightChangeClosure!(self, translation, gesture.state)
+        }
+        self.heightChangeAction(translation: translation, status: gesture.state)
     }
 }

@@ -205,7 +205,7 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
                     if(indexPath.row < templateDataSource.count) {
                         let tempTempate = templateDataSource[indexPath.row]
                         let width = SCREEN_width * 3 / 4 - 32
-                        let imageHeight = CGFloat(tempTempate.height / tempTempate.width) * width
+                        let imageHeight = CGFloat(tempTempate.height! / tempTempate.width!) * width
                         return imageHeight + 16 + 16 + 10
                     }
                 }
@@ -224,7 +224,7 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
                     if(indexPath.row < templateDataSource.count) {
                         let tempTempate = templateDataSource[indexPath.row]
                         let width = SCREEN_width * 3 / 4 - 32
-                        let imageHeight = CGFloat(tempTempate.height / tempTempate.width) * width
+                        let imageHeight = CGFloat(tempTempate.height! / tempTempate.width!) * width
                         return imageHeight + 16 + 16 + 10
                     }
                 }
@@ -282,7 +282,7 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
                     
                     // 检测，拿到一个可用的cell
                     let width = SCREEN_width * 3 / 4 - 32
-                    let imageHeight = CGFloat(tempTempate.height / tempTempate.width) * width
+                    let imageHeight = CGFloat(tempTempate.height! / tempTempate.width!) * width
                     let cellHeight = imageHeight + 16 + 16 + 10
                     if(cell == nil) {
                         cell = TemplateCell.init(style: UITableViewCellStyle.subtitle, reuseIdentifier: cellID, width: tableView.frame.width, height: cellHeight)

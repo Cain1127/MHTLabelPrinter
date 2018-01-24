@@ -37,8 +37,7 @@ class TextElementView: ElementHorizontalView {
         super.init(coder: coder)
     }
     
-    override func widthPanAction(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: gesture.view!)
+    override func widthChangeAction(translation: CGPoint, status: UIGestureRecognizerState) {
         if(translation.x > 0) {
             self.textView?.frame.size.width = self.oriWidth + translation.x
             self.textLabel?.frame.size.width = self.oriWidth + translation.x
@@ -53,7 +52,7 @@ class TextElementView: ElementHorizontalView {
             self.textLabel?.frame.size.width = width
             self.resetUIHeightWithWidth(width: width)
         }
-        super.widthPanAction(gesture: gesture)
+        super.widthChangeAction(translation: translation, status: status)
     }
     
     func setTextString(text: String) -> Void {

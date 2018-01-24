@@ -27,8 +27,7 @@ class QRCodeElementView: ElementVerticalView {
         super.init(coder: coder)
     }
     
-    override func widthPanAction(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: gesture.view!)
+    override func widthChangeAction(translation: CGPoint, status: UIGestureRecognizerState) {
         if(translation.x > 0) {
             self.imageView?.frame.size.width = self.oriWidth + translation.x
         } else {
@@ -39,11 +38,10 @@ class QRCodeElementView: ElementVerticalView {
 
             self.imageView?.frame.size.width = width
         }
-        super.widthPanAction(gesture: gesture)
+        super.widthChangeAction(translation: translation, status: status)
     }
     
-    override func heightPanAction(gesture: UIPanGestureRecognizer) {
-        let translation = gesture.translation(in: gesture.view!)
+    override func heightChangeAction(translation: CGPoint, status: UIGestureRecognizerState) {
         if(translation.y > 0) {
             self.imageView?.frame.size.height = self.oriHeight + translation.y
         } else {
@@ -54,6 +52,6 @@ class QRCodeElementView: ElementVerticalView {
 
             self.imageView?.frame.size.height = height
         }
-        super.heightPanAction(gesture: gesture)
+        super.heightChangeAction(translation: translation, status: status)
     }
 }

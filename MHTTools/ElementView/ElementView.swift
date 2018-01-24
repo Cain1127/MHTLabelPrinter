@@ -54,9 +54,8 @@ class ElementView: UIView {
 }
 
 extension ElementView {
-    // 上下滑动事件
-    @objc func heightPanAction(gesture: UIPanGestureRecognizer) -> Void {
-        let translation = gesture.translation(in: gesture.view!)
+    // 高度变化处理事件
+    @objc func heightChangeAction(translation: CGPoint, status: UIGestureRecognizerState) -> Void {
         if(translation.y > 0) {
             // 向下滑动
             self.frame.size.height = self.oriHeight + translation.y
@@ -71,37 +70,45 @@ extension ElementView {
         }
         
         // 结束后保存尺寸
-        if(gesture.state == .ended) {
+        if(status == .ended) {
             var height = self.oriHeight + translation.y
             height = height >= 5 ? height : 5
             self.oriHeight = height
         }
     }
     
-    // 左右滑动事件
-    @objc func widthPanAction(gesture: UIPanGestureRecognizer) -> Void {
-        let translation = gesture.translation(in: gesture.view!)
-        
-        if(gesture.state == .changed) {
-            if(translation.x > 0) {
-                // 向右滑动
-                self.frame.size.width = CGFloat(self.oriWidth + translation.x)
-            } else {
-                // 向左滑动
-                let width = self.oriWidth + translation.x
-                if(5 >= width) {
-                    return
-                }
-                
-                self.frame.size.width = width
+    // 宽度变化处理事件
+    @objc func widthChangeAction(translation: CGPoint, status: UIGestureRecognizerState) -> Void {
+        if(translation.x > 0) {
+            // 向右滑动
+            self.frame.size.width = CGFloat(self.oriWidth + translation.x)
+        } else {
+            // 向左滑动
+            let width = self.oriWidth + translation.x
+            if(5 >= width) {
+                return
             }
+            
+            self.frame.size.width = width
         }
         
         // 结束后保存尺寸
-        if(gesture.state == .ended) {
+        if(status == .ended) {
             var width = self.oriWidth + translation.x
             width = width >= 5 ? width : 5
             self.oriWidth = width
         }
+    }
+    
+    // 上下滑动事件
+    @objc func heightPanAction(gesture: UIPanGestureRecognizer) -> Void {
+        let translation = gesture.translation(in: gesture.view!)
+        self.heightChangeAction(translation: translation, status: gesture.state)
+    }
+    
+    // 左右滑动事件
+    @objc func widthPanAction(gesture: UIPanGestureRecognizer) -> Void {
+        let translation = gesture.translation(in: gesture.view!)
+        self.widthChangeAction(translation: translation, status: gesture.state)
     }
 }

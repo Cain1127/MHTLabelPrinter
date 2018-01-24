@@ -16,9 +16,14 @@ class AddLabelViewController: UIViewController {
     
     // 是否多选
     fileprivate var isMultSelected = false
+    fileprivate var multSelectedBarButton: UIBarButtonItem!
+    fileprivate var multSelectedImageViewLabelPage: UIImageView!
     
     // 是否剪辑图片
     fileprivate var isEditPickedImage = false
+    
+    // 当前编辑的数据
+    var dataSource: TemplateModel = TemplateModel()
     
     // 界面加载后，创建自定义的UI
     override func viewDidLoad() {
@@ -32,6 +37,7 @@ class AddLabelViewController: UIViewController {
         let navRBtn1 = UIBarButtonItem.init(image: UIImage.init(named: "navDeleting"), style: .plain, target: self, action: #selector(deleteElementAction(sender:)))
         let navRBtn2 = UIBarButtonItem.init(image: UIImage.init(named: "navPrint"), style: .done, target: self, action: nil)
         let navRBtn3 = UIBarButtonItem.init(image: UIImage.init(named: "navMSelect"), style: .done, target: self, action: #selector(multSelectedChangeAction(sender:)))
+        self.multSelectedBarButton = navRBtn3
 
         let navSpace = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: self, action: nil)
         navSpace.width = -50
@@ -93,12 +99,25 @@ class AddLabelViewController: UIViewController {
                             break
                         }
                         let addBtnV = self.createmapleViewButton(imageName: btnImage[4*i+j], title: btnTitle[4*i+j], frame: CGRect.init(x: 0 + CGFloat(j)*SCREEN_width/4, y: CGFloat(i)*mapleView.bounds.height/3, width: SCREEN_width/4, height: mapleView.bounds.height/3))
+                        let tap = UITapGestureRecognizer(target: self, action: #selector(labelTabButtonAction(_:)))
+                        tap.numberOfTapsRequired = 1
+                        tap.numberOfTouchesRequired = 1
+                        addBtnV.tag = 4*i+j
+                        addBtnV.addGestureRecognizer(tap)
                         mapleView.addSubview(addBtnV)
                     }
                 }
             case 1:
                 let btnImage = ["AddText","AddBarcode","AddTDcode","AddImage","Addlogo","AddLine","AddRectangle","AddTable","AddDate"]
-                let btnTitle = [MHTBase.internationalStringWith(str: "文本"),MHTBase.internationalStringWith(str: "一维码"),MHTBase.internationalStringWith(str: "二维码"),MHTBase.internationalStringWith(str: "图片"),MHTBase.internationalStringWith(str: "Logo"),MHTBase.internationalStringWith(str: "线条"),MHTBase.internationalStringWith(str: "矩形"),MHTBase.internationalStringWith(str: "表格"),MHTBase.internationalStringWith(str: "日期")]
+                let btnTitle = [MHTBase.internationalStringWith(str: "文本"),
+                                MHTBase.internationalStringWith(str: "一维码"),
+                                MHTBase.internationalStringWith(str: "二维码"),
+                                MHTBase.internationalStringWith(str: "图片"),
+                                MHTBase.internationalStringWith(str: "Logo"),
+                                MHTBase.internationalStringWith(str: "线条"),
+                                MHTBase.internationalStringWith(str: "矩形"),
+                                MHTBase.internationalStringWith(str: "表格"),
+                                MHTBase.internationalStringWith(str: "日期")]
                 for i in 0...2 {
                     for j in 0...3 {
                         if i == 2 && j == 1 {
@@ -136,6 +155,11 @@ class AddLabelViewController: UIViewController {
         addImageView.image = UIImage(named: imageName);
         addBtnV.addSubview(addImageView)
         
+        // 保存多选按钮对象
+        if("多选" == title) {
+            self.multSelectedImageViewLabelPage = addImageView
+        }
+        
         // 按钮标题
         let addBtn = UIButton.init(frame: CGRect.init(x: tempImageY, y: addImageView.frame.maxY + CGFloat(3 * MHTBase.autoScreen()), width: addBtnV.bounds.width - 2 * tempImageY, height: CGFloat(16 * MHTBase.autoScreen())))
         addBtn.setTitle(title, for: .normal)
@@ -152,7 +176,7 @@ class AddLabelViewController: UIViewController {
         if let gesturesArray = elementView.gestureRecognizers {
             for oriGesture in gesturesArray {
                 if oriGesture.isKind(of: UITapGestureRecognizer.self) {
-                    pan.require(toFail: oriGesture)
+                    oriGesture.require(toFail: pan)
                 }
             }
         }
@@ -199,12 +223,14 @@ extension AddLabelViewController {
     }
     
     // 多选，单选切换事件
-    @objc func multSelectedChangeAction(sender: UIBarButtonItem) -> Void {
+    @objc func multSelectedChangeAction(sender: UIBarButtonItem?) -> Void {
         self.isMultSelected = !self.isMultSelected
         if(self.isMultSelected) {
-            sender.image = UIImage(named: "navSSelect")
+            self.multSelectedBarButton.image = UIImage(named: "navSSelect")
+            self.multSelectedImageViewLabelPage.image = UIImage(named: "AddSelectSingle")
         } else {
-            sender.image = UIImage(named: "navMSelect")
+            self.multSelectedBarButton.image = UIImage(named: "navMSelect")
+            self.multSelectedImageViewLabelPage.image = UIImage(named: "AddSelectMult")
             
             // 多选变成单选后，必须将所有已选择的元素控件变为未选择
             self.clearElementSelected()
@@ -232,6 +258,9 @@ extension AddLabelViewController {
                 
                 // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
                 self.addPanActionForElement(elementView: tempView)
+            
+                // 绑定变宽回调
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
             case 1:
                 let width = CGFloat(20 * 8)
                 let height = CGFloat(10 * 8)
@@ -249,6 +278,10 @@ extension AddLabelViewController {
             
                 // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
                 self.addPanActionForElement(elementView: barcodeView)
+            
+                // 绑定回调
+                barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
             case 2:
                 let width = CGFloat(10 * 8)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
@@ -265,6 +298,10 @@ extension AddLabelViewController {
             
                 // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
                 self.addPanActionForElement(elementView: barcodeView)
+            
+                // 绑定回调
+                barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
             case 3:
                 let alertController = UIAlertController(title: "提示",
                                                         message: "是否要剪辑图片？", preferredStyle: .actionSheet)
@@ -297,6 +334,10 @@ extension AddLabelViewController {
                 
                 // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
                 self.addPanActionForElement(elementView: barcodeView)
+            
+                // 绑定回调
+                barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
             case 6:
                 let width = CGFloat(20 * 8)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
@@ -309,10 +350,33 @@ extension AddLabelViewController {
                 
                 // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
                 self.addPanActionForElement(elementView: barcodeView)
+            
+                // 绑定回调
+                barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
             case 7:
                 ToastView.instance.showToast(content: "敬请期待")
             case 8:
-                print("insertElementTabButtonAction 8")
+                let width = CGFloat(25 * 8)
+                let height = CGFloat(30)
+                let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
+                let yPointResize = ((yPoint + height) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
+                let tempView = DateElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height))
+                let currentdate = Date()
+                let dateformatter = DateFormatter()
+                dateformatter.dateFormat = " YYYY-MM-dd HH:mm:ss"
+                let dateString = dateformatter.string(from: currentdate)
+                tempView.setTextString(text: dateString)
+                self.editView.addSubview(tempView)
+                
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: tempView)
+                
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: tempView)
+            
+                // 绑定回调
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
             default:
                 print("insertElementTabButtonAction -1")
         }
@@ -320,7 +384,29 @@ extension AddLabelViewController {
     
     // 标签分页中的按钮事件处理
     @objc func labelTabButtonAction(_ gesture: UIGestureRecognizer) -> Void {
-        
+        let tag = gesture.view?.tag ?? -1
+        switch tag {
+        case 0:
+            print("labelTabButtonAction tag = \(tag)")
+        case 1:
+            print("labelTabButtonAction tag = \(tag)")
+        case 2:
+            print("labelTabButtonAction tag = \(tag)")
+        case 3:
+            print("labelTabButtonAction tag = \(tag)")
+        case 4:
+            print("labelTabButtonAction tag = \(tag)")
+        case 5:
+            print("labelTabButtonAction tag = \(tag)")
+        case 6:
+            print("labelTabButtonAction tag = \(tag)")
+        case 7:
+            ToastView.instance.showToast(content: "敬请期待")
+        case 8:
+            self.multSelectedChangeAction(sender: nil)
+        default:
+            print("labelTabButtonAction tag = \(tag)")
+        }
     }
     
     // 属性分页事件
@@ -350,7 +436,47 @@ extension AddLabelViewController {
         let point = gesture.location(in: self.editView)
         
         //设置矩形的位置
+        let changeX = point.x - (gesture.view?.center.x)!
+        let changeY = point.y - (gesture.view?.center.y)!
         gesture.view?.center = point
+        
+        // 多选时，需要将其他已选择的View也拖动
+        for subView in self.editView.subviews {
+            if subView != gesture.view && subView.isKind(of: ElementView.self) {
+                let subElementView = subView as! ElementView
+                if(subElementView.isSelected) {
+                    subElementView.center = CGPoint(x: subElementView.center.x + changeX, y: subElementView.center.y + changeY)
+                }
+            }
+        }
+    }
+    
+    /**
+     * 元素高度改变时的统一处理
+     */
+    func elementWidthChangeClosureAction(view: ElementView, translation: CGPoint, status: UIGestureRecognizerState) -> Void {
+        for subView in self.editView.subviews {
+            if subView != view && subView.isKind(of: ElementView.self) {
+                let subElementView = subView as! ElementView
+                if(subElementView.isSelected) {
+                    subElementView.widthChangeAction(translation: translation, status: status)
+                }
+            }
+        }
+    }
+    
+    /**
+     * 元素高度改变时的统一处理
+     */
+    func elementHeightChangeClosureAction(view: ElementView, translation: CGPoint, status: UIGestureRecognizerState) -> Void {
+        for subView in self.editView.subviews {
+            if subView != view && subView.isKind(of: ElementView.self) && !subView.isKind(of: TextElementView.self) {
+                let subElementView = subView as! ElementView
+                if(subElementView.isSelected) {
+                    subElementView.heightChangeAction(translation: translation, status: status)
+                }
+            }
+        }
     }
     
     // 编辑窗口中的元素双击事件
@@ -364,12 +490,46 @@ extension AddLabelViewController {
         
         tempView.setIsSelected(isSelected: true)
         
-        // 判断类型
+        // 如果是多选，则没有双击输入内容的事件
+        if(self.isMultSelected) {
+            return
+        }
+        
+        // 日期控件
+        if(tempView.isKind(of: DateElementView.self)) {
+            let alertController = UIAlertController(title: "请输入新的日期", message: nil, preferredStyle: .alert)
+            
+            let dateElementView = tempView as! DateElementView
+            alertController.addTextField {
+                (textField: UITextField!) -> Void in
+                textField.text = dateElementView.textLabel?.text
+            }
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            let okAction = UIAlertAction(title: "确定", style: .default, handler: {
+                action in
+                let textField = alertController.textFields!.first!
+                let tempInputText = textField.text
+                if(nil == tempInputText || (tempInputText?.isEmpty)!) {
+                    
+                } else {
+                    // 重新生成条形码
+                    dateElementView.textLabel?.text = tempInputText
+                }
+            })
+            alertController.addAction(cancelAction)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+            return
+        }
+        
+        // 文本框
         if(tempView.isKind(of: TextElementView.self)) {
             let textElementView = tempView as! TextElementView
             textElementView.setTextEdit(isEdit: true)
+            return
         }
         
+        // 一维码
         if(tempView.isKind(of: BarcodeElementView.self)) {
             let alertController = UIAlertController(title: "请输入内容", message: nil, preferredStyle: .alert)
             
@@ -395,8 +555,10 @@ extension AddLabelViewController {
             alertController.addAction(cancelAction)
             alertController.addAction(okAction)
             self.present(alertController, animated: true, completion: nil)
+            return
         }
         
+        // 二维码
         if(tempView.isKind(of: QRCodeElementView.self)) {
             let alertController = UIAlertController(title: "请输入内容", message: "", preferredStyle: .alert)
             
@@ -422,6 +584,7 @@ extension AddLabelViewController {
             alertController.addAction(cancelAction)
             alertController.addAction(okAction)
             self.present(alertController, animated: true, completion: nil)
+            return
         }
     }
     
@@ -493,6 +656,10 @@ extension AddLabelViewController: UIImagePickerControllerDelegate, UINavigationC
         
         // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
         self.addPanActionForElement(elementView: barcodeView)
+        
+        // 绑定回调
+        barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+        barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
         
         //图片控制器退出
         picker.dismiss(animated: true, completion: {
