@@ -9,43 +9,66 @@
 import Foundation
 
 struct TemplateModel: Codable {
-    var labelName: String!;
+    // 模板名称
+    var labelName: String? = ""
     
-    var width: Float?;
+    // 模板的宽度，单位 mm
+    var width: Float? = 48
     
-    var height: Float?;
+    // 模板的高
+    var height: Float? = 30
     
-    var proportion: Float?;
+    // 比率。 解释:手机屏幕显示的模板大小相对打印机需要的模板的尺寸是放大了还是缩小了。
+//    等于 1 是刚好一样，大于 1 是手机显示的模板更大，小于 1 则更小
+//    这个变量的存在意义为:在 Control 中，保存的尺寸都以 px 为单位，所以 需要在新控件上适配，需要请求新控件的新比率与旧比率的比，从而计算出新 Control 尺寸，保证不变形
+//    新比率与旧比率的比
+//    单位为 px 需要除以上面计算出来的
+//    计算方式:
+//    控件高度(单位 px)/8(打印机 1mm 等于 8px)/纸张高度(单位 mm) 或控件宽度(单位 px)/8(打印机 1mm 等于 8px)/纸张宽度(单位 mm)
+    var proportion: Float?
     
-    var concentration: Float?;
+    // 图片二值化的阈值，默认为 128
+    var concentration: Float?
     
-    var printingDirection: Float?;
+    // 背景图片 base64
+    var backgroundBitmap: String?
     
-    var mirror: Bool?;
+    // 打印方向 0 90 180 270
+    var printingDirection: Int?
     
-    var tailDirection: Float?;
+    // 是否开启镜像模式 true 为开启，false 为不开启
+    var mirror: Bool? = false
     
-    var tailLength: Float?;
+    // 镜像的方向
+    // public final static int TAIL_LEFT = 0, TAIL_RIGHT = 1, TAIL_TOP = 2, TAIL_BOTTOM = 3;
+    var tailDirection: Int?
+    
+    // 尾巴长度(镜像偏移线相对左边，右边，上边，下边的偏移长度，默认偏移线在中心)
+    var tailLength: Float?
     
     //  一维码元素数组
-    var qcControls: Array<TemplateQCModel>?;
+    var qcControls: Array<TemplateQCModel>?
+    
+    var qrControls: Array<TemplateQRModel>?
     
     // 文本框控件数组
-    var textControl: Array<TemplateTextModel>?;
+    var textControl: Array<TemplateTextModel>?
+    
+    var lineControls: Array<TemplateLineControlModel>?
+    
+    var rectangleControls: Array<TemplateRectModel>?
     
     // 图片控件
-    var bitmapControls: Array<TemplateImageModel>?;
+    var bitmapControls: Array<TemplateImageModel>?
     
-    var fileName: String?;
+    // 当前对象的本地保存文件名
+    var fileName: String?
     
-    var labelViewBack: String?;
+    // 当前对象的图片base64编码
+    var labelViewBack: String?
     
-    /**
-     * 初始化
-     */
-    init() {
-        self.labelName = ""
-        self.width = 48
-        self.height = 30
-    }
+    // 当前元素是否锁定
+    var isLock: Bool? = false
+    
+    
 }

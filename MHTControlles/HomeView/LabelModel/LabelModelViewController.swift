@@ -29,6 +29,9 @@ class LabelModelViewController: UIViewController {
     // 用户模板数据源
     fileprivate var dataSourceUserTemplate:Array<SystemTemplateConfigModel>?;
     
+    // 选择模板的回调
+    var selectedTemplateClosure: ((_ model: TemplateModel) -> Void)?
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
@@ -323,6 +326,30 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
             self.selectedIndexUserTample = indexPath.row
 //            self.templateSystemTemplateTableView.setContentOffset(CGPoint.zero, animated: true)
             self.templateUserTemplateTableView.reloadData()
+        }
+        
+        // 选择模板或者点击模板进行编辑
+        if(tableView == self.templateSystemTemplateTableView || tableView == self.templateUserTemplateTableView) {
+            var selectedMenu = SystemTemplateConfigModel.init()
+            if(tableView == self.templateSystemTemplateTableView) {
+                selectedMenu = self.dataSourceSystemTemplate![self.selectedIndexSystemTample]
+            } else {
+                selectedMenu = self.dataSourceUserTemplate![self.selectedIndexUserTample]
+            }
+            
+            if let templateDataSource = selectedMenu.dataSource {
+                if(indexPath.row < templateDataSource.count) {
+                    let tempTempate = templateDataSource[indexPath.row]
+                    if(nil != self.selectedTemplateClosure) {
+                        self.selectedTemplateClosure!(tempTempate)
+                        self.navigationController?.popViewController(animated: true)
+                    } else {
+                        let addLabelViewController = AddLabelViewController()
+                        addLabelViewController.dataSource = tempTempate
+                        self.navigationController?.pushViewController(addLabelViewController, animated: true)
+                    }
+                }
+            }
         }
     }
 }

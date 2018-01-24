@@ -23,7 +23,7 @@ class AddLabelViewController: UIViewController {
     fileprivate var isEditPickedImage = false
     
     // 当前编辑的数据
-    var dataSource: TemplateModel = TemplateModel()
+    var dataSource = TemplateModel()
     
     // 界面加载后，创建自定义的UI
     override func viewDidLoad() {
@@ -53,6 +53,7 @@ class AddLabelViewController: UIViewController {
         self.editView.layer.borderWidth = 0.5
         self.editView.layer.borderColor = UIColor.black.cgColor
         self.view.addSubview(self.editView)
+        self.createEditViewWithDataSource()
         
         let tapSingle = UITapGestureRecognizer(target: self, action: #selector(elementEditViewTapAction(gesture:)))
         tapSingle.numberOfTapsRequired = 1
@@ -140,6 +141,17 @@ class AddLabelViewController: UIViewController {
             mainScrollView.addSubview(mapleView)
         }
         self.mainScrollView.contentOffset = CGPoint.init(x: SCREEN_width, y: 0)
+    }
+    
+    // 根据数据源创建编辑窗口
+    func createEditViewWithDataSource() -> Void {
+        // 判断数据源
+        if nil != self.dataSource.labelName && !((self.dataSource.labelName?.isEmpty)!) {
+            print("something")
+            return
+        }
+        
+        print("empty")
     }
     
     // 分页的按钮统一创建函数
@@ -389,7 +401,9 @@ extension AddLabelViewController {
         case 0:
             print("labelTabButtonAction tag = \(tag)")
         case 1:
-            print("labelTabButtonAction tag = \(tag)")
+            let labelModelViewController = LabelModelViewController()
+            labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: )
+            self.navigationController?.pushViewController(labelModelViewController, animated: true)
         case 2:
             print("labelTabButtonAction tag = \(tag)")
         case 3:
@@ -397,7 +411,10 @@ extension AddLabelViewController {
         case 4:
             print("labelTabButtonAction tag = \(tag)")
         case 5:
-            print("labelTabButtonAction tag = \(tag)")
+            let tempView = gesture.view
+            for elementView in self.editView.subviews {
+                
+            }
         case 6:
             print("labelTabButtonAction tag = \(tag)")
         case 7:
@@ -412,6 +429,13 @@ extension AddLabelViewController {
     // 属性分页事件
     @objc func propertyTabAction() -> Void {
         
+    }
+    
+    // 选择模板编辑
+    func pickedTempateAction(model: TemplateModel) -> Void {
+        self.clearElementSelected()
+        self.dataSource = model
+        self.createEditViewWithDataSource()
     }
     
     // 编辑view的单击，主要是将已选择的元素取消选择状态

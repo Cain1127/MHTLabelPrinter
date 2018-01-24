@@ -71,7 +71,6 @@ class HomeVC: UIViewController {
     }
     //maple_mark-------🍁🍁🍁🍁🍁🍁便签模版
     @IBAction func labelModelBtn(_ sender: UIButton) {
-        
         self.navigationController?.pushViewController(LabelModelViewController(), animated: true)
     }
     override func didReceiveMemoryWarning() {
