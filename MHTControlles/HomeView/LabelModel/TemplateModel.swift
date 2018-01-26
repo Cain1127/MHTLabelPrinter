@@ -30,6 +30,9 @@ struct TemplateModel: Codable {
     // 图片二值化的阈值，默认为 128
     var concentration: Float?
     
+    // 是否有背景图片
+    var bitmapPaperBackground: Bool?
+    
     // 背景图片 base64
     var backgroundBitmap: String?
     
@@ -70,5 +73,7 @@ struct TemplateModel: Codable {
     // 当前元素是否锁定
     var isLock: Bool? = false
     
+    // 保存的目录
+    var saveDocument: String? = "default"
     
 }

@@ -14,7 +14,11 @@ class AddLabelViewController: UIViewController {
     fileprivate var mainScrollView: UIScrollView!
     fileprivate var pageScrollView: mapleScroollView!
     
+    // 是否允许返回
+    fileprivate var isSaved: Bool = true
+    
     // 是否多选
+    fileprivate var countMultSelected = 0
     fileprivate var isMultSelected = false
     fileprivate var multSelectedBarButton: UIBarButtonItem!
     fileprivate var multSelectedImageViewLabelPage: UIImageView!
@@ -25,32 +29,44 @@ class AddLabelViewController: UIViewController {
     // 当前编辑的数据
     var dataSource = TemplateModel()
     
+    // 可以选择保存的文件夹数据源
+    var documentDataSource: Array<SystemTemplateConfigModel>?
+    
     // 界面加载后，创建自定义的UI
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setAddLabellUI()
+        self.getUserTemplateDataSourceService()
     }
     
     // 创建自自定义UI
     func setAddLabellUI() -> Void {
         let navMaxY = self.navigationController?.navigationBar.frame.maxY
         let navRBtn1 = UIBarButtonItem.init(image: UIImage.init(named: "navDeleting"), style: .plain, target: self, action: #selector(deleteElementAction(sender:)))
-        let navRBtn2 = UIBarButtonItem.init(image: UIImage.init(named: "navPrint"), style: .done, target: self, action: nil)
+        let navRBtn2 = UIBarButtonItem.init(image: UIImage.init(named: "navPrint"), style: .done, target: self, action: #selector(printCurrentPage))
         let navRBtn3 = UIBarButtonItem.init(image: UIImage.init(named: "navMSelect"), style: .done, target: self, action: #selector(multSelectedChangeAction(sender:)))
         self.multSelectedBarButton = navRBtn3
 
         let navSpace = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: self, action: nil)
         navSpace.width = -50
-        self.navigationItem.rightBarButtonItems = [navRBtn1,navSpace,navRBtn2,navSpace,navRBtn3]
+        self.navigationItem.rightBarButtonItems = [navRBtn1, navSpace, navRBtn2, navSpace, navRBtn3]
         
         let addLBI = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_width, height: SCREEN_height))
         addLBI.image = UIImage.init(named: "homeMainIV")
         self.view.addSubview(addLBI)
         
+        let editViewWidth = (SCREEN_width - 20)
+        let pageViewHeight = (SCREEN_height - navMaxY!) * 2 / 5
+        pageView = UIView.init(frame: CGRect.init(x: 0, y: SCREEN_height - pageViewHeight, width: SCREEN_width, height: pageViewHeight))
+        pageView.backgroundColor = UIColor.white
+        self.view.addSubview(pageView)
+        
         // 当前编辑区
-        self.editView = UIView.init(frame: CGRect.init(x: 10, y: navMaxY! + 80, width: SCREEN_width-20, height: (SCREEN_width - 20) * 5 / 8))
+        self.editView = UIView.init()
+        self.editView.bounds = CGRect.init(x: 0, y: 0, width: editViewWidth, height: editViewWidth * 5 / 8)
+        self.editView.center = CGPoint(x: SCREEN_width / 2, y: (navMaxY! + pageView.frame.minY) / 2)
         self.editView.backgroundColor = UIColor.white
-        self.editView.layer.borderWidth = 0.5
+        self.editView.layer.borderWidth = 1
         self.editView.layer.borderColor = UIColor.black.cgColor
         self.view.addSubview(self.editView)
         self.createEditViewWithDataSource()
@@ -59,11 +75,6 @@ class AddLabelViewController: UIViewController {
         tapSingle.numberOfTapsRequired = 1
         tapSingle.numberOfTouchesRequired = 1
         self.editView.addGestureRecognizer(tapSingle)
-        
-        let aLBottomStrY = self.editView.frame.maxY + 79
-        pageView = UIView.init(frame: CGRect.init(x: 0, y: aLBottomStrY, width: SCREEN_width, height: SCREEN_height - aLBottomStrY))
-        pageView.backgroundColor = UIColor.white
-        self.view.addSubview(pageView)
         addPageScrollView()
     }
     
@@ -99,7 +110,7 @@ class AddLabelViewController: UIViewController {
                         if i == 2 && j == 1 {
                             break
                         }
-                        let addBtnV = self.createmapleViewButton(imageName: btnImage[4*i+j], title: btnTitle[4*i+j], frame: CGRect.init(x: 0 + CGFloat(j)*SCREEN_width/4, y: CGFloat(i)*mapleView.bounds.height/3, width: SCREEN_width/4, height: mapleView.bounds.height/3))
+                        let addBtnV = self.createmapleViewButton(imageName: btnImage[4*i+j], title: btnTitle[4*i+j], frame: CGRect.init(x: 0 + CGFloat(j) * SCREEN_width/4, y: CGFloat(i)*mapleView.bounds.height/3, width: SCREEN_width/4, height: mapleView.bounds.height/3))
                         let tap = UITapGestureRecognizer(target: self, action: #selector(labelTabButtonAction(_:)))
                         tap.numberOfTapsRequired = 1
                         tap.numberOfTouchesRequired = 1
@@ -145,13 +156,269 @@ class AddLabelViewController: UIViewController {
     
     // 根据数据源创建编辑窗口
     func createEditViewWithDataSource() -> Void {
+        // 清空原数据
+        for subView in self.editView.subviews {
+            subView.removeFromSuperview()
+        }
+        
         // 判断数据源
-        if nil != self.dataSource.labelName && !((self.dataSource.labelName?.isEmpty)!) {
-            print("something")
+        if nil == self.dataSource.labelName || (self.dataSource.labelName?.isEmpty)! {
             return
         }
         
-        print("empty")
+        // 获取保存比率
+        var proportion = Float(0)
+        let proportionOld = self.dataSource.proportion! > Float(0) ? self.dataSource.proportion : 1
+        var proportionNew = Float(0)
+        
+        // 重新设置编辑窗口尺寸
+        let pageWidth = self.dataSource.width! > Float(0) ? self.dataSource.width : 48
+        let pageHeight = self.dataSource.height! > Float(0) ? self.dataSource.height : 30
+        
+        // 判断宽高哪个占满
+        if(pageWidth! > pageHeight!) {
+            let width = Float(SCREEN_width - 20)
+            let height = width * pageHeight! / pageWidth!
+            self.editView.bounds.size.height = CGFloat(height)
+            self.editView.bounds.size.width = CGFloat(width)
+            
+            // 计算新比率
+            proportionNew = width / PRO_MM_PX / pageWidth!
+            proportion = proportionOld! / proportionNew
+        } else {
+            let width = Float(SCREEN_width - 20)
+            let height = width
+            let widthNew = height * pageWidth! / pageHeight!
+            self.editView.bounds.size.height = CGFloat(height)
+            self.editView.bounds.size.width = CGFloat(widthNew)
+            
+            // 计算新比率
+            proportionNew = height / PRO_MM_PX / pageHeight!
+            proportion = proportionOld! / proportionNew
+        }
+        
+        // 创建背景图片
+        if(nil != self.dataSource.backgroundBitmap && !self.dataSource.backgroundBitmap!.isEmpty) {
+            let tempImageView = UIImageView.init(frame: CGRect(x: 0, y: 0, width: self.editView.frame.width, height: self.editView.frame.height))
+            var imageString = self.dataSource.backgroundBitmap!
+            imageString = imageString.replacingOccurrences(of: "\n", with: "")
+            let base64 = Data(base64Encoded: imageString)
+            tempImageView.image = UIImage(data: base64!)
+            
+            self.editView.addSubview(tempImageView)
+            self.editView.sendSubview(toBack: tempImageView)
+        }
+        
+        // 创建文本框
+        if(nil != self.dataSource.textControl && 0 < (self.dataSource.textControl?.count)!) {
+            for model in self.dataSource.textControl! {
+                var rectString = model.selectRect
+                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
+                rectString = rectString?.replacingOccurrences(of: ")", with: "")
+                rectString = rectString?.replacingOccurrences(of: " ", with: "")
+                let sizeStringArray = rectString?.components(separatedBy: ",")
+                let tempView = TextElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
+                                                                  y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                                                                  width: CGFloat(model.W! / proportion) + 5,
+                                                                  height: CGFloat(model.H! / proportion)))
+                tempView.updateUIWithModel(model: model, pro: proportion)
+                self.editView.addSubview(tempView)
+                
+                // 旋转
+                if(nil != model.rotate && 0 < model.rotate!) {
+                    let transform = CGAffineTransform(rotationAngle: CGFloat(model.rotate!) * CGFloat.pi / 180.0)
+                    tempView.transform = transform
+                }
+                
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: tempView)
+                
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: tempView)
+                
+                // 绑定变宽回调
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+            }
+        }
+        
+        // 创建一维码
+        if(nil != self.dataSource.qcControls && 0 < (self.dataSource.qcControls?.count)!) {
+            for model in self.dataSource.qcControls! {
+                var rectString = model.selectRect
+                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
+                rectString = rectString?.replacingOccurrences(of: ")", with: "")
+                rectString = rectString?.replacingOccurrences(of: " ", with: "")
+                let sizeStringArray = rectString?.components(separatedBy: ",")
+                
+                let tempView = BarcodeElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
+                                                                        y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                                                                        width: CGFloat(model.W! / proportion),
+                                                                        height: CGFloat(model.H! / proportion)))
+                let barcodeString = model.text
+                let barcodeImage = MHTBase.creatBarCodeImage(content: barcodeString, size: tempView.frame.size)
+                tempView.imageView!.image = barcodeImage
+                tempView.titleLabel!.text = barcodeString
+                self.editView.addSubview(tempView)
+                
+                // 旋转
+                if(nil != model.rotate && 0 < model.rotate!) {
+                    let transform = CGAffineTransform(rotationAngle: CGFloat(model.rotate!) * CGFloat.pi / 180.0)
+                    tempView.transform = transform
+                }
+
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: tempView)
+
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: tempView)
+
+                // 绑定回调
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                tempView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
+            }
+        }
+
+        // 创建二维码
+        if(nil != self.dataSource.qrControls && 0 < (self.dataSource.qrControls?.count)!) {
+            for model in self.dataSource.qrControls! {
+                var rectString = model.selectRect
+                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
+                rectString = rectString?.replacingOccurrences(of: ")", with: "")
+                rectString = rectString?.replacingOccurrences(of: " ", with: "")
+                let sizeStringArray = rectString?.components(separatedBy: ",")
+                
+                let tempView = QRCodeElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
+                                                                       y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                                                                       width: CGFloat(model.W! / proportion),
+                                                                       height: CGFloat(model.H! / proportion)))
+                let barcodeString = model.text
+                let barcodeImage = MHTBase.creatQRCodeImage(content: barcodeString, iconName: nil, size: tempView.frame.size)
+                tempView.imageView!.image = barcodeImage
+                tempView.title = barcodeString
+                self.editView.addSubview(tempView)
+                
+                // 旋转
+                if(nil != model.rotate && 0 < model.rotate!) {
+                    let transform = CGAffineTransform(rotationAngle: CGFloat(model.rotate!) * CGFloat.pi / 180.0)
+                    tempView.transform = transform
+                }
+                
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: tempView)
+                
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: tempView)
+                
+                // 绑定回调
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                tempView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
+            }
+        }
+
+        // 图片
+        if(nil != self.dataSource.bitmapControls && 0 < (self.dataSource.bitmapControls?.count)!) {
+            for model in self.dataSource.bitmapControls! {
+                var rectString = model.selectRect
+                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
+                rectString = rectString?.replacingOccurrences(of: ")", with: "")
+                rectString = rectString?.replacingOccurrences(of: " ", with: "")
+                let sizeStringArray = rectString?.components(separatedBy: ",")
+                
+                let tempView = QRCodeElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
+                                                                       y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                                                                       width: CGFloat(model.W! / proportion),
+                                                                       height: CGFloat(model.H! / proportion)))
+                var imageString = model.bitmap!
+                imageString = imageString.replacingOccurrences(of: "\n", with: "")
+                let base64 = Data(base64Encoded: imageString)
+                tempView.imageView!.image = UIImage(data: base64!)
+                tempView.title = "图片"
+                self.editView.addSubview(tempView)
+                
+                // 旋转
+                if(nil != model.rotate && 0 < model.rotate!) {
+                    let transform = CGAffineTransform(rotationAngle: CGFloat(model.rotate!) * CGFloat.pi / 180.0)
+                    tempView.transform = transform
+                }
+
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: tempView)
+
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: tempView)
+
+                // 绑定回调
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                tempView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
+            }
+        }
+
+        // 创建线条
+        if(nil != self.dataSource.lineControls && 0 < (self.dataSource.lineControls?.count)!) {
+            for model in self.dataSource.bitmapControls! {
+                var rectString = model.selectRect
+                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
+                rectString = rectString?.replacingOccurrences(of: ")", with: "")
+                rectString = rectString?.replacingOccurrences(of: " ", with: "")
+                let sizeStringArray = rectString?.components(separatedBy: ",")
+                
+                let tempView = LineElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
+                                                                     y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                                                                     width: CGFloat(model.W! / proportion),
+                                                                     height: CGFloat(model.H! / proportion)))
+                
+                self.editView.addSubview(tempView)
+                
+                // 旋转
+                if(nil != model.rotate && 0 < model.rotate!) {
+                    let transform = CGAffineTransform(rotationAngle: CGFloat(model.rotate!) * CGFloat.pi / 180.0)
+                    tempView.transform = transform
+                }
+
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: tempView)
+
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: tempView)
+
+                // 绑定回调
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                tempView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
+            }
+        }
+
+        // 创建矩形
+        if(nil != self.dataSource.rectangleControls && 0 < (self.dataSource.rectangleControls?.count)!) {
+            for model in self.dataSource.bitmapControls! {
+                var rectString = model.selectRect
+                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
+                rectString = rectString?.replacingOccurrences(of: ")", with: "")
+                rectString = rectString?.replacingOccurrences(of: " ", with: "")
+                let sizeStringArray = rectString?.components(separatedBy: ",")
+                
+                let tempView = RectElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
+                                                                     y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                                                                     width: CGFloat(model.W! / proportion),
+                                                                     height: CGFloat(model.H! / proportion)))
+                self.editView.addSubview(tempView)
+                
+                // 旋转
+                if(nil != model.rotate && 0 < model.rotate!) {
+                    let transform = CGAffineTransform(rotationAngle: CGFloat(model.rotate!) * CGFloat.pi / 180.0)
+                    tempView.transform = transform
+                }
+
+                // 添加单击和双击事件
+                self.addTapActionForElementView(elementView: tempView)
+
+                // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
+                self.addPanActionForElement(elementView: tempView)
+
+                // 绑定回调
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                tempView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
+            }
+        }
     }
     
     // 分页的按钮统一创建函数
@@ -162,7 +429,10 @@ class AddLabelViewController: UIViewController {
         let tempImageSize = addBtnV.bounds.height - CGFloat((5 + 6 + 16) * MHTBase.autoScreen());
         let tempImageY = CGFloat(5 * MHTBase.autoScreen());
         let tempImageX = (addBtnV.bounds.width - tempImageSize) / 2;
-        let addImageView = UIImageView(frame: CGRect.init(x: tempImageX, y: tempImageY, width: tempImageSize, height: tempImageSize));
+        let addImageView = UIImageView(frame: CGRect(x: tempImageX,
+                                                     y: tempImageY,
+                                                     width: tempImageSize,
+                                                     height: tempImageSize));
         addImageView.isUserInteractionEnabled = true;
         addImageView.image = UIImage(named: imageName);
         addBtnV.addSubview(addImageView)
@@ -215,21 +485,61 @@ class AddLabelViewController: UIViewController {
  * 控制器中的按钮事件
  */
 extension AddLabelViewController {
+    func turnBackAction() {
+        if(self.isSaved) {
+            self.navigationController?.popViewController(animated: true)
+        } else {
+            let alertController = UIAlertController(title: "提示", message: "是否需要保存？", preferredStyle: .actionSheet)
+            let cancelAction = UIAlertAction(title: "再想想", style: .default, handler: nil)
+            let waitAction = UIAlertAction(title: "不保存", style: .default, handler: {
+                action in
+                self.navigationController?.popViewController(animated: true)
+            })
+            let okAction = UIAlertAction(title: "保存", style: .default, handler: {
+                action in
+                
+            })
+            alertController.addAction(cancelAction)
+            alertController.addAction(waitAction)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     // 清空元素的选择状态
     func clearElementSelected() -> Void {
         for subView in self.editView.subviews {
-            let subElementView = subView as! ElementView
-            subElementView.setIsSelected(isSelected: false)
-            subElementView.resignKeyboardAction()
+            if(subView.isKind(of: ElementView.self)) {
+                let subElementView = subView as! ElementView
+                subElementView.setIsSelected(isSelected: false)
+                subElementView.resignKeyboardAction()
+            }
         }
+    }
+    
+    // 清空所有元素
+    func clearElements() -> Void {
+        for subView in self.editView.subviews {
+            subView.removeFromSuperview()
+        }
+        
+        let tempDataSource = self.dataSource
+        self.dataSource = TemplateModel()
+        self.dataSource.width = tempDataSource.width!
+        self.dataSource.height = tempDataSource.height!
+        self.dataSource.proportion = tempDataSource.proportion!
+        self.dataSource.concentration = tempDataSource.concentration!
+        self.dataSource.printingDirection = tempDataSource.printingDirection!
     }
     
     // 删除元素按钮事件
     @objc func deleteElementAction(sender: UIBarButtonItem) -> Void {
         for subView in self.editView.subviews {
-            let subElementView = subView as! ElementView
-            if(subElementView.getIsSelected()) {
-                subElementView.removeFromSuperview()
+            if(subView.isKind(of: ElementView.self)) {
+                let subElementView = subView as! ElementView
+                if(subElementView.getIsSelected()) {
+                    subElementView.removeFromSuperview()
+                }
             }
         }
     }
@@ -257,12 +567,12 @@ extension AddLabelViewController {
         let yPoint = CGFloat(5 + subViewNum * 16)
         switch tag {
             case 0:
+                self.isSaved = false
                 let width = CGFloat(12 * 8)
                 let height = CGFloat(30)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
                 let yPointResize = ((yPoint + height) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
                 let tempView = TextElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height))
-                tempView.setTextString(text: "请输入内容")
                 self.editView.addSubview(tempView)
                 
                 // 添加单击和双击事件
@@ -274,6 +584,7 @@ extension AddLabelViewController {
                 // 绑定变宽回调
                 tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
             case 1:
+                self.isSaved = false
                 let width = CGFloat(20 * 8)
                 let height = CGFloat(10 * 8)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
@@ -295,6 +606,7 @@ extension AddLabelViewController {
                 barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
                 barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
             case 2:
+                self.isSaved = false
                 let width = CGFloat(10 * 8)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
                 let yPointResize = ((yPoint + width) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
@@ -315,8 +627,7 @@ extension AddLabelViewController {
                 barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
                 barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
             case 3:
-                let alertController = UIAlertController(title: "提示",
-                                                        message: "是否要剪辑图片？", preferredStyle: .actionSheet)
+                let alertController = UIAlertController(title: "提示", message: "是否要剪辑图片？", preferredStyle: .actionSheet)
                 let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
                 let noAction = UIAlertAction(title: "不要剪辑", style: .default, handler: {
                     action in
@@ -335,6 +646,7 @@ extension AddLabelViewController {
             case 4:
                 ToastView.instance.showToast(content: "敬请期待")
             case 5:
+                self.isSaved = false
                 let width = CGFloat(16 * 8)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
                 let yPointResize = ((yPoint + width) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
@@ -351,6 +663,7 @@ extension AddLabelViewController {
                 barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
                 barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
             case 6:
+                self.isSaved = false
                 let width = CGFloat(20 * 8)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
                 let yPointResize = ((yPoint + width) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
@@ -369,6 +682,7 @@ extension AddLabelViewController {
             case 7:
                 ToastView.instance.showToast(content: "敬请期待")
             case 8:
+                self.isSaved = false
                 let width = CGFloat(25 * 8)
                 let height = CGFloat(30)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
@@ -399,24 +713,77 @@ extension AddLabelViewController {
         let tag = gesture.view?.tag ?? -1
         switch tag {
         case 0:
-            print("labelTabButtonAction tag = \(tag)")
+            if(self.isSaved) {
+                self.clearElements()
+            } else {
+                let alertController = UIAlertController(title: "提示", message: "是否需要保存？", preferredStyle: .alert)
+                let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                let okAction = UIAlertAction(title: "确定", style: .default, handler: {
+                    action in
+                    self.clearElements()
+                })
+                alertController.addAction(cancelAction)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
         case 1:
-            let labelModelViewController = LabelModelViewController()
-            labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: )
-            self.navigationController?.pushViewController(labelModelViewController, animated: true)
+            if(self.isSaved) {
+                let labelModelViewController = LabelModelViewController()
+                labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: )
+                self.navigationController?.pushViewController(labelModelViewController, animated: true)
+            } else {
+                let alertController = UIAlertController(title: "提示", message: "选择模板后将清空原来内容，是否确认选择模板？", preferredStyle: .actionSheet)
+                let cancelAction = UIAlertAction(title: "再想想", style: .default, handler: nil)
+                let okAction = UIAlertAction(title: "确定", style: .default, handler: {
+                    action in
+                    let labelModelViewController = LabelModelViewController()
+                    labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: )
+                    self.navigationController?.pushViewController(labelModelViewController, animated: true)
+                })
+                alertController.addAction(cancelAction)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
         case 2:
-            print("labelTabButtonAction tag = \(tag)")
+            // 判断是否已有文件名
+            if(nil != self.dataSource.labelName && !(self.dataSource.labelName?.isEmpty)!) {
+                self.saveCurrentFileWithFileName(fileName: (self.dataSource.labelName)!)
+            } else {
+                let alertController = UIAlertController(title: "提示", message: "请输入名称", preferredStyle: .alert)
+                
+                // 文件名输入框
+                alertController.addTextField(configurationHandler: {
+                    (textField) in
+                    textField.placeholder = "请输入名称"
+                    textField.keyboardType = .asciiCapable
+                })
+                
+                let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+                let okAction = UIAlertAction(title: "确定", style: .default, handler: {
+                    action in
+                    let textField = alertController.textFields?.first
+                    if(nil == textField?.text || (textField?.text?.isEmpty)!) {
+                        ToastView.instance.showToast(content: "请填写名称")
+                    } else {
+                        self.dataSource.labelName = textField?.text!
+                        self.saveCurrentFileWithFileName(fileName: (textField?.text!)!)
+                    }
+                })
+                alertController.addAction(cancelAction)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
         case 3:
-            print("labelTabButtonAction tag = \(tag)")
+            let pickerView = DocumentPickerView.init()
+            pickerView.dataSource = self.documentDataSource
+            pickerView.closeClosure = self.pickedDocumentAction(model: )
+            ToastView.instance.showPopCustomView(view: pickerView)
         case 4:
             print("labelTabButtonAction tag = \(tag)")
         case 5:
-            let tempView = gesture.view
-            for elementView in self.editView.subviews {
-                
-            }
-        case 6:
             print("labelTabButtonAction tag = \(tag)")
+        case 6:
+            self.printCurrentPage()
         case 7:
             ToastView.instance.showToast(content: "敬请期待")
         case 8:
@@ -426,9 +793,60 @@ extension AddLabelViewController {
         }
     }
     
+    // 选择保存的目录后回调事件
+    func pickedDocumentAction(model: SystemTemplateConfigModel?) -> Void {
+        // 回收
+        ToastView.instance.hidePopCustomView()
+        
+        if(nil == model) {
+            return
+        }
+        
+        self.dataSource.saveDocument = model!.name!
+        
+        // 判断是否已有文件名
+        if(nil != self.dataSource.labelName && !(self.dataSource.labelName?.isEmpty)!) {
+            self.saveCurrentFileWithFileName(fileName: (self.dataSource.labelName)!)
+        } else {
+            let alertController = UIAlertController(title: "提示", message: "请输入名称", preferredStyle: .alert)
+            
+            // 文件名输入框
+            alertController.addTextField(configurationHandler: {
+                (textField) in
+                textField.placeholder = "请输入名称"
+                textField.keyboardType = .asciiCapable
+            })
+            
+            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+            let okAction = UIAlertAction(title: "确定", style: .default, handler: {
+                action in
+                let textField = alertController.textFields?.first
+                if(nil == textField?.text || (textField?.text?.isEmpty)!) {
+                    ToastView.instance.showToast(content: "请填写名称")
+                } else {
+                    self.dataSource.labelName = textField?.text!
+                    self.saveCurrentFileWithFileName(fileName: (textField?.text!)!)
+                }
+            })
+            alertController.addAction(cancelAction)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
     // 属性分页事件
     @objc func propertyTabAction() -> Void {
         
+    }
+    
+    // 保存文件
+    func saveCurrentFileWithFileName(fileName: String) -> Void {
+        
+    }
+    
+    // 打印事件
+    @objc func printCurrentPage() {
+        self.navigationController?.pushViewController(bluetoothMVC(), animated: true)
     }
     
     // 选择模板编辑
@@ -664,6 +1082,7 @@ extension AddLabelViewController: UIImagePickerControllerDelegate, UINavigationC
             image = UIImage.init(data: imageData!)
         }
         
+        self.isSaved = false
         let subViewNum = self.editView.subviews.count
         let xPoint = CGFloat(5 + subViewNum * 16)
         let yPoint = CGFloat(5 + subViewNum * 16)
@@ -689,5 +1108,23 @@ extension AddLabelViewController: UIImagePickerControllerDelegate, UINavigationC
         picker.dismiss(animated: true, completion: {
             () -> Void in
         })
+    }
+}
+
+/**
+ * 数据初始化
+ */
+extension AddLabelViewController {
+    // 用户保存的模板
+    func getUserTemplateDataSourceService() -> Void {
+        // 1.获取文件路径
+        let path = Bundle.main.path(forResource: "UserTemplateConfigJSON", ofType: "geojson")
+        
+        // 2.通过文件路径创建NSData
+        if let jsonPath = path {
+            let jsonData = NSData.init(contentsOfFile: jsonPath)
+            let decoder = JSONDecoder()
+            self.documentDataSource = try! decoder.decode(Array<SystemTemplateConfigModel>.self, from: jsonData! as Data)
+        }
     }
 }

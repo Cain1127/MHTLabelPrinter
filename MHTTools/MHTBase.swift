@@ -28,6 +28,13 @@ class MHTBase: NSObject {
         }
     }
     
+    // 生成唯一编码
+    class func idGenerator() -> String {
+        let idfv = UIDevice.current.identifierForVendor?.uuidString
+        let timeInterval: TimeInterval = Date().timeIntervalSince1970
+        return idfv! + timeInterval.description
+    }
+    
     // 返回模板保存目录
     class func getTemplateDocumentPath() -> String {
         // 创建沙盒模板保存目录

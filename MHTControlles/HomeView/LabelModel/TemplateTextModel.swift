@@ -22,7 +22,7 @@ struct TemplateTextModel: Codable {
     var contentRect: String?
     
     // 旋转角度
-    var rotate: Int?
+    var rotate: Int? = 0
     
     // 旋转点的 x 坐标
     var rotate_x: Float?
@@ -31,14 +31,14 @@ struct TemplateTextModel: Codable {
     var rotate_y: Float?
     
     // 文字大小。单位 px
-    var TEXT_SIZE: Float?
+    var TEXT_SIZE: Float? = 12 * PROPORTION_LOCAL
     
     // 行距。单位 px
-    var SPACING: Float?
+    var SPACING: Float? = 1.0
     
     // 字间距。单位 px
-    var WORD_SPACE: Float?
+    var WORD_SPACE: Float? = 0.01
     
     // 内容
-    var text: String?
+    var text: String? = "请输入内容"
 }

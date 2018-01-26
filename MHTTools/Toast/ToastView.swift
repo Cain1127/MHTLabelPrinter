@@ -17,6 +17,45 @@ class ToastView : NSObject {
     var windows = UIApplication.shared.windows
     let rv = UIApplication.shared.keyWindow?.subviews.first as UIView!
     
+    var popViewWindow: UIWindow?
+    var popView: UIView?
+    
+    func showPopCustomView(view: UIView) {
+        // 通过window 弹出view
+        let window = UIWindow()
+        window.backgroundColor = UIColor.clear
+        window.frame = CGRect(x: 0, y: 0, width: SCREEN_width, height: SCREEN_height)
+        window.windowLevel = UIWindowLevelAlert
+        window.isHidden = false
+        
+        view.frame.origin.y = window.bounds.height
+        window.addSubview(view)
+        windows.append(window)
+        self.popViewWindow = window
+        self.popView = view
+        
+        UIView.animate(withDuration: 0.3) {
+            () in
+            view.frame.origin.y = SCREEN_height - view.frame.size.height
+        }
+    }
+    
+    func hidePopCustomView() {
+        // 把popView从window中移除
+        UIView.animate(withDuration: 0.2, animations: {
+            () in
+            self.popView!.frame.origin.y = SCREEN_height
+        }) {(isSuccess: Bool) in
+            self.popView?.removeFromSuperview()
+            self.popView = nil
+            
+            let temWindow = self.popViewWindow!
+            self.popViewWindow?.removeFromSuperview()
+            self.popViewWindow = nil
+            self.removeToast(sender: temWindow)
+        }
+    }
+    
     //显示加载圈圈
     func showLoadingView() {
         clear()
@@ -120,7 +159,7 @@ class ToastView : NSObject {
                 // print("find the window and remove it at index \(index)")
                 windows.remove(at: index)
             }
-        }else{
+        } else {
             // print("can not find the window")
         }
     }
