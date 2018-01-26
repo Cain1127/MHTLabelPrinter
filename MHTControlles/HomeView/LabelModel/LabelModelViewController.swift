@@ -346,6 +346,8 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
                     } else {
                         let addLabelViewController = AddLabelViewController()
                         addLabelViewController.dataSource = tempTempate
+                        addLabelViewController.dataSource.saveDocument = SAVE_DOCUMENT_DEFAULT
+                        addLabelViewController.dataSource.fileName = MHTBase.idGenerator()
                         self.navigationController?.pushViewController(addLabelViewController, animated: true)
                     }
                 }

@@ -713,6 +713,9 @@ extension AddLabelViewController {
         let tag = gesture.view?.tag ?? -1
         switch tag {
         case 0:
+            // 清空选择样式
+            self.clearElementSelected()
+            
             if(self.isSaved) {
                 self.clearElements()
             } else {
@@ -727,6 +730,9 @@ extension AddLabelViewController {
                 self.present(alertController, animated: true, completion: nil)
             }
         case 1:
+            // 清空选择样式
+            self.clearElementSelected()
+            
             if(self.isSaved) {
                 let labelModelViewController = LabelModelViewController()
                 labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: )
@@ -747,7 +753,7 @@ extension AddLabelViewController {
         case 2:
             // 判断是否已有文件名
             if(nil != self.dataSource.labelName && !(self.dataSource.labelName?.isEmpty)!) {
-                self.saveCurrentFileWithFileName(fileName: (self.dataSource.labelName)!)
+                self.saveCurrentFileWithFileName(fileName: (self.dataSource.fileName)!)
             } else {
                 let alertController = UIAlertController(title: "提示", message: "请输入名称", preferredStyle: .alert)
                 
@@ -766,7 +772,7 @@ extension AddLabelViewController {
                         ToastView.instance.showToast(content: "请填写名称")
                     } else {
                         self.dataSource.labelName = textField?.text!
-                        self.saveCurrentFileWithFileName(fileName: (textField?.text!)!)
+                        self.saveCurrentFileWithFileName(fileName: self.dataSource.fileName!)
                     }
                 })
                 alertController.addAction(cancelAction)
@@ -803,35 +809,34 @@ extension AddLabelViewController {
         }
         
         self.dataSource.saveDocument = model!.name!
+        self.dataSource.fileName = MHTBase.idGenerator()
+        let alertController = UIAlertController(title: "提示", message: "请输入名称", preferredStyle: .alert)
         
-        // 判断是否已有文件名
-        if(nil != self.dataSource.labelName && !(self.dataSource.labelName?.isEmpty)!) {
-            self.saveCurrentFileWithFileName(fileName: (self.dataSource.labelName)!)
-        } else {
-            let alertController = UIAlertController(title: "提示", message: "请输入名称", preferredStyle: .alert)
-            
-            // 文件名输入框
-            alertController.addTextField(configurationHandler: {
-                (textField) in
+        // 文件名输入框
+        alertController.addTextField(configurationHandler: {
+            (textField) in
+            if(nil == self.dataSource.labelName || (self.dataSource.labelName?.isEmpty)!) {
                 textField.placeholder = "请输入名称"
-                textField.keyboardType = .asciiCapable
-            })
-            
-            let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
-            let okAction = UIAlertAction(title: "确定", style: .default, handler: {
-                action in
-                let textField = alertController.textFields?.first
-                if(nil == textField?.text || (textField?.text?.isEmpty)!) {
-                    ToastView.instance.showToast(content: "请填写名称")
-                } else {
-                    self.dataSource.labelName = textField?.text!
-                    self.saveCurrentFileWithFileName(fileName: (textField?.text!)!)
-                }
-            })
-            alertController.addAction(cancelAction)
-            alertController.addAction(okAction)
-            self.present(alertController, animated: true, completion: nil)
-        }
+            } else {
+                textField.text = self.dataSource.labelName!
+            }
+            textField.keyboardType = .asciiCapable
+        })
+        
+        let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
+        let okAction = UIAlertAction(title: "确定", style: .default, handler: {
+            action in
+            let textField = alertController.textFields?.first
+            if(nil == textField?.text || (textField?.text?.isEmpty)!) {
+                ToastView.instance.showToast(content: "请填写名称")
+            } else {
+                self.dataSource.labelName = textField?.text!
+                self.saveCurrentFileWithFileName(fileName: self.dataSource.fileName!)
+            }
+        })
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     // 属性分页事件
@@ -841,7 +846,35 @@ extension AddLabelViewController {
     
     // 保存文件
     func saveCurrentFileWithFileName(fileName: String) -> Void {
+        // 设置整个界面的图片base64
+        let viewImage = MHTBase.getImageFromView(view: self.editView)
         
+        // 将图片转为base64
+        let imageData = UIImagePNGRepresentation(viewImage)
+        let base64String = imageData!.base64EncodedString()
+        self.dataSource.labelViewBack = base64String
+        
+        let encoder = JSONEncoder()
+        let jsonData = try! encoder.encode(self.dataSource) as Data
+        
+        // 保存的路径
+        var filePath = MHTBase.getTemplateDocumentPath() + "/" + self.dataSource.saveDocument!
+        
+        // 判断文件夹是否存在
+        let fileManager = FileManager.default
+        let isDocumentExit = fileManager.fileExists(atPath: filePath)
+        if(!isDocumentExit) {
+            try! fileManager.createDirectory(atPath: filePath, withIntermediateDirectories: true, attributes: nil)
+        }
+        filePath = filePath + "/" + fileName + SAVE_SUFFIX_FILE_DEFAULT
+        let fileURL = URL(fileURLWithPath: filePath)
+        do {
+            try jsonData.write(to: fileURL)
+            ToastView.instance.showToast(content: "保存成功！")
+        } catch {
+            print("save error: \(error)")
+            ToastView.instance.showToast(content: "保存失败！")
+        }
     }
     
     // 打印事件
@@ -853,6 +886,8 @@ extension AddLabelViewController {
     func pickedTempateAction(model: TemplateModel) -> Void {
         self.clearElementSelected()
         self.dataSource = model
+        self.dataSource.saveDocument = SAVE_DOCUMENT_DEFAULT
+        self.dataSource.fileName = MHTBase.idGenerator()
         self.createEditViewWithDataSource()
     }
     

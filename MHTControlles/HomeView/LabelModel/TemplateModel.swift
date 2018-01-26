@@ -74,6 +74,6 @@ struct TemplateModel: Codable {
     var isLock: Bool? = false
     
     // 保存的目录
-    var saveDocument: String? = "default"
+    var saveDocument: String? = SAVE_DOCUMENT_DEFAULT
     
 }

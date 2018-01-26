@@ -30,9 +30,12 @@ class MHTBase: NSObject {
     
     // 生成唯一编码
     class func idGenerator() -> String {
-        let idfv = UIDevice.current.identifierForVendor?.uuidString
+        var idfv = UIDevice.current.identifierForVendor?.uuidString
+        idfv = idfv?.replacingOccurrences(of: "-", with: "")
         let timeInterval: TimeInterval = Date().timeIntervalSince1970
-        return idfv! + timeInterval.description
+        let timeIntervalInt = Int(timeInterval * 1000)
+        let timeString = timeIntervalInt.description
+        return idfv! + timeString
     }
     
     // 返回模板保存目录
@@ -145,5 +148,14 @@ class MHTBase: NSObject {
         let resizeImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return resizeImage
+    }
+    
+    // 将view转为图片
+    class func getImageFromView(view:UIView) -> UIImage{
+        UIGraphicsBeginImageContext(view.bounds.size)
+        view.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image!
     }
 }

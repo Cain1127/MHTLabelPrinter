@@ -49,11 +49,6 @@ class TemplateCell: UITableViewCell {
         self.contentView.addSubview(self.titleLabel)
         self.contentView.addSubview(self.templateImageView)
         
-        // 将图片转为base64
-//        let imageData = UIImagePNGRepresentation(image)
-//        let base64String = imageData!.base64EncodedStringWithOptions
-//        (NSDataBase64EncodingOptions(rawValue:0))
-        
         //cell上图片
         var imageString = model.labelViewBack!
         imageString = imageString.replacingOccurrences(of: "\n", with: "")
