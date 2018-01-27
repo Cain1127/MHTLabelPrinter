@@ -28,6 +28,35 @@ class MHTBase: NSObject {
         }
     }
     
+    // 还原保存的坐标为数组
+    class func getDecodeRectArray(rectString: String) -> Array<String> {
+        var tempString = rectString
+        tempString = tempString.replacingOccurrences(of: "RectF(", with: "")
+        tempString = tempString.replacingOccurrences(of: ")", with: "")
+        tempString = tempString.replacingOccurrences(of: " ", with: "")
+        return tempString.components(separatedBy: ",")
+    }
+    
+    // 生成保存的左上角坐标
+    class func getSaveContentRect(frame: CGRect) -> String {
+        var tempString = "RectF("
+        tempString = tempString + frame.minX.description + ", "
+        tempString = tempString + frame.minY.description + ", "
+        tempString = tempString + frame.maxX.description + ", "
+        tempString = tempString + frame.maxY.description + ")"
+        return tempString
+    }
+    
+    // 保存的右下角坐标
+    class func getSaveSelectRect(frame: CGRect) -> String {
+        var tempString = "RectF("
+        tempString = tempString + frame.minX.description + ", "
+        tempString = tempString + frame.minY.description + ", "
+        tempString = tempString + frame.maxX.description + ", "
+        tempString = tempString + frame.maxY.description + ")"
+        return tempString
+    }
+    
     // 生成唯一编码
     class func idGenerator() -> String {
         var idfv = UIDevice.current.identifierForVendor?.uuidString

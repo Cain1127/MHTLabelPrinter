@@ -12,16 +12,21 @@ class BarcodeElementView: ElementVerticalView {
     var imageView: UIImageView?
     var titleLabel: UILabel?
     
+    var dataSource: TemplateQCModel = TemplateQCModel()
+    var pro: Float = PROPORTION_LOCAL
+    
     /**
      * 重写构造函数
      */
     override init(frame: CGRect) {
-        self.imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - 16))
+        let textLabelHeight = CGFloat(16 * 8 / self.dataSource.H! / PROPORTION_LOCAL)
+        self.imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - textLabelHeight))
         
-        self.titleLabel = UILabel(frame: CGRect(x: 0, y: frame.size.height - 16, width: frame.size.width, height: 16))
+        let textSize = self.dataSource.TEXT_SIZE! / pro
+        let font = UIFont.systemFont(ofSize: CGFloat(textSize))
+        self.titleLabel = UILabel(frame: CGRect(x: 0, y: frame.size.height - textLabelHeight, width: frame.size.width, height: textLabelHeight))
         self.titleLabel?.textAlignment = NSTextAlignment.center
-        self.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-//        self.titleLabel?.sizeToFit()
+        self.titleLabel?.font = font
         
         super.init(frame: frame)
         self.addSubview(self.imageView!)
@@ -78,5 +83,13 @@ class BarcodeElementView: ElementVerticalView {
         }
         
         super.heightChangeAction(translation: translation, status: status)
+    }
+}
+
+extension BarcodeElementView {
+    // 根据数据模型刷新UI
+    func updateUIWithModel(image: UIImage, model: TemplateQCModel = TemplateQCModel(), pro: Float = PROPORTION_LOCAL) -> Void {
+        self.titleLabel?.text = model.text!
+        self.imageView?.image = image
     }
 }

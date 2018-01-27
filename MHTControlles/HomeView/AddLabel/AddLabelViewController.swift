@@ -212,13 +212,10 @@ class AddLabelViewController: UIViewController {
         // 创建文本框
         if(nil != self.dataSource.textControl && 0 < (self.dataSource.textControl?.count)!) {
             for model in self.dataSource.textControl! {
-                var rectString = model.selectRect
-                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
-                rectString = rectString?.replacingOccurrences(of: ")", with: "")
-                rectString = rectString?.replacingOccurrences(of: " ", with: "")
-                let sizeStringArray = rectString?.components(separatedBy: ",")
-                let tempView = TextElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
-                                                                  y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                let rectString = model.selectRect!
+                let sizeStringArray = MHTBase.getDecodeRectArray(rectString: rectString)
+                let tempView = TextElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray[0])! / proportion),
+                                                                  y: CGFloat(Float(sizeStringArray[1])! / proportion),
                                                                   width: CGFloat(model.W! / proportion) + 5,
                                                                   height: CGFloat(model.H! / proportion)))
                 tempView.updateUIWithModel(model: model, pro: proportion)
@@ -244,14 +241,10 @@ class AddLabelViewController: UIViewController {
         // 创建一维码
         if(nil != self.dataSource.qcControls && 0 < (self.dataSource.qcControls?.count)!) {
             for model in self.dataSource.qcControls! {
-                var rectString = model.selectRect
-                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
-                rectString = rectString?.replacingOccurrences(of: ")", with: "")
-                rectString = rectString?.replacingOccurrences(of: " ", with: "")
-                let sizeStringArray = rectString?.components(separatedBy: ",")
-                
-                let tempView = BarcodeElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
-                                                                        y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                let rectString = model.selectRect!
+                let sizeStringArray = MHTBase.getDecodeRectArray(rectString: rectString)
+                let tempView = BarcodeElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray[0])! / proportion),
+                                                                        y: CGFloat(Float(sizeStringArray[1])! / proportion),
                                                                         width: CGFloat(model.W! / proportion),
                                                                         height: CGFloat(model.H! / proportion)))
                 let barcodeString = model.text
@@ -281,14 +274,10 @@ class AddLabelViewController: UIViewController {
         // 创建二维码
         if(nil != self.dataSource.qrControls && 0 < (self.dataSource.qrControls?.count)!) {
             for model in self.dataSource.qrControls! {
-                var rectString = model.selectRect
-                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
-                rectString = rectString?.replacingOccurrences(of: ")", with: "")
-                rectString = rectString?.replacingOccurrences(of: " ", with: "")
-                let sizeStringArray = rectString?.components(separatedBy: ",")
-                
-                let tempView = QRCodeElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
-                                                                       y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                let rectString = model.selectRect!
+                let sizeStringArray = MHTBase.getDecodeRectArray(rectString: rectString)
+                let tempView = QRCodeElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray[0])! / proportion),
+                                                                       y: CGFloat(Float(sizeStringArray[1])! / proportion),
                                                                        width: CGFloat(model.W! / proportion),
                                                                        height: CGFloat(model.H! / proportion)))
                 let barcodeString = model.text
@@ -318,14 +307,10 @@ class AddLabelViewController: UIViewController {
         // 图片
         if(nil != self.dataSource.bitmapControls && 0 < (self.dataSource.bitmapControls?.count)!) {
             for model in self.dataSource.bitmapControls! {
-                var rectString = model.selectRect
-                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
-                rectString = rectString?.replacingOccurrences(of: ")", with: "")
-                rectString = rectString?.replacingOccurrences(of: " ", with: "")
-                let sizeStringArray = rectString?.components(separatedBy: ",")
-                
-                let tempView = QRCodeElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
-                                                                       y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                let rectString = model.selectRect!
+                let sizeStringArray = MHTBase.getDecodeRectArray(rectString: rectString)
+                let tempView = QRCodeElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray[0])! / proportion),
+                                                                       y: CGFloat(Float(sizeStringArray[1])! / proportion),
                                                                        width: CGFloat(model.W! / proportion),
                                                                        height: CGFloat(model.H! / proportion)))
                 var imageString = model.bitmap!
@@ -356,14 +341,10 @@ class AddLabelViewController: UIViewController {
         // 创建线条
         if(nil != self.dataSource.lineControls && 0 < (self.dataSource.lineControls?.count)!) {
             for model in self.dataSource.bitmapControls! {
-                var rectString = model.selectRect
-                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
-                rectString = rectString?.replacingOccurrences(of: ")", with: "")
-                rectString = rectString?.replacingOccurrences(of: " ", with: "")
-                let sizeStringArray = rectString?.components(separatedBy: ",")
-                
-                let tempView = LineElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
-                                                                     y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                let rectString = model.selectRect!
+                let sizeStringArray = MHTBase.getDecodeRectArray(rectString: rectString)
+                let tempView = LineElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray[0])! / proportion),
+                                                                     y: CGFloat(Float(sizeStringArray[1])! / proportion),
                                                                      width: CGFloat(model.W! / proportion),
                                                                      height: CGFloat(model.H! / proportion)))
                 
@@ -390,14 +371,10 @@ class AddLabelViewController: UIViewController {
         // 创建矩形
         if(nil != self.dataSource.rectangleControls && 0 < (self.dataSource.rectangleControls?.count)!) {
             for model in self.dataSource.bitmapControls! {
-                var rectString = model.selectRect
-                rectString = rectString?.replacingOccurrences(of: "RectF(", with: "")
-                rectString = rectString?.replacingOccurrences(of: ")", with: "")
-                rectString = rectString?.replacingOccurrences(of: " ", with: "")
-                let sizeStringArray = rectString?.components(separatedBy: ",")
-                
-                let tempView = RectElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray![0])! / proportion),
-                                                                     y: CGFloat(Float(sizeStringArray![1])! / proportion),
+                let rectString = model.selectRect!
+                let sizeStringArray = MHTBase.getDecodeRectArray(rectString: rectString)
+                let tempView = RectElementView.init(frame: CGRect(x: CGFloat(Float(sizeStringArray[0])! / proportion),
+                                                                     y: CGFloat(Float(sizeStringArray[1])! / proportion),
                                                                      width: CGFloat(model.W! / proportion),
                                                                      height: CGFloat(model.H! / proportion)))
                 self.editView.addSubview(tempView)
@@ -568,11 +545,21 @@ extension AddLabelViewController {
         switch tag {
             case 0:
                 self.isSaved = false
-                let width = CGFloat(12 * 8)
-                let height = CGFloat(30)
+                
+                // 创建数据模板
+                let tempModel = TemplateTextModel()
+                if(nil == self.dataSource.textControl) {
+                    self.dataSource.textControl = [tempModel]
+                } else {
+                    self.dataSource.textControl?.append(tempModel)
+                }
+                
+                let width = CGFloat(tempModel.W! / self.dataSource.proportion!)
+                let height = CGFloat(tempModel.H! / self.dataSource.proportion!)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
                 let yPointResize = ((yPoint + height) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
                 let tempView = TextElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height))
+                tempView.updateUIWithModel(model: tempModel, pro: self.dataSource.proportion!)
                 self.editView.addSubview(tempView)
                 
                 // 添加单击和双击事件
@@ -584,48 +571,62 @@ extension AddLabelViewController {
                 // 绑定变宽回调
                 tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
             case 1:
+                // 创建数据模板
+                let tempModel = TemplateQCModel()
+                if(nil == self.dataSource.textControl) {
+                    self.dataSource.qcControls = [tempModel]
+                } else {
+                    self.dataSource.qcControls?.append(tempModel)
+                }
+                
                 self.isSaved = false
-                let width = CGFloat(20 * 8)
-                let height = CGFloat(10 * 8)
+                let width = CGFloat(tempModel.W!)
+                let height = CGFloat(tempModel.H!)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
                 let yPointResize = ((yPoint + height) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
-                let barcodeView = BarcodeElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height))
-                let barcodeString = "双击编辑"
-                let barcodeImage = MHTBase.creatBarCodeImage(content: barcodeString, size: barcodeView.frame.size)
-                barcodeView.imageView!.image = barcodeImage
-                barcodeView.titleLabel!.text = barcodeString
-                self.editView.addSubview(barcodeView)
+                let tempView = BarcodeElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height))
+                let tempString = tempModel.text!
+                let tempImage = MHTBase.creatBarCodeImage(content: tempString, size: tempView.frame.size)
+                tempView.updateUIWithModel(image: tempImage!, model: tempModel, pro: self.dataSource.proportion!)
+                self.editView.addSubview(tempView)
             
                 // 添加单击和双击事件
-                self.addTapActionForElementView(elementView: barcodeView)
+                self.addTapActionForElementView(elementView: tempView)
             
                 // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
-                self.addPanActionForElement(elementView: barcodeView)
+                self.addPanActionForElement(elementView: tempView)
             
                 // 绑定回调
-                barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
-                barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                tempView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
             case 2:
+                // 创建数据模板
+                let tempModel = TemplateQRModel()
+                if(nil == self.dataSource.qrControls) {
+                    self.dataSource.qrControls = [tempModel]
+                } else {
+                    self.dataSource.qrControls?.append(tempModel)
+                }
+                
                 self.isSaved = false
-                let width = CGFloat(10 * 8)
+                let width = CGFloat(tempModel.W!)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
                 let yPointResize = ((yPoint + width) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
-                let barcodeView = QRCodeElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: width))
-                let barcodeString = "双击编辑"
-                let barcodeImage = MHTBase.creatQRCodeImage(content: barcodeString, iconName: nil, size: barcodeView.frame.size)
-                barcodeView.imageView!.image = barcodeImage
-                barcodeView.title = barcodeString
-                self.editView.addSubview(barcodeView)
+                let tempView = QRCodeElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: width))
+                let tempString = tempModel.text!
+                let tempImage = MHTBase.creatQRCodeImage(content: tempString, iconName: nil, size: tempView.frame.size)
+                tempView.updateUIWithModel(image: tempImage!, model: tempModel, pro: self.dataSource.proportion!)
+                self.editView.addSubview(tempView)
             
                 // 添加单击和双击事件
-                self.addTapActionForElementView(elementView: barcodeView)
+                self.addTapActionForElementView(elementView: tempView)
             
                 // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
-                self.addPanActionForElement(elementView: barcodeView)
+                self.addPanActionForElement(elementView: tempView)
             
                 // 绑定回调
-                barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
-                barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                tempView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
             case 3:
                 let alertController = UIAlertController(title: "提示", message: "是否要剪辑图片？", preferredStyle: .actionSheet)
                 let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
@@ -646,45 +647,70 @@ extension AddLabelViewController {
             case 4:
                 ToastView.instance.showToast(content: "敬请期待")
             case 5:
+                // 创建数据模板
+                let tempModel = TemplateLineControlModel()
+                if(nil == self.dataSource.lineControls) {
+                    self.dataSource.lineControls = [tempModel]
+                } else {
+                    self.dataSource.lineControls?.append(tempModel)
+                }
+                
                 self.isSaved = false
-                let width = CGFloat(16 * 8)
+                let width = CGFloat(tempModel.W!)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
                 let yPointResize = ((yPoint + width) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
-                let barcodeView = LineElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: 4))
-                self.editView.addSubview(barcodeView)
+                let tempView = LineElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: CGFloat(tempModel.H!)))
+                tempView.updateUIWithModel(model: tempModel, pro: self.dataSource.proportion!)
+                self.editView.addSubview(tempView)
                 
                 // 添加单击和双击事件
-                self.addTapActionForElementView(elementView: barcodeView)
+                self.addTapActionForElementView(elementView: tempView)
                 
                 // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
-                self.addPanActionForElement(elementView: barcodeView)
+                self.addPanActionForElement(elementView: tempView)
             
                 // 绑定回调
-                barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
-                barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                tempView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
             case 6:
+                let tempModel = TemplateRectModel()
+                if(nil == self.dataSource.rectangleControls) {
+                    self.dataSource.rectangleControls = [tempModel]
+                } else {
+                    self.dataSource.rectangleControls?.append(tempModel)
+                }
+                
                 self.isSaved = false
-                let width = CGFloat(20 * 8)
+                let width = CGFloat(tempModel.W!)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
                 let yPointResize = ((yPoint + width) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
-                let barcodeView = RectElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: width / 2))
-                self.editView.addSubview(barcodeView)
+                let tempView = RectElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: CGFloat(tempModel.H!)))
+                tempView.updateUIWithModel(model: tempModel, pro: self.dataSource.proportion!)
+                self.editView.addSubview(tempView)
                 
                 // 添加单击和双击事件
-                self.addTapActionForElementView(elementView: barcodeView)
+                self.addTapActionForElementView(elementView: tempView)
                 
                 // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
-                self.addPanActionForElement(elementView: barcodeView)
+                self.addPanActionForElement(elementView: tempView)
             
                 // 绑定回调
-                barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
-                barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
+                tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+                tempView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
             case 7:
                 ToastView.instance.showToast(content: "敬请期待")
             case 8:
+                var tempModel = TemplateTextModel()
+                if(nil == self.dataSource.textControl) {
+                    self.dataSource.textControl = [tempModel]
+                } else {
+                    self.dataSource.textControl?.append(tempModel)
+                }
+                
                 self.isSaved = false
-                let width = CGFloat(25 * 8)
-                let height = CGFloat(30)
+                tempModel.W = 25 * 8 * self.dataSource.proportion!
+                let width = CGFloat(tempModel.W!)
+                let height = CGFloat(tempModel.H!)
                 let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
                 let yPointResize = ((yPoint + height) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
                 let tempView = DateElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height))
@@ -692,7 +718,8 @@ extension AddLabelViewController {
                 let dateformatter = DateFormatter()
                 dateformatter.dateFormat = " YYYY-MM-dd HH:mm:ss"
                 let dateString = dateformatter.string(from: currentdate)
-                tempView.setTextString(text: dateString)
+                tempModel.text = dateString
+                tempView.updateDateUIWithModel(model: tempModel, pro: self.dataSource.proportion!)
                 self.editView.addSubview(tempView)
                 
                 // 添加单击和双击事件
@@ -735,7 +762,7 @@ extension AddLabelViewController {
             
             if(self.isSaved) {
                 let labelModelViewController = LabelModelViewController()
-                labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: )
+                labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: isUser: )
                 self.navigationController?.pushViewController(labelModelViewController, animated: true)
             } else {
                 let alertController = UIAlertController(title: "提示", message: "选择模板后将清空原来内容，是否确认选择模板？", preferredStyle: .actionSheet)
@@ -743,7 +770,7 @@ extension AddLabelViewController {
                 let okAction = UIAlertAction(title: "确定", style: .default, handler: {
                     action in
                     let labelModelViewController = LabelModelViewController()
-                    labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: )
+                    labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: isUser: )
                     self.navigationController?.pushViewController(labelModelViewController, animated: true)
                 })
                 alertController.addAction(cancelAction)
@@ -858,7 +885,8 @@ extension AddLabelViewController {
         let jsonData = try! encoder.encode(self.dataSource) as Data
         
         // 保存的路径
-        var filePath = MHTBase.getTemplateDocumentPath() + "/" + self.dataSource.saveDocument!
+        let templatePath = MHTBase.getTemplateDocumentPath()
+        var filePath = templatePath + "/" + self.dataSource.saveDocument!
         
         // 判断文件夹是否存在
         let fileManager = FileManager.default
@@ -871,6 +899,12 @@ extension AddLabelViewController {
         do {
             try jsonData.write(to: fileURL)
             ToastView.instance.showToast(content: "保存成功！")
+            
+            // 保存最后编辑的模板
+            let userDefault = UserDefaults.standard
+            let userDefaultPath = filePath.replacingOccurrences(of: templatePath, with: "")
+            userDefault.set(userDefaultPath, forKey: SAVE_LATEST_FILE_PATH_KEY_NAME)
+            userDefault.synchronize()
         } catch {
             print("save error: \(error)")
             ToastView.instance.showToast(content: "保存失败！")
@@ -883,11 +917,13 @@ extension AddLabelViewController {
     }
     
     // 选择模板编辑
-    func pickedTempateAction(model: TemplateModel) -> Void {
+    func pickedTempateAction(model: TemplateModel, isUser: Bool) -> Void {
         self.clearElementSelected()
         self.dataSource = model
         self.dataSource.saveDocument = SAVE_DOCUMENT_DEFAULT
-        self.dataSource.fileName = MHTBase.idGenerator()
+        if(!isUser) {
+            self.dataSource.fileName = MHTBase.idGenerator()
+        }
         self.createEditViewWithDataSource()
     }
     
@@ -1117,27 +1153,34 @@ extension AddLabelViewController: UIImagePickerControllerDelegate, UINavigationC
             image = UIImage.init(data: imageData!)
         }
         
+        // 创建数据模板
+        let tempModel = TemplateImageModel()
+        if(nil == self.dataSource.bitmapControls) {
+            self.dataSource.bitmapControls = [tempModel]
+        } else {
+            self.dataSource.bitmapControls?.append(tempModel)
+        }
+        
         self.isSaved = false
         let subViewNum = self.editView.subviews.count
         let xPoint = CGFloat(5 + subViewNum * 16)
         let yPoint = CGFloat(5 + subViewNum * 16)
-        let width = CGFloat(10 * 8)
+        let width = CGFloat(tempModel.W!)
         let xPointResize = ((xPoint + width) > self.editView.frame.size.width) ? (self.editView.frame.size.width - width) : xPoint
         let yPointResize = ((yPoint + width) > self.editView.frame.size.height) ? (self.editView.frame.size.height - width) : yPoint
-        let barcodeView = QRCodeElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: width))
-        barcodeView.imageView!.image = image
-        barcodeView.title = "图片"
-        self.editView.addSubview(barcodeView)
+        let tempView = QRCodeElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: width))
+        tempView.updateUIWithModel(image: image, imageModel: tempModel, pro: self.dataSource.proportion!)
+        self.editView.addSubview(tempView)
         
         // 添加单击和双击事件
-        self.addTapActionForElementView(elementView: barcodeView)
+        self.addTapActionForElementView(elementView: tempView)
         
         // 添加拖动事件，必须放在点击手势之后，因为拖动手势需要让点击手势无效，避免冲突
-        self.addPanActionForElement(elementView: barcodeView)
+        self.addPanActionForElement(elementView: tempView)
         
         // 绑定回调
-        barcodeView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
-        barcodeView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
+        tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
+        tempView.heightChangeClosure = self.elementHeightChangeClosureAction(view: translation: status:)
         
         //图片控制器退出
         picker.dismiss(animated: true, completion: {

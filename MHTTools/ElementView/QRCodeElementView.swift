@@ -55,3 +55,15 @@ class QRCodeElementView: ElementVerticalView {
         super.heightChangeAction(translation: translation, status: status)
     }
 }
+
+extension QRCodeElementView {
+    // 根据数据模型刷新UI
+    func updateUIWithModel(image: UIImage, model: TemplateQRModel = TemplateQRModel(), pro: Float = PROPORTION_LOCAL) -> Void {
+        
+    }
+    
+    // 图片框刷新UI
+    func updateUIWithModel(image: UIImage, imageModel: TemplateImageModel = TemplateImageModel(), pro: Float = PROPORTION_LOCAL) -> Void {
+        
+    }
+}

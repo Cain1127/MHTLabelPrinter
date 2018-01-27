@@ -18,3 +18,10 @@ class LineElementView: ElementVerticalView {
         super.init(coder: coder)
     }
 }
+
+extension LineElementView {
+    // 根据数据模型刷新UI
+    func updateUIWithModel(model: TemplateLineControlModel = TemplateLineControlModel(), pro: Float = PROPORTION_LOCAL) -> Void {
+        
+    }
+}

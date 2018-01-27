@@ -27,3 +27,10 @@ class RectElementView: ElementVerticalView {
         self.widthChangeButton?.isHidden = !isSelected
     }
 }
+
+extension RectElementView {
+    // 根据数据模型刷新UI
+    func updateUIWithModel(model: TemplateRectModel = TemplateRectModel(), pro: Float = PROPORTION_LOCAL) -> Void {
+        
+    }
+}

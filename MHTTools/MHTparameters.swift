@@ -16,6 +16,8 @@ let SYS_Bounds = UIScreen.main.bounds
 
 let SAVE_DOCUMENT_DEFAULT = "default"
 
+let SAVE_LATEST_FILE_PATH_KEY_NAME = "latestSaveFilePath"
+
 let SAVE_SUFFIX_FILE_DEFAULT = ".json"
 
 let PRO_MM_PX = Float(8)

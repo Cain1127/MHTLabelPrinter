@@ -11,10 +11,10 @@ import Foundation
 
 struct TemplateRectModel: Codable {
     // 控件的宽度(单位 px)
-    var W: Float?
+    var W: Float? = 20 * 8 * PROPORTION_LOCAL
     
     // 控件的高度(单位 px) contentRect:内容的坐标点，格式可参考注释一(单位 px) selectRect:选择框左边点，格式可参考注释一(单位 px)
-    var H: Float?
+    var H: Float? = 10 * 8 * PROPORTION_LOCAL
     
     // 外层选择框坐标
     var selectRect: String?
@@ -23,7 +23,7 @@ struct TemplateRectModel: Codable {
     var contentRect: String?
     
     // 旋转角度
-    var rotate: Int?
+    var rotate: Int? = 0
     
     // 旋转点的 x 坐标
     var rotate_x: Float?
@@ -32,5 +32,5 @@ struct TemplateRectModel: Codable {
     var rotate_y: Float?
     
     // 线条宽度
-    var linkWidth: Float?
+    var linkWidth: Float? = 2
 }

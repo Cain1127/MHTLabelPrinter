@@ -10,10 +10,10 @@ import Foundation
 
 struct TemplateQCModel: Codable {
     // 控件的宽度(单位 px)
-    var W: Float?
+    var W: Float? = 160 * PROPORTION_LOCAL
     
     // 控件的高度(单位 px) contentRect:内容的坐标点，格式可参考注释一(单位 px) selectRect:选择框左边点，格式可参考注释一(单位 px)
-    var H: Float?
+    var H: Float? = 80 * PROPORTION_LOCAL
     
     // 外层选择框坐标
     var selectRect: String?
@@ -22,7 +22,7 @@ struct TemplateQCModel: Codable {
     var contentRect: String?
     
     // 旋转角度
-    var rotate: Int?
+    var rotate: Int? = 0
     
     // 旋转点的 x 坐标
     var rotate_x: Float?
@@ -39,7 +39,7 @@ struct TemplateQCModel: Codable {
     var ERROR_LEVEL: Int?
     
     // 文字大小。单位 px
-    var TEXT_SIZE: Float?
+    var TEXT_SIZE: Float? = 12 * PROPORTION_LOCAL
     
 //    文字状态。
 //    解释:TEXT_LEFT(靠左显示) = 3, TEXT_RIGHT(靠右显示) = 4, TEXT_STRETCHING(拉伸显示) = 5, TEXT_CENTER(居中显示) = 6;
@@ -47,8 +47,8 @@ struct TemplateQCModel: Codable {
     var TEXT_STATE: Int?
     
     // 字间距。单位 px
-    var WORD_SPACE: Float?
+    var WORD_SPACE: Float? = 0.01
     
     // 文本内容
-    var text: String?
+    var text: String? = "双击编辑"
 }

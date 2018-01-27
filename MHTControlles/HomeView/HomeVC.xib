@@ -14,10 +14,12 @@
             <connections>
                 <outlet property="addLabelL" destination="1Q7-K1-2Mk" id="oOo-Yz-aVu"/>
                 <outlet property="bluetoothL" destination="7r7-4D-u7X" id="zzM-TN-U2a"/>
+                <outlet property="editButton" destination="Vhe-Vk-RUm" id="GnU-Pq-oNh"/>
                 <outlet property="labelModelL" destination="3Fn-kt-VfW" id="2nb-Fc-kX4"/>
                 <outlet property="newLabelL" destination="HyH-a7-BOh" id="ngp-kj-Udx"/>
                 <outlet property="printLabelL" destination="wCe-qT-Fdw" id="tXP-JB-5GW"/>
                 <outlet property="quickPrintL" destination="ByH-Qy-Jaa" id="Kkk-I2-GZX"/>
+                <outlet property="templateView" destination="r5H-X2-NPc" id="YHQ-VD-Kxb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -212,8 +214,9 @@
                         <constraint firstItem="65c-QD-lab" firstAttribute="centerX" secondItem="HWw-IJ-Xde" secondAttribute="centerX" id="tRs-Tt-gDX"/>
                     </constraints>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeMainIV" translatesAutoresizingMaskIntoConstraints="NO" id="r5H-X2-NPc">
+                <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeMainIV" translatesAutoresizingMaskIntoConstraints="NO" id="r5H-X2-NPc">
                     <rect key="frame" x="0.0" y="20" width="375" height="438"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vhe-Vk-RUm">
                     <rect key="frame" x="0.0" y="20" width="375" height="438"/>

@@ -25,26 +25,26 @@ struct TemplateModel: Codable {
 //    单位为 px 需要除以上面计算出来的
 //    计算方式:
 //    控件高度(单位 px)/8(打印机 1mm 等于 8px)/纸张高度(单位 mm) 或控件宽度(单位 px)/8(打印机 1mm 等于 8px)/纸张宽度(单位 mm)
-    var proportion: Float?
+    var proportion: Float? = PROPORTION_LOCAL
     
     // 图片二值化的阈值，默认为 128
     var concentration: Float?
     
     // 是否有背景图片
-    var bitmapPaperBackground: Bool?
+    var bitmapPaperBackground: Bool? = false
     
     // 背景图片 base64
     var backgroundBitmap: String?
     
     // 打印方向 0 90 180 270
-    var printingDirection: Int?
+    var printingDirection: Int? = 0
     
     // 是否开启镜像模式 true 为开启，false 为不开启
     var mirror: Bool? = false
     
     // 镜像的方向
     // public final static int TAIL_LEFT = 0, TAIL_RIGHT = 1, TAIL_TOP = 2, TAIL_BOTTOM = 3;
-    var tailDirection: Int?
+    var tailDirection: Int? = 0
     
     // 尾巴长度(镜像偏移线相对左边，右边，上边，下边的偏移长度，默认偏移线在中心)
     var tailLength: Float?

@@ -30,7 +30,7 @@ class LabelModelViewController: UIViewController {
     fileprivate var dataSourceUserTemplate:Array<SystemTemplateConfigModel>?;
     
     // 选择模板的回调
-    var selectedTemplateClosure: ((_ model: TemplateModel) -> Void)?
+    var selectedTemplateClosure: ((_ model: TemplateModel, _ isUser: Bool) -> Void)?
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -341,13 +341,22 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
                 if(indexPath.row < templateDataSource.count) {
                     let tempTempate = templateDataSource[indexPath.row]
                     if(nil != self.selectedTemplateClosure) {
-                        self.selectedTemplateClosure!(tempTempate)
+                        if(tableView == templateSystemTemplateTableView) {
+                            self.selectedTemplateClosure!(tempTempate, false)
+                        } else {
+                            self.selectedTemplateClosure!(tempTempate, true)
+                        }
                         self.navigationController?.popViewController(animated: true)
                     } else {
                         let addLabelViewController = AddLabelViewController()
                         addLabelViewController.dataSource = tempTempate
                         addLabelViewController.dataSource.saveDocument = SAVE_DOCUMENT_DEFAULT
-                        addLabelViewController.dataSource.fileName = MHTBase.idGenerator()
+                        
+                        // 判断是用户保存的模板还是系统模板
+                        if(tableView == self.templateSystemTemplateTableView) {
+                            addLabelViewController.dataSource.fileName = MHTBase.idGenerator()
+                        }
+                        
                         self.navigationController?.pushViewController(addLabelViewController, animated: true)
                     }
                 }

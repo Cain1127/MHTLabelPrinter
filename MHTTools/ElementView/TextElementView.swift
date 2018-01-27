@@ -95,7 +95,7 @@ class TextElementView: ElementHorizontalView {
     /**
      * 根据新的宽度重置元素frame
      */
-    func resetUIHeightWithWidth(width: CGFloat, pro: Float = 1, isRotation: Bool = false) -> Void {
+    func resetUIHeightWithWidth(width: CGFloat, pro: Float = PROPORTION_LOCAL, isRotation: Bool = false) -> Void {
         let textSize = self.dataSource.TEXT_SIZE! / pro
         let font = UIFont.systemFont(ofSize: CGFloat(textSize))
         var newHeight = StringUtil.getLabHeigh(labelStr: (self.textLabel?.text)!, font: font, width: width)
@@ -143,7 +143,7 @@ class TextElementView: ElementHorizontalView {
     }
     
     // 更新函数
-    func updateUIWithModel(model: TemplateTextModel = TemplateTextModel(), pro: Float = 1) -> Void {
+    func updateUIWithModel(model: TemplateTextModel = TemplateTextModel(), pro: Float = PROPORTION_LOCAL) -> Void {
         self.dataSource = model
         self.textView?.text = model.text
         self.textLabel?.text = model.text

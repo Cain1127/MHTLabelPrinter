@@ -15,6 +15,16 @@ class ElementView: UIView {
     var oriHeight = CGFloat(0)
     
     /**
+     * 根据缩放比例创建UI
+     */
+    init(frame: CGRect, pro: Float = PROPORTION_LOCAL) {
+        self.oriWidth = frame.width
+        self.oriHeight = frame.height
+        super.init(frame: frame)
+        self.backgroundColor = UIColor.white
+    }
+    
+    /**
      * 重写构造函数
      */
     override init(frame: CGRect) {

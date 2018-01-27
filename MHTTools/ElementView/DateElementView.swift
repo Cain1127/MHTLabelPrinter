@@ -11,3 +11,10 @@ import Foundation
 class DateElementView: TextElementView {
     
 }
+
+extension DateElementView {
+    // 更新函数
+    func updateDateUIWithModel(model: TemplateTextModel = TemplateTextModel(), pro: Float = PROPORTION_LOCAL) -> Void {
+        
+    }
+}
