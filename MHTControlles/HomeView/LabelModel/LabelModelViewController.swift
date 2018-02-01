@@ -363,6 +363,47 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
+    
+    //返回编辑类型，滑动删除
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        if(tableView == self.templateUserTemplateTableView) {
+            return UITableViewCellEditingStyle.delete
+        }
+        
+        return UITableViewCellEditingStyle.none
+    }
+    
+    // 在这里修改删除按钮的文字
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+        return "删除"
+    }
+    
+    //点击删除按钮的响应方法，在这里处理删除的逻辑
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCellEditingStyle.delete {
+            let selectedMenu = self.dataSourceUserTemplate![self.selectedIndexUserTample]
+            let templateDataSource = selectedMenu.dataSource!
+            let tempTempate = templateDataSource[indexPath.row]
+            
+            let fileManager = FileManager.default
+            let filePath: String = MHTBase.getTemplateDocumentPath() + "/" + selectedMenu.name! + "/" + tempTempate.fileName! + SAVE_SUFFIX_FILE_DEFAULT
+            let exist = fileManager.fileExists(atPath: filePath)
+            if(!exist) {
+                ToastView.instance.showToast(content: "没有找到对应模板文件！")
+                return
+            }
+            
+            do {
+                let fileURL = URL(fileURLWithPath: filePath)
+                try fileManager.removeItem(at: fileURL)
+                self.dataSourceUserTemplate![self.selectedIndexUserTample].dataSource?.remove(at: indexPath.row)
+                self.templateUserTemplateTableView.reloadData()
+                ToastView.instance.showToast(content: "删除成功！")
+            } catch {
+                ToastView.instance.showToast(content: "删除失败！")
+            }
+        }
+    }
 }
 
 /**

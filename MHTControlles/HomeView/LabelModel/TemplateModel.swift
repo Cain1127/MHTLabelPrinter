@@ -65,7 +65,7 @@ struct TemplateModel: Codable {
     var bitmapControls: Array<TemplateImageModel>?
     
     // 当前对象的本地保存文件名
-    var fileName: String?
+    var fileName: String? = MHTBase.idGenerator()
     
     // 当前对象的图片base64编码
     var labelViewBack: String?

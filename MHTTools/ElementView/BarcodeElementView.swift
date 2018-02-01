@@ -12,23 +12,20 @@ class BarcodeElementView: ElementVerticalView {
     var imageView: UIImageView?
     var titleLabel: UILabel?
     
-    var dataSource: TemplateQCModel = TemplateQCModel()
-    var pro: Float = PROPORTION_LOCAL
-    
     /**
      * 重写构造函数
      */
-    override init(frame: CGRect) {
-        let textLabelHeight = CGFloat(16 * 8 / self.dataSource.H! / PROPORTION_LOCAL)
-        self.imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - textLabelHeight))
-        
-        let textSize = self.dataSource.TEXT_SIZE! / pro
+    override init(frame: CGRect, pro: Float = PROPORTION_LOCAL) {
+        let textSize = 14 / pro
         let font = UIFont.systemFont(ofSize: CGFloat(textSize))
-        self.titleLabel = UILabel(frame: CGRect(x: 0, y: frame.size.height - textLabelHeight, width: frame.size.width, height: textLabelHeight))
+        let textHeight = StringUtil.getLabHeigh(labelStr: "H", font: font, width: frame.width)
+        self.imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - textHeight))
+        
+        self.titleLabel = UILabel(frame: CGRect(x: 0, y: frame.size.height - textHeight, width: frame.size.width, height: textHeight))
         self.titleLabel?.textAlignment = NSTextAlignment.center
         self.titleLabel?.font = font
         
-        super.init(frame: frame)
+        super.init(frame: frame, pro: pro)
         self.addSubview(self.imageView!)
         self.addSubview(self.titleLabel!)
         self.sendSubview(toBack: self.imageView!)
@@ -91,5 +88,26 @@ extension BarcodeElementView {
     func updateUIWithModel(image: UIImage, model: TemplateQCModel = TemplateQCModel(), pro: Float = PROPORTION_LOCAL) -> Void {
         self.titleLabel?.text = model.text!
         self.imageView?.image = image
+        
+        let textSize = model.TEXT_SIZE! / pro
+        let font = UIFont.systemFont(ofSize: CGFloat(textSize))
+        let textHeight = StringUtil.getLabHeigh(labelStr: "H", font: font, width: frame.width)
+        let newWidth = self.frame.width / CGFloat(self.pro / pro)
+        let newHeight = self.frame.height / CGFloat(self.pro / pro)
+        if(1 == model.DRAW_TEXT_POSITION) {
+            self.titleLabel?.isHidden = false
+            self.titleLabel?.frame = CGRect(x: 0, y: newHeight - textHeight, width: newWidth, height: textHeight)
+            self.imageView?.frame = CGRect(x: 0, y: 0, width: newWidth, height: newHeight - textHeight)
+        } else if(2 == model.DRAW_TEXT_POSITION) {
+            self.titleLabel?.isHidden = false
+            self.titleLabel?.frame = CGRect(x: 0, y: 0, width: newWidth, height: textHeight)
+            self.imageView?.frame = CGRect(x: 0, y: textHeight, width: newWidth, height: newHeight - textHeight)
+        } else {
+            self.titleLabel?.isHidden = true
+            self.imageView?.frame = CGRect(x: 0, y: 0, width: newWidth, height: newHeight)
+        }
+        
+        // 调整父窗口大小
+        super.resetFrameWithPro(pro: pro)
     }
 }

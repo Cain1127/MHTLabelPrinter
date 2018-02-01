@@ -14,6 +14,12 @@ class ElementView: UIView {
     var oriWidth = CGFloat(0)
     var oriHeight = CGFloat(0)
     
+    var pro: Float = PROPORTION_LOCAL
+    var rotation: Int = 0
+    
+    // 对应的数据源下标
+    var controlIndex: Int?
+    
     /**
      * 根据缩放比例创建UI
      */
@@ -22,18 +28,12 @@ class ElementView: UIView {
         self.oriHeight = frame.height
         super.init(frame: frame)
         self.backgroundColor = UIColor.white
+        self.pro = pro
     }
     
     /**
      * 重写构造函数
      */
-    override init(frame: CGRect) {
-        self.oriWidth = frame.width
-        self.oriHeight = frame.height
-        super.init(frame: frame)
-        self.backgroundColor = UIColor.white
-    }
-    
     required init(coder: NSCoder) {
         super.init(coder: coder)!
     }
@@ -120,5 +120,12 @@ extension ElementView {
     @objc func widthPanAction(gesture: UIPanGestureRecognizer) -> Void {
         let translation = gesture.translation(in: gesture.view!)
         self.widthChangeAction(translation: translation, status: gesture.state)
+    }
+    
+    // 根据新的比率，刷新frame
+    @objc func resetFrameWithPro(pro: Float) {
+        self.frame.size.width = self.frame.width / CGFloat(self.pro / pro)
+        self.frame.size.height = self.frame.height / CGFloat(self.pro / pro)
+        self.pro = self.pro / pro
     }
 }

@@ -31,6 +31,7 @@
 		84264C8920105F9B0011DFEC /* ElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84264C8820105F9B0011DFEC /* ElementView.swift */; };
 		84264C8B20106E7E0011DFEC /* BarcodeElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84264C8A20106E7E0011DFEC /* BarcodeElementView.swift */; };
 		84264C8D201088DF0011DFEC /* QRCodeElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84264C8C201088DF0011DFEC /* QRCodeElementView.swift */; };
+		84822A1C2020477200333637 /* ImageElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84822A1B2020477200333637 /* ImageElementView.swift */; };
 		8483DB6B2017042900BAF5A8 /* AnimationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483DB6A2017042900BAF5A8 /* AnimationUtil.swift */; };
 		8483DB6E201704BD00BAF5A8 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483DB6D201704BD00BAF5A8 /* ToastView.swift */; };
 		8483DB7020170B2200BAF5A8 /* TextElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483DB6F20170B2200BAF5A8 /* TextElementView.swift */; };
@@ -101,6 +102,7 @@
 		84264C8820105F9B0011DFEC /* ElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementView.swift; sourceTree = "<group>"; };
 		84264C8A20106E7E0011DFEC /* BarcodeElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeElementView.swift; sourceTree = "<group>"; };
 		84264C8C201088DF0011DFEC /* QRCodeElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeElementView.swift; sourceTree = "<group>"; };
+		84822A1B2020477200333637 /* ImageElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageElementView.swift; sourceTree = "<group>"; };
 		8483DB6A2017042900BAF5A8 /* AnimationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationUtil.swift; sourceTree = "<group>"; };
 		8483DB6D201704BD00BAF5A8 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		8483DB6F20170B2200BAF5A8 /* TextElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextElementView.swift; sourceTree = "<group>"; };
@@ -294,6 +296,7 @@
 				8483DB7320170B4B00BAF5A8 /* RectElementView.swift */,
 				8483DB7820173E2F00BAF5A8 /* DateElementView.swift */,
 				8483DB822019C62D00BAF5A8 /* TemplateTextLable.swift */,
+				84822A1B2020477200333637 /* ImageElementView.swift */,
 			);
 			path = ElementView;
 			sourceTree = "<group>";
@@ -547,6 +550,7 @@
 				93BD67561FF387B0001112D3 /* setViewController.swift in Sources */,
 				93E9EFF91FFCE67000B58FC5 /* setTBCell.swift in Sources */,
 				8483DB7920173E2F00BAF5A8 /* DateElementView.swift in Sources */,
+				84822A1C2020477200333637 /* ImageElementView.swift in Sources */,
 				84A7194720109A0C0038E47D /* ElementVerticalView.swift in Sources */,
 				8483DB832019C62D00BAF5A8 /* TemplateTextLable.swift in Sources */,
 				84D95267200E020C009F1C5D /* TemplateImageModel.swift in Sources */,

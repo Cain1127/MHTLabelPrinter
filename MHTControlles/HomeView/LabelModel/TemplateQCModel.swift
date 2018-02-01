@@ -31,7 +31,7 @@ struct TemplateQCModel: Codable {
     var rotate_y: Float?
     
     // 文字位置的上，下与不显示。 解释:BUTTON = 1, TOP = 2, NO_TEXT = 3;
-    var DRAW_TEXT_POSITION: Int?
+    var DRAW_TEXT_POSITION: Int? = 1
     
     // 纠错水平。
     // 解释:MINIMUM(低) = 0, MEDIUM(中) = 1, HEIGHT(高) = 2, STRONG(强) = 3;
@@ -39,7 +39,7 @@ struct TemplateQCModel: Codable {
     var ERROR_LEVEL: Int?
     
     // 文字大小。单位 px
-    var TEXT_SIZE: Float? = 12 * PROPORTION_LOCAL
+    var TEXT_SIZE: Float? = 14 * PROPORTION_LOCAL
     
 //    文字状态。
 //    解释:TEXT_LEFT(靠左显示) = 3, TEXT_RIGHT(靠右显示) = 4, TEXT_STRETCHING(拉伸显示) = 5, TEXT_CENTER(居中显示) = 6;
@@ -51,4 +51,5 @@ struct TemplateQCModel: Codable {
     
     // 文本内容
     var text: String? = "双击编辑"
+    
 }

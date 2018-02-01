@@ -17,7 +17,7 @@ class ElementVerticalView: ElementHorizontalView {
     /**
      * 重写构造函数
      */
-    override init(frame: CGRect) {
+    override init(frame: CGRect, pro: Float = PROPORTION_LOCAL) {
         self.heightChangeButton = UIImageView(frame: CGRect(x: frame.size.width / 2 - 15, y: frame.size.height - 15, width: 30, height: 30))
         self.heightChangeButton?.image = UIImage(named: "modifierVertical")
         self.heightChangeButton?.isHidden = true
@@ -120,5 +120,12 @@ extension ElementVerticalView {
             self.heightChangeClosure!(self, translation, gesture.state)
         }
         self.heightChangeAction(translation: translation, status: gesture.state)
+    }
+    
+    // 根据新的比率，刷新frame
+    override func resetFrameWithPro(pro: Float) {
+        self.heightChangeButton?.frame.origin.x = (self.heightChangeButton?.frame.origin.x)! / CGFloat(self.pro / pro)
+        self.heightChangeButton?.frame.origin.y = (self.heightChangeButton?.frame.origin.y)! / CGFloat(self.pro / pro)
+        super.resetFrameWithPro(pro: pro)
     }
 }

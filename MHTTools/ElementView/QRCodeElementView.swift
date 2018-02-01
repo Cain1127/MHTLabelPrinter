@@ -15,10 +15,10 @@ class QRCodeElementView: ElementVerticalView {
     /**
      * 重写构造函数
      */
-    override init(frame: CGRect) {
+    override init(frame: CGRect, pro: Float = PROPORTION_LOCAL) {
         self.imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
         
-        super.init(frame: frame)
+        super.init(frame: frame, pro: pro)
         self.addSubview(self.imageView!)
         self.sendSubview(toBack: self.imageView!)
     }
@@ -59,11 +59,9 @@ class QRCodeElementView: ElementVerticalView {
 extension QRCodeElementView {
     // 根据数据模型刷新UI
     func updateUIWithModel(image: UIImage, model: TemplateQRModel = TemplateQRModel(), pro: Float = PROPORTION_LOCAL) -> Void {
-        
-    }
-    
-    // 图片框刷新UI
-    func updateUIWithModel(image: UIImage, imageModel: TemplateImageModel = TemplateImageModel(), pro: Float = PROPORTION_LOCAL) -> Void {
-        
+        self.imageView?.image = image
+        self.imageView?.frame.size.width = (self.imageView?.frame.width)! / CGFloat(self.pro / pro)
+        self.imageView?.frame.size.height = (self.imageView?.frame.height)! / CGFloat(self.pro / pro)
+        super.resetFrameWithPro(pro: pro)
     }
 }

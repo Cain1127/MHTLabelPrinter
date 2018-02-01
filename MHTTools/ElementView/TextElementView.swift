@@ -12,18 +12,16 @@ class TextElementView: ElementHorizontalView {
     var textView: UITextView?
     var textLabel: TemplateTextLable?
     
-    // 每行文字的高度
-    var lineHeight: Float?
-    
-    // 数据源
     var dataSource: TemplateTextModel = TemplateTextModel()
-    var pro: Float = PROPORTION_LOCAL
+    
+    // 定义一个变高时的闭包，主要是当前控件变高时，外部有可能联动变高其他控件，比如编辑窗口为多选时
+    var heightChangeClosure: ((_ view: ElementView) -> Void)?
     
     /**
      * 重写构造函数
      */
-    override init(frame: CGRect) {
-        let textSize = self.dataSource.TEXT_SIZE! / pro
+    override init(frame: CGRect, pro: Float = PROPORTION_LOCAL) {
+        let textSize = 14 / pro
         let font = UIFont.systemFont(ofSize: CGFloat(textSize))
         
         self.textView = UITextView(frame: CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height))
@@ -36,17 +34,13 @@ class TextElementView: ElementHorizontalView {
         self.textLabel?.numberOfLines = 0
         self.textLabel?.lineBreakMode = .byWordWrapping
         
-        super.init(frame: frame)
+        super.init(frame: frame, pro: pro)
         self.addDoneButtonOnKeyboard()
         
         // 设置新的行高像素值
         let newLineHeight = StringUtil.getLabHeigh(labelStr: "H", font: font, width: frame.width)
-        self.lineHeight = Float(newLineHeight)
-        
-        self.textView?.text = self.dataSource.text
-        self.textLabel?.text = self.dataSource.text
-        self.textLabel?.wordSpace = CGFloat(self.dataSource.WORD_SPACE!)
-        self.textLabel?.lineSpace = CGFloat(self.dataSource.SPACING!)
+        self.textLabel?.wordSpace = CGFloat(0.01)
+        self.textLabel?.lineSpace = CGFloat(newLineHeight)
         
         self.textView?.delegate = self
         self.addSubview(self.textLabel!)
@@ -114,6 +108,11 @@ class TextElementView: ElementHorizontalView {
                                                y: widthButtonYPoint,
                                                width: (self.widthChangeButton?.frame.width)!,
                                                height: (self.widthChangeButton?.frame.height)!)
+        
+        // 回调高度变化
+        if (self.heightChangeClosure != nil) {
+            self.heightChangeClosure!(self)
+        }
     }
     
     //在键盘上添加“完成“按钮
@@ -155,14 +154,19 @@ class TextElementView: ElementHorizontalView {
         
         // 设置新的行高像素值
         let newLineHeight = StringUtil.getLabHeigh(labelStr: "H", font: font, width: frame.width)
-        self.lineHeight = Float(newLineHeight)
-        
-        // 新的字间距和行间距
         self.textLabel?.wordSpace = CGFloat(self.dataSource.WORD_SPACE!)
-        self.textLabel?.lineSpace = CGFloat(self.dataSource.SPACING!)
+        self.textLabel?.lineSpace = CGFloat(newLineHeight)
         
-        self.pro = pro
-        self.resetUIHeightWithWidth(width: (self.textLabel?.frame.width)!, pro: pro)
+        // 重置UI的宽高
+        let newPro = CGFloat(self.pro / pro)
+        self.textLabel?.frame.size.width = (self.textLabel?.frame.width)! / newPro
+        self.textLabel?.frame.size.height = (self.textLabel?.frame.height)! / newPro
+        self.textView?.frame.size.width = (self.textView?.frame.width)! / newPro
+        self.textView?.frame.size.height = (self.textView?.frame.height)! / newPro
+        super.resetFrameWithPro(pro: pro)
+        
+        // 重新扩展UI的高度，因为文字有可能分行
+        self.resetUIHeightWithWidth(width: (self.textLabel?.frame.width)!, pro: Float(newPro))
     }
 }
 

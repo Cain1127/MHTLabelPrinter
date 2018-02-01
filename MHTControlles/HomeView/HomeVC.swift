@@ -72,6 +72,7 @@ class HomeVC: UIViewController {
     
     //maple_mark-------🍁🍁🍁🍁🍁🍁新建标签
     @IBAction func addLabelBtn(_ sender: UIButton) {
+        self.dataSource = nil
         self.gotoEditTemplateVC()
     }
     

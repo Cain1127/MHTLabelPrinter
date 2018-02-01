@@ -17,7 +17,7 @@ class ElementHorizontalView: ElementView {
     /**
      * 重写构造函数
      */
-    override init(frame: CGRect) {
+    override init(frame: CGRect, pro: Float = PROPORTION_LOCAL) {
         self.widthChangeButton = UIImageView(frame: CGRect(x: frame.size.width - 15, y: frame.size.height / 2 - 15, width: 30, height: 30))
         self.widthChangeButton?.image = UIImage(named: "ModifierHorizontal")
         self.widthChangeButton?.isHidden = true
@@ -83,5 +83,12 @@ extension ElementHorizontalView {
             self.widthChangeClosure!(self, translation, gesture.state)
         }
         self.widthChangeAction(translation: translation, status: gesture.state)
+    }
+    
+    // 根据新的比率，刷新frame
+    override func resetFrameWithPro(pro: Float) {
+        self.widthChangeButton?.frame.origin.x = (self.widthChangeButton?.frame.origin.x)! / CGFloat(self.pro / pro)
+        self.widthChangeButton?.frame.origin.y = (self.widthChangeButton?.frame.origin.y)! / CGFloat(self.pro / pro)
+        super.resetFrameWithPro(pro: pro)
     }
 }
