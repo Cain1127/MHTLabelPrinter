@@ -47,7 +47,7 @@ struct TemplateModel: Codable {
     var tailDirection: Int? = 0
     
     // 尾巴长度(镜像偏移线相对左边，右边，上边，下边的偏移长度，默认偏移线在中心)
-    var tailLength: Float?
+    var tailLength: Float? = 10
     
     //  一维码元素数组
     var qcControls: Array<TemplateQCModel>?

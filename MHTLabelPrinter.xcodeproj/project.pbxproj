@@ -44,6 +44,7 @@
 		8483DB812018863900BAF5A8 /* TemplateRectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483DB802018863900BAF5A8 /* TemplateRectModel.swift */; };
 		8483DB832019C62D00BAF5A8 /* TemplateTextLable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483DB822019C62D00BAF5A8 /* TemplateTextLable.swift */; };
 		8483DB86201ADC1C00BAF5A8 /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483DB85201ADC1C00BAF5A8 /* DocumentPickerView.swift */; };
+		8494BD6C2022F31F00D16EFF /* AddLabelViewController+Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494BD6B2022F31F00D16EFF /* AddLabelViewController+Property.swift */; };
 		84A7194720109A0C0038E47D /* ElementVerticalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194620109A0C0038E47D /* ElementVerticalView.swift */; };
 		84A7194920109CDB0038E47D /* ElementHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194820109CDB0038E47D /* ElementHorizontalView.swift */; };
 		84A7194B2010AEA20038E47D /* SystemTemplateConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194A2010AEA20038E47D /* SystemTemplateConfigModel.swift */; };
@@ -115,6 +116,7 @@
 		8483DB802018863900BAF5A8 /* TemplateRectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateRectModel.swift; sourceTree = "<group>"; };
 		8483DB822019C62D00BAF5A8 /* TemplateTextLable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateTextLable.swift; sourceTree = "<group>"; };
 		8483DB85201ADC1C00BAF5A8 /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
+		8494BD6B2022F31F00D16EFF /* AddLabelViewController+Property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddLabelViewController+Property.swift"; sourceTree = "<group>"; };
 		84A7194620109A0C0038E47D /* ElementVerticalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementVerticalView.swift; sourceTree = "<group>"; };
 		84A7194820109CDB0038E47D /* ElementHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementHorizontalView.swift; sourceTree = "<group>"; };
 		84A7194A2010AEA20038E47D /* SystemTemplateConfigModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTemplateConfigModel.swift; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 			isa = PBXGroup;
 			children = (
 				9335D1BE1FFE116B00E9DDAC /* AddLabelViewController.swift */,
+				8494BD6B2022F31F00D16EFF /* AddLabelViewController+Property.swift */,
 			);
 			path = AddLabel;
 			sourceTree = "<group>";
@@ -569,6 +572,7 @@
 				8483DB7220170B3D00BAF5A8 /* LineElementView.swift in Sources */,
 				8483DB6B2017042900BAF5A8 /* AnimationUtil.swift in Sources */,
 				8483DB812018863900BAF5A8 /* TemplateRectModel.swift in Sources */,
+				8494BD6C2022F31F00D16EFF /* AddLabelViewController+Property.swift in Sources */,
 				84D95261200DFF1C009F1C5D /* TemplateModel.swift in Sources */,
 				8483DB7F2018834100BAF5A8 /* TemplateLineControlModel.swift in Sources */,
 				933EFA621FF343A80036CCE4 /* MHTparameters.swift in Sources */,

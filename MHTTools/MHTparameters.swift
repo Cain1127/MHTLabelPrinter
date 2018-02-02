@@ -12,6 +12,7 @@ import UIKit
 let SCREEN_width = UIScreen.main.bounds.width
 let SCREEN_height = UIScreen.main.bounds.height
 let SYS_Color = UIColor.init(red: 37 / 255, green: 160 / 255, blue:  227 / 255, alpha: 1)
+let SYS_LIGHT_GREY = UIColor.init(red: 220 / 255, green: 220 / 255, blue:  220 / 255, alpha: 1)
 let SYS_Bounds = UIScreen.main.bounds
 
 let SAVE_DOCUMENT_DEFAULT = "default"

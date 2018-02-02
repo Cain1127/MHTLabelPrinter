@@ -9,17 +9,20 @@
 import UIKit
 
 class AddLabelViewController: UIViewController {
-    fileprivate var editView: UIView!
+    var editView: UIView!
     fileprivate var pageView: UIView!
     fileprivate var mainScrollView: UIScrollView!
     fileprivate var pageScrollView: mapleScroollView!
+    
+    // 属性滚动视图
+    var propertyScrollView: UIScrollView!
     
     // 是否允许返回
     fileprivate var isSaved: Bool = true
     
     // 是否多选
     fileprivate var countMultSelected = 0
-    fileprivate var isMultSelected = false
+    var isMultSelected = false
     fileprivate var multSelectedBarButton: UIBarButtonItem!
     fileprivate var multSelectedImageViewLabelPage: UIImageView!
     
@@ -31,6 +34,10 @@ class AddLabelViewController: UIViewController {
     
     // 可以选择保存的文件夹数据源
     var documentDataSource: Array<SystemTemplateConfigModel>?
+    
+    // 镜像相关的View
+    var mirrorButton: UIButton?
+    var mirrorPropertyView: UIView?
     
     // 界面加载后，创建自定义的UI
     override func viewDidLoad() {
@@ -80,7 +87,7 @@ class AddLabelViewController: UIViewController {
     
     // 添加底部分页滚动内容
     func addPageScrollView() -> Void {
-        let pageTA1 = [MHTBase.internationalStringWith(str: "标签"),MHTBase.internationalStringWith(str: "插入"),MHTBase.internationalStringWith(str: "属性")]
+        let pageTA1 = [MHTBase.internationalStringWith(str: "标签"), MHTBase.internationalStringWith(str: "插入"), MHTBase.internationalStringWith(str: "属性")]
         self.pageScrollView = mapleScroollView.init()
         self.pageScrollView.lineColor = UIColor.clear
         self.pageScrollView.setData(pageTA1, normalColor: UIColor.black, select: UIColor.red, font: UIFont.systemFont(ofSize: 14), selectedIndex: 1)
@@ -120,7 +127,7 @@ class AddLabelViewController: UIViewController {
                     }
                 }
             case 1:
-                let btnImage = ["AddText","AddBarcode","AddTDcode","AddImage","Addlogo","AddLine","AddRectangle","AddTable","AddDate"]
+                let btnImage = ["AddText","AddBarcode","AddTDcode","AddImage","Addlogo","AddLine","AddRectangle","AddTable","AddDate", "AddScan"]
                 let btnTitle = [MHTBase.internationalStringWith(str: "文本"),
                                 MHTBase.internationalStringWith(str: "一维码"),
                                 MHTBase.internationalStringWith(str: "二维码"),
@@ -129,7 +136,8 @@ class AddLabelViewController: UIViewController {
                                 MHTBase.internationalStringWith(str: "线条"),
                                 MHTBase.internationalStringWith(str: "矩形"),
                                 MHTBase.internationalStringWith(str: "表格"),
-                                MHTBase.internationalStringWith(str: "日期")]
+                                MHTBase.internationalStringWith(str: "日期"),
+                                MHTBase.internationalStringWith(str: "扫一扫")]
                 for i in 0...2 {
                     for j in 0...3 {
                         if i == 2 && j == 1 {
@@ -145,7 +153,11 @@ class AddLabelViewController: UIViewController {
                     }
                 }
             case 2:
-                print(2)
+                self.propertyScrollView = UIScrollView(frame: CGRect.init(x: 0, y: 0, width: mapleView.frame.width, height: mapleView.frame.height))
+                self.propertyScrollView.showsVerticalScrollIndicator = false
+                self.propertyScrollView.showsHorizontalScrollIndicator = false
+                self.createPropertyView()
+                mapleView.addSubview(self.propertyScrollView)
             default:
                 print(4)
             }
@@ -569,6 +581,8 @@ extension AddLabelViewController {
         self.dataSource.proportion = tempDataSource.proportion!
         self.dataSource.concentration = tempDataSource.concentration!
         self.dataSource.printingDirection = tempDataSource.printingDirection!
+        self.dataSource.labelName = ""
+        self.dataSource.fileName = MHTBase.idGenerator()
     }
     
     // 删除元素按钮事件
@@ -579,11 +593,12 @@ extension AddLabelViewController {
                 if(subElementView.getIsSelected()) {
                     // 删除保存的数据
                     self.deleteViewModel(view: subElementView)
-                    
                     subElementView.removeFromSuperview()
                 }
             }
         }
+        
+        self.createPropertyView()
     }
     
     // 删除视图对应的数据源
@@ -1056,12 +1071,14 @@ extension AddLabelViewController {
             
             if(self.isSaved) {
                 self.clearElements()
+                self.createPropertyView()
             } else {
                 let alertController = UIAlertController(title: "提示", message: "是否需要保存？", preferredStyle: .alert)
                 let cancelAction = UIAlertAction(title: "取消", style: .cancel, handler: nil)
                 let okAction = UIAlertAction(title: "确定", style: .default, handler: {
                     action in
                     self.clearElements()
+                    self.createPropertyView()
                 })
                 alertController.addAction(cancelAction)
                 alertController.addAction(okAction)
@@ -1093,6 +1110,7 @@ extension AddLabelViewController {
         case 3:
             // 清空选择样式
             self.clearElementSelected()
+            self.createPropertyView()
             
             let pickerView = DocumentPickerView.init()
             pickerView.dataSource = self.documentDataSource
@@ -1153,15 +1171,11 @@ extension AddLabelViewController {
         self.present(alertController, animated: true, completion: nil)
     }
     
-    // 属性分页事件
-    @objc func propertyTabAction() -> Void {
-        
-    }
-    
     // 保存按钮统一处理，主要是判断是否有模板名
     func saveButtonAction() -> Void {
         // 清空选择样式
         self.clearElementSelected()
+        self.createPropertyView()
         
         // 判断是否已有文件名
         if(nil != self.dataSource.labelName && !(self.dataSource.labelName?.isEmpty)!) {
@@ -1248,11 +1262,13 @@ extension AddLabelViewController {
             self.dataSource.fileName = MHTBase.idGenerator()
         }
         self.createEditViewWithDataSource()
+        self.createPropertyView()
     }
     
     // 编辑view的单击，主要是将已选择的元素取消选择状态
     @objc func elementEditViewTapAction(gesture: UIGestureRecognizer) -> Void {
         self.clearElementSelected()
+        self.createPropertyView()
     }
     
     // 编辑窗口中的元素单击事件
@@ -1265,6 +1281,7 @@ extension AddLabelViewController {
         }
         
         tempView.setIsSelected(isSelected: true)
+        self.createPropertyView()
     }
     
     // 元素拖动
@@ -1411,6 +1428,7 @@ extension AddLabelViewController {
         }
         
         tempView.setIsSelected(isSelected: true)
+        self.createPropertyView()
         
         // 如果是多选，则没有双击输入内容的事件
         if(self.isMultSelected) {
