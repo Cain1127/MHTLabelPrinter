@@ -57,7 +57,7 @@ class TextElementView: ElementHorizontalView {
         if(translation.x > 0) {
             self.textView?.frame.size.width = self.oriWidth + translation.x
             self.textLabel?.frame.size.width = self.oriWidth + translation.x
-            self.resetUIHeightWithWidth(width: self.oriWidth + translation.x)
+            self.resetUIHeightWithWidth(width: self.oriWidth + translation.x, pro: self.pro)
         } else {
             let width = oriWidth + translation.x
             if(5 >= width) {
@@ -66,7 +66,7 @@ class TextElementView: ElementHorizontalView {
             
             self.textView?.frame.size.width = width
             self.textLabel?.frame.size.width = width
-            self.resetUIHeightWithWidth(width: width)
+            self.resetUIHeightWithWidth(width: width, pro: self.pro)
         }
         super.widthChangeAction(translation: translation, status: status)
     }
@@ -166,7 +166,7 @@ class TextElementView: ElementHorizontalView {
         super.resetFrameWithPro(pro: pro)
         
         // 重新扩展UI的高度，因为文字有可能分行
-        self.resetUIHeightWithWidth(width: (self.textLabel?.frame.width)!, pro: Float(newPro))
+        self.resetUIHeightWithWidth(width: (self.textLabel?.frame.width)!, pro: pro)
     }
 }
 

@@ -148,7 +148,9 @@ extension AddLabelViewController: UITextFieldDelegate {
         printDirectButton1.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         printDirectButton1.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
         printDirectButton1.isSelected = self.dataSource.printingDirection == 0
+        printDirectButton1.tag = 3000 + 0
         self.propertyScrollView.addSubview(printDirectButton1)
+        printDirectButton1.addTarget(self, action: #selector(changePrintDirectionAction(sender:)), for: UIControlEvents.touchUpInside)
         
         let printDirectButton2 = UIButton()
         printDirectButton2.frame = CGRect.init(x: printDirectButton1.frame.maxX + buttonGap, y: printDirectButton1.frame.minY, width: printDirectButton1.frame.width, height: printDirectButton1.frame.height)
@@ -163,7 +165,9 @@ extension AddLabelViewController: UITextFieldDelegate {
         printDirectButton2.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         printDirectButton2.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
         printDirectButton2.isSelected = self.dataSource.printingDirection == 90
+        printDirectButton2.tag = 3000 + 90
         self.propertyScrollView.addSubview(printDirectButton2)
+        printDirectButton2.addTarget(self, action: #selector(changePrintDirectionAction(sender:)), for: UIControlEvents.touchUpInside)
         
         let printDirectButton3 = UIButton()
         printDirectButton3.frame = CGRect.init(x: printDirectButton2.frame.maxX + buttonGap, y: printDirectButton1.frame.minY, width: printDirectButton1.frame.width, height: printDirectButton1.frame.height)
@@ -178,7 +182,9 @@ extension AddLabelViewController: UITextFieldDelegate {
         printDirectButton3.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         printDirectButton3.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
         printDirectButton3.isSelected = self.dataSource.printingDirection == 180
+        printDirectButton3.tag = 3000 + 180
         self.propertyScrollView.addSubview(printDirectButton3)
+        printDirectButton3.addTarget(self, action: #selector(changePrintDirectionAction(sender:)), for: UIControlEvents.touchUpInside)
         
         let printDirectButton4 = UIButton()
         printDirectButton4.frame = CGRect.init(x: printDirectButton3.frame.maxX + buttonGap, y: printDirectButton1.frame.minY, width: printDirectButton1.frame.width, height: printDirectButton1.frame.height)
@@ -193,7 +199,9 @@ extension AddLabelViewController: UITextFieldDelegate {
         printDirectButton4.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         printDirectButton4.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
         printDirectButton4.isSelected = self.dataSource.printingDirection == 270
+        printDirectButton4.tag = 3000 + 270
         self.propertyScrollView.addSubview(printDirectButton4)
+        printDirectButton4.addTarget(self, action: #selector(changePrintDirectionAction(sender:)), for: UIControlEvents.touchUpInside)
         
         // 分隔线
         let sepLabel6 = UILabel(frame: CGRect.init(x: CGFloat(0), y: printDirectLabel.frame.maxY, width: normalWidth, height: CGFloat(0.5)))
@@ -233,6 +241,8 @@ extension AddLabelViewController: UITextFieldDelegate {
         tailDirectButton1.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         tailDirectButton1.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
         tailDirectButton1.isSelected = self.dataSource.tailDirection == 2
+        tailDirectButton1.addTarget(self, action: #selector(changeMirrorDirectionAction(sender:)), for: UIControlEvents.touchUpInside)
+        tailDirectButton1.tag = 2000 + 2
         
         let tailDirectButton2 = UIButton()
         tailDirectButton2.frame = CGRect.init(x: tailDirectButton1.frame.maxX + buttonGap, y: tailDirectButton1.frame.minY, width: tailDirectButton1.frame.width, height: tailDirectButton1.frame.height)
@@ -246,7 +256,9 @@ extension AddLabelViewController: UITextFieldDelegate {
         tailDirectButton2.setTitleColor(UIColor.white, for: UIControlState.selected)
         tailDirectButton2.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         tailDirectButton2.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
-        tailDirectButton2.isSelected = self.dataSource.printingDirection == 3
+        tailDirectButton2.isSelected = self.dataSource.tailDirection == 3
+        tailDirectButton2.addTarget(self, action: #selector(changeMirrorDirectionAction(sender:)), for: UIControlEvents.touchUpInside)
+        tailDirectButton2.tag = 2000 + 3
         
         let tailDirectButton3 = UIButton()
         tailDirectButton3.frame = CGRect.init(x: tailDirectButton2.frame.maxX + buttonGap, y: tailDirectButton1.frame.minY, width: tailDirectButton1.frame.width, height: tailDirectButton1.frame.height)
@@ -260,7 +272,9 @@ extension AddLabelViewController: UITextFieldDelegate {
         tailDirectButton3.setTitleColor(UIColor.white, for: UIControlState.selected)
         tailDirectButton3.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         tailDirectButton3.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
-        tailDirectButton3.isSelected = self.dataSource.printingDirection == 0
+        tailDirectButton3.isSelected = self.dataSource.tailDirection == 0
+        tailDirectButton3.addTarget(self, action: #selector(changeMirrorDirectionAction(sender:)), for: UIControlEvents.touchUpInside)
+        tailDirectButton3.tag = 2000 + 0
         
         let tailDirectButton4 = UIButton()
         tailDirectButton4.frame = CGRect.init(x: tailDirectButton3.frame.maxX + buttonGap, y: tailDirectButton1.frame.minY, width: tailDirectButton1.frame.width, height: tailDirectButton1.frame.height)
@@ -274,7 +288,9 @@ extension AddLabelViewController: UITextFieldDelegate {
         tailDirectButton4.setTitleColor(UIColor.white, for: UIControlState.selected)
         tailDirectButton4.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         tailDirectButton4.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
-        tailDirectButton4.isSelected = self.dataSource.printingDirection == 1
+        tailDirectButton4.isSelected = self.dataSource.tailDirection == 1
+        tailDirectButton4.addTarget(self, action: #selector(changeMirrorDirectionAction(sender:)), for: UIControlEvents.touchUpInside)
+        tailDirectButton4.tag = 2000 + 1
         
         // 分隔线
         let sepLabel8 = UILabel(frame: CGRect.init(x: CGFloat(0), y: tailLabel.frame.maxY, width: normalWidth, height: CGFloat(0.5)))
@@ -395,6 +411,31 @@ extension AddLabelViewController: UITextFieldDelegate {
         
     }
     
+    // 选择打印方向事件
+    @objc func changePrintDirectionAction(sender: UIButton) {
+        if sender.isSelected {
+            return
+        }
+        
+        let tempButton = self.propertyScrollView.viewWithTag(self.dataSource.printingDirection! + 3000) as! UIButton
+        tempButton.isSelected = false
+        self.dataSource.printingDirection = sender.tag - 3000
+        sender.isSelected = true
+    }
+    
+    // 选择镜像方向事件
+    @objc func changeMirrorDirectionAction(sender: UIButton) {
+        if sender.isSelected {
+            return
+        }
+        
+        let tempButton = self.propertyScrollView.viewWithTag(self.dataSource.tailDirection! + 2000) as! UIButton
+        tempButton.isSelected = false
+        self.dataSource.tailDirection = sender.tag - 2000
+        sender.isSelected = true
+    }
+    
+    // 选择镜像事件
     @objc func changeMirrorSettingAction(sender: UIButton) {
         sender.isSelected = !sender.isSelected
         self.mirrorPropertyView?.isHidden = !sender.isSelected

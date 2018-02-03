@@ -31,9 +31,9 @@ class RectElementView: ElementVerticalView {
 extension RectElementView {
     // 根据数据模型刷新UI
     func updateUIWithModel(model: TemplateRectModel = TemplateRectModel(), pro: Float = PROPORTION_LOCAL) -> Void {
-        self.frame.size.width = CGFloat(model.W! / self.pro / pro)
-        self.frame.size.height = CGFloat(model.H! / self.pro / pro)
-        self.layer.borderWidth = CGFloat(model.linkWidth! / self.pro / pro)
-        self.pro = self.pro / pro
+        self.frame.size.width = CGFloat(model.W! / pro)
+        self.frame.size.height = CGFloat(model.H! / pro)
+        self.layer.borderWidth = CGFloat(model.linkWidth! / pro)
+        self.pro = pro
     }
 }

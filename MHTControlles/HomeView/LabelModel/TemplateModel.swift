@@ -28,7 +28,7 @@ struct TemplateModel: Codable {
     var proportion: Float? = PROPORTION_LOCAL
     
     // 图片二值化的阈值，默认为 128
-    var concentration: Float?
+    var concentration: Float? = 128
     
     // 是否有背景图片
     var bitmapPaperBackground: Bool? = false

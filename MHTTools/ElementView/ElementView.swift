@@ -126,6 +126,6 @@ extension ElementView {
     @objc func resetFrameWithPro(pro: Float) {
         self.frame.size.width = self.frame.width / CGFloat(self.pro / pro)
         self.frame.size.height = self.frame.height / CGFloat(self.pro / pro)
-        self.pro = self.pro / pro
+        self.pro = pro
     }
 }

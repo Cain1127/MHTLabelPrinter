@@ -89,9 +89,10 @@ extension BarcodeElementView {
         self.titleLabel?.text = model.text!
         self.imageView?.image = image
         
-        let textSize = model.TEXT_SIZE! / pro
+//        let textSize = model.TEXT_SIZE! / pro
+        let textSize = model.TEXT_SIZE!
         let font = UIFont.systemFont(ofSize: CGFloat(textSize))
-        let textHeight = StringUtil.getLabHeigh(labelStr: "H", font: font, width: frame.width)
+        let textHeight = StringUtil.getLabHeigh(labelStr: model.text!, font: font, width: frame.width)
         let newWidth = self.frame.width / CGFloat(self.pro / pro)
         let newHeight = self.frame.height / CGFloat(self.pro / pro)
         if(1 == model.DRAW_TEXT_POSITION) {

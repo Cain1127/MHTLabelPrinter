@@ -13,7 +13,7 @@ struct TemplateImageModel: Codable {
     var W: Float? = 80 * PROPORTION_LOCAL
     
     // 控件的高度(单位 px) contentRect:内容的坐标点，格式可参考注释一(单位 px) selectRect:选择框左边点，格式可参考注释一(单位 px)
-    var H: Float?
+    var H: Float? = 80 * PROPORTION_LOCAL
     
     // 外层选择框坐标
     var selectRect: String?

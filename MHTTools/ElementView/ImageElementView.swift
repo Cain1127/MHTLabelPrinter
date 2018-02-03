@@ -14,6 +14,7 @@ class ImageElementView: QRCodeElementView {
         self.imageView?.image = image
         self.imageView?.frame.size.width = (self.imageView?.frame.width)! / CGFloat(self.pro / pro)
         self.imageView?.frame.size.height = (self.imageView?.frame.height)! / CGFloat(self.pro / pro)
+        self.title = "图片"
         super.resetFrameWithPro(pro: pro)
     }
 }

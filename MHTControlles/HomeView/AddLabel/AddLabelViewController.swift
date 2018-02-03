@@ -209,7 +209,7 @@ class AddLabelViewController: UIViewController {
             proportion = proportionOld! / proportionNew
         }
         
-        // 更新本地数据源的比率
+        // 保存新的比率
         self.dataSource.proportion = proportion
         
         // 创建背景图片
@@ -240,6 +240,7 @@ class AddLabelViewController: UIViewController {
                                                                       y: CGFloat(Float(sizeStringArray[1])! / proportion),
                                                                       width: CGFloat(model.W! / proportion) + 5,
                                                                       height: CGFloat(model.H! / proportion)))
+                    tempView.pro = proportion
                     tempView.updateDateUIWithModel(model: model, pro: proportion)
                     self.editView.addSubview(tempView)
                     tempView.controlIndex = i
@@ -269,6 +270,7 @@ class AddLabelViewController: UIViewController {
                                                                       y: CGFloat(Float(sizeStringArray[1])! / proportion),
                                                                       width: CGFloat(model.W! / proportion) + 5,
                                                                       height: CGFloat(model.H! / proportion)))
+                    tempView.pro = proportion
                     tempView.updateUIWithModel(model: model, pro: proportion)
                     self.editView.addSubview(tempView)
                     tempView.controlIndex = i
@@ -308,8 +310,8 @@ class AddLabelViewController: UIViewController {
                                                                         height: CGFloat(model.H! / proportion)))
                 let barcodeString = model.text
                 let barcodeImage = MHTBase.creatBarCodeImage(content: barcodeString, size: tempView.frame.size)
-                tempView.imageView!.image = barcodeImage
-                tempView.titleLabel!.text = barcodeString
+                tempView.pro = proportion
+                tempView.updateUIWithModel(image: barcodeImage!, model: model, pro: proportion)
                 self.editView.addSubview(tempView)
                 tempView.controlIndex = i
                 tempView.tag = 2000 + i
@@ -345,8 +347,8 @@ class AddLabelViewController: UIViewController {
                                                                        height: CGFloat(model.H! / proportion)))
                 let barcodeString = model.text
                 let barcodeImage = MHTBase.creatQRCodeImage(content: barcodeString, iconName: nil, size: tempView.frame.size)
-                tempView.imageView!.image = barcodeImage
-                tempView.title = barcodeString
+                tempView.pro = proportion
+                tempView.updateUIWithModel(image: barcodeImage!, model: model, pro: proportion)
                 self.editView.addSubview(tempView)
                 tempView.controlIndex = i
                 tempView.tag = 3000 + i
@@ -382,8 +384,9 @@ class AddLabelViewController: UIViewController {
                 var imageString = model.bitmap!
                 imageString = imageString.replacingOccurrences(of: "\n", with: "")
                 let base64 = Data(base64Encoded: imageString)
-                tempView.imageView!.image = UIImage(data: base64!)
-                tempView.title = "图片"
+                let tempImage = UIImage(data: base64!)
+                tempView.pro = proportion
+                tempView.updateUIWithModel(image: tempImage!, imageModel: model, pro: proportion)
                 self.editView.addSubview(tempView)
                 tempView.controlIndex = i
                 tempView.tag = 4000 + i
@@ -416,7 +419,8 @@ class AddLabelViewController: UIViewController {
                                                                      y: CGFloat(Float(sizeStringArray[1])! / proportion),
                                                                      width: CGFloat(model.W! / proportion),
                                                                      height: CGFloat(model.H! / proportion)))
-                
+                tempView.pro = proportion
+                tempView.updateUIWithModel(model: model, pro: proportion)
                 self.editView.addSubview(tempView)
                 tempView.controlIndex = i
                 tempView.tag = 5000 + i
@@ -449,6 +453,8 @@ class AddLabelViewController: UIViewController {
                                                                      y: CGFloat(Float(sizeStringArray[1])! / proportion),
                                                                      width: CGFloat(model.W! / proportion),
                                                                      height: CGFloat(model.H! / proportion)))
+                tempView.pro = proportion
+                tempView.updateUIWithModel(model: model, pro: proportion)
                 self.editView.addSubview(tempView)
                 tempView.controlIndex = i
                 tempView.tag = 6000 + i
@@ -790,13 +796,13 @@ extension AddLabelViewController {
                 let tempView = TextElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height), pro: self.dataSource.proportion!)
                 
                 // 设置保存的坐标系
-                let saveFrame = CGRect(x: xPointResize * CGFloat(self.dataSource.proportion!),
-                                       y: yPointResize * CGFloat(self.dataSource.proportion!),
+                let saveFrame = CGRect(x: xPointResize,
+                                       y: yPointResize,
                                        width: CGFloat(tempModel.W!),
                                        height: CGFloat(tempModel.H!))
                 tempModel.selectRect = MHTBase.getSaveContentRect(frame: saveFrame)
                 tempModel.contentRect = tempModel.selectRect!
-                
+                tempView.pro = self.dataSource.proportion!
                 tempView.updateUIWithModel(model: tempModel, pro: self.dataSource.proportion!)
                 self.editView.addSubview(tempView)
                 
@@ -821,6 +827,7 @@ extension AddLabelViewController {
                 tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
                 tempView.heightChangeClosure = {(_ view: ElementView) -> Void in
                     self.resetModelRectWithView(view: view)
+                    self.isSaved = false
                 }
             case 1:
                 // 创建数据模板
@@ -835,13 +842,13 @@ extension AddLabelViewController {
                 let tempImage = MHTBase.creatBarCodeImage(content: tempString, size: tempView.frame.size)
                 
                 // 设置保存的坐标系
-                let saveFrame = CGRect(x: xPointResize * CGFloat(self.dataSource.proportion!),
-                                       y: yPointResize * CGFloat(self.dataSource.proportion!),
+                let saveFrame = CGRect(x: xPointResize,
+                                       y: yPointResize,
                                        width: CGFloat(tempModel.W!),
                                        height: CGFloat(tempModel.H!))
                 tempModel.selectRect = MHTBase.getSaveContentRect(frame: saveFrame)
                 tempModel.contentRect = tempModel.selectRect!
-                
+                tempView.pro = self.dataSource.proportion!
                 tempView.updateUIWithModel(image: tempImage!, model: tempModel, pro: self.dataSource.proportion!)
                 self.editView.addSubview(tempView)
                 
@@ -877,13 +884,13 @@ extension AddLabelViewController {
                 let tempImage = MHTBase.creatQRCodeImage(content: tempString, iconName: nil, size: tempView.frame.size)
                 
                 // 设置保存的坐标系
-                let saveFrame = CGRect(x: xPointResize * CGFloat(self.dataSource.proportion!),
-                                       y: yPointResize * CGFloat(self.dataSource.proportion!),
+                let saveFrame = CGRect(x: xPointResize,
+                                       y: yPointResize,
                                        width: CGFloat(tempModel.W!),
                                        height: CGFloat(tempModel.H!))
                 tempModel.selectRect = MHTBase.getSaveContentRect(frame: saveFrame)
                 tempModel.contentRect = tempModel.selectRect!
-                
+                tempView.pro = self.dataSource.proportion!
                 tempView.updateUIWithModel(image: tempImage!, model: tempModel, pro: self.dataSource.proportion!)
                 self.editView.addSubview(tempView)
                 
@@ -938,13 +945,13 @@ extension AddLabelViewController {
                 let tempView = LineElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height), pro: self.dataSource.proportion!)
                 
                 // 设置保存的坐标系
-                let saveFrame = CGRect(x: xPointResize * CGFloat(self.dataSource.proportion!),
-                                       y: yPointResize * CGFloat(self.dataSource.proportion!),
+                let saveFrame = CGRect(x: xPointResize,
+                                       y: yPointResize,
                                        width: CGFloat(tempModel.W!),
                                        height: CGFloat(tempModel.H!))
                 tempModel.selectRect = MHTBase.getSaveContentRect(frame: saveFrame)
                 tempModel.contentRect = tempModel.selectRect!
-                
+                tempView.pro = self.dataSource.proportion!
                 tempView.updateUIWithModel(model: tempModel, pro: self.dataSource.proportion!)
                 self.editView.addSubview(tempView)
                 
@@ -978,13 +985,13 @@ extension AddLabelViewController {
                 let tempView = RectElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height), pro: self.dataSource.proportion!)
                 
                 // 设置保存的坐标系
-                let saveFrame = CGRect(x: xPointResize * CGFloat(self.dataSource.proportion!),
-                                       y: yPointResize * CGFloat(self.dataSource.proportion!),
+                let saveFrame = CGRect(x: xPointResize,
+                                       y: yPointResize,
                                        width: CGFloat(tempModel.W!),
                                        height: CGFloat(tempModel.H!))
                 tempModel.selectRect = MHTBase.getSaveContentRect(frame: saveFrame)
                 tempModel.contentRect = tempModel.selectRect!
-                
+                tempView.pro = self.dataSource.proportion!
                 tempView.updateUIWithModel(model: tempModel, pro: self.dataSource.proportion!)
                 self.editView.addSubview(tempView)
                 
@@ -1020,8 +1027,8 @@ extension AddLabelViewController {
                 let tempView = DateElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: height), pro: self.dataSource.proportion!)
                 
                 // 设置保存的坐标系
-                let saveFrame = CGRect(x: xPointResize * CGFloat(self.dataSource.proportion!),
-                                       y: yPointResize * CGFloat(self.dataSource.proportion!),
+                let saveFrame = CGRect(x: xPointResize,
+                                       y: yPointResize,
                                        width: CGFloat(tempModel.W!),
                                        height: CGFloat(tempModel.H!))
                 tempModel.selectRect = MHTBase.getSaveContentRect(frame: saveFrame)
@@ -1032,6 +1039,7 @@ extension AddLabelViewController {
                 dateformatter.dateFormat = "YYYY-MM-dd HH:mm:ss"
                 let dateString = dateformatter.string(from: currentdate)
                 tempModel.text = dateString
+                tempView.pro = self.dataSource.proportion!
                 tempView.updateDateUIWithModel(model: tempModel, pro: self.dataSource.proportion!)
                 self.editView.addSubview(tempView)
                 
@@ -1055,6 +1063,7 @@ extension AddLabelViewController {
                 tempView.widthChangeClosure = self.elementWidthChangeClosureAction(view: translation: status:)
                 tempView.heightChangeClosure = {(_ view: ElementView) -> Void in
                     self.resetModelRectWithView(view: view)
+                    self.isSaved = false
                 }
             default:
                 print("insertElementTabButtonAction -1")
@@ -1296,6 +1305,7 @@ extension AddLabelViewController {
         if(gesture.state == .ended) {
             // 重置view保存坐标
             self.resetModelRectWithView(view: gesture.view as! ElementView)
+            self.isSaved = false
         }
         
         // 多选时，需要将其他已选择的View也拖动
@@ -1381,6 +1391,7 @@ extension AddLabelViewController {
      * 元素高度改变时的统一处理
      */
     func elementWidthChangeClosureAction(view: ElementView, translation: CGPoint, status: UIGestureRecognizerState) -> Void {
+        self.isSaved = false
         for subView in self.editView.subviews {
             if subView.isKind(of: ElementView.self) {
                 let subElementView = subView as! ElementView
@@ -1401,6 +1412,7 @@ extension AddLabelViewController {
      * 元素高度改变时的统一处理
      */
     func elementHeightChangeClosureAction(view: ElementView, translation: CGPoint, status: UIGestureRecognizerState) -> Void {
+        self.isSaved = false
         for subView in self.editView.subviews {
             if subView.isKind(of: ElementView.self) &&
                 !subView.isKind(of: TextElementView.self) {
@@ -1596,13 +1608,13 @@ extension AddLabelViewController: UIImagePickerControllerDelegate, UINavigationC
         let tempView = ImageElementView.init(frame: CGRect(x: xPointResize, y: yPointResize, width: width, height: width), pro: self.dataSource.proportion!)
         
         // 设置保存的坐标系
-        let saveFrame = CGRect(x: xPointResize * CGFloat(self.dataSource.proportion!),
-                               y: yPointResize * CGFloat(self.dataSource.proportion!),
+        let saveFrame = CGRect(x: xPointResize,
+                               y: yPointResize,
                                width: CGFloat(tempModel.W!),
                                height: CGFloat(tempModel.H!))
         tempModel.selectRect = MHTBase.getSaveContentRect(frame: saveFrame)
         tempModel.contentRect = tempModel.selectRect!
-        
+        tempView.pro = self.dataSource.proportion!
         tempView.updateUIWithModel(image: image, imageModel: tempModel, pro: self.dataSource.proportion!)
         self.editView.addSubview(tempView)
         
