@@ -27,22 +27,31 @@ typedef enum : NSUInteger {
 @interface FzhBluetooth : NSObject<CBPeripheralDelegate,CBCentralManagerDelegate,CBPeripheralManagerDelegate>
 
 @property (assign,nonatomic) AutomaticConnectionEquipmenEnum connectionEquipment;
+
 @property (strong, nonatomic) id delegate;
+
 @property (copy, nonatomic) FZStateUpdateBlock stateUpdateBlock;
+
 /** 发现一个蓝牙外设的回调 */
-@property (copy, nonatomic) FZDiscoverPeripheralBlock               discoverPeripheralBlcok;
+@property (copy, nonatomic) FZDiscoverPeripheralBlock discoverPeripheralBlcok;
+
 /** 连接外设完成的回调 */
-@property (copy, nonatomic) FZConnectSuccessBlock                connectSuccessBlock;
+@property (copy, nonatomic) FZConnectSuccessBlock connectSuccessBlock;
+
 /** 连接外设失败的回调 */
-@property (copy, nonatomic) FZConnectFailBlock                connectFailBlock;
+@property (copy, nonatomic) FZConnectFailBlock connectFailBlock;
+
 /** 获取蓝牙外设信号强度的回调  */
-@property (copy, nonatomic) FZGetRSSIBlock                          getRSSIBlock;
+@property (copy, nonatomic) FZGetRSSIBlock getRSSIBlock;
+
 /** 将数据写入特性中的回调 */
-@property (copy, nonatomic) FZWriteToCharacteristicBlock            writeToCharacteristicBlock;
+@property (copy, nonatomic) FZWriteToCharacteristicBlock writeToCharacteristicBlock;
+
 @property (copy, nonatomic) FZEquipmentReturnBlock equipmentReturnBlock;
 
-@property (nonatomic, strong) CBCharacteristic * writeCharacteristic;//可写入参数,蓝牙连接成功,2秒后获得参数值
-@property (nonatomic, strong) CBCharacteristic * notifyCharacteristic;//可通知参数,蓝牙连接成功,2秒后获得参数值
+@property (nonatomic, strong) CBCharacteristic * writeCharacteristic;// 可写入参数,蓝牙连接成功,2秒后获得参数值
+
+@property (nonatomic, strong) CBCharacteristic * notifyCharacteristic;// 可通知参数,蓝牙连接成功,2秒后获得参数值
 
 +(instancetype)shareInstance;
 

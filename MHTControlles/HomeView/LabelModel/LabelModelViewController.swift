@@ -32,6 +32,9 @@ class LabelModelViewController: UIViewController {
     // 选择模板的回调
     var selectedTemplateClosure: ((_ model: TemplateModel, _ isUser: Bool) -> Void)?
     
+    // 从快速打印进来时，已经选择的元素fileName数组
+    var selectedFileNameArray: Array<String>? = []
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
@@ -292,7 +295,7 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
                     }
                     
                     // 设置新的图片和标题
-                    cell?.updateUIWithModel(model: tempTempate, width: tableView.frame.width, height: cellHeight)
+                    cell?.updateUIWithModel(model: tempTempate, width: tableView.frame.width, height: cellHeight, isShowSelected: self.checkItemSelected(fileName: tempTempate.fileName!))
                     return cell!
                 }
             }
@@ -310,6 +313,17 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
         }
         
         return cell!;
+    }
+    
+    // 判断当前的对象是否已选择，在快速打印时会显示这个属性
+    func checkItemSelected(fileName: String) -> Bool {
+        for selectedFileName in self.selectedFileNameArray! {
+            if selectedFileName == fileName {
+                return true
+            }
+        }
+        
+        return false
     }
     
     /**

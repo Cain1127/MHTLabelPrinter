@@ -83,7 +83,7 @@ class HomeVC: UIViewController {
     
     //maple_mark-------🍁🍁🍁🍁🍁🍁快速打印
     @IBAction func quickPrintBtn(_ sender: UIButton) {
-        self.navigationController?.pushViewController(quickPrintVC(), animated: true)
+        self.navigationController?.pushViewController(QuickPrintVC(), animated: true)
     }
     
     //maple_mark-------🍁🍁🍁🍁🍁🍁便签模版

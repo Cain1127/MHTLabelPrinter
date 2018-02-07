@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension AddLabelViewController: UITextFieldDelegate {
+extension AddLabelViewController {
     // 创建属性元素
     func createPropertyView() -> Void {
         // 清空原对象
@@ -66,6 +66,7 @@ extension AddLabelViewController: UITextFieldDelegate {
         nameTextField.placeholder = MHTBase.internationalStringWith(str: "请输入名称")
         nameTextField.textAlignment = NSTextAlignment.right
         nameTextField.textColor = SYS_LIGHT_GREY
+        nameTextField.tag = 100
         self.propertyScrollView.addSubview(nameTextField)
         
         // 分隔线
@@ -2733,6 +2734,22 @@ extension AddLabelViewController: UITextFieldDelegate {
         } else {
             // 设置滚动
             self.propertyScrollView.contentSize = CGSize(width: (self.mirrorPropertyView?.frame.width)!, height: self.propertyScrollView.contentSize.height - (self.mirrorPropertyView?.frame.height)!)
+        }
+    }
+}
+
+// 属性窗口的输入框代理
+extension AddLabelViewController: UITextFieldDelegate {
+    // 结束输入事件
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let textInput = textField.text
+        if nil == textInput || 0 >= (textInput as! NSString).length {
+            return
+        }
+        
+        // 编辑窗口的名称编辑
+        if textField.tag == 100 {
+            
         }
     }
 }

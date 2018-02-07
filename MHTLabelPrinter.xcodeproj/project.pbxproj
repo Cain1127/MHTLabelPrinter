@@ -45,6 +45,7 @@
 		8483DB832019C62D00BAF5A8 /* TemplateTextLable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483DB822019C62D00BAF5A8 /* TemplateTextLable.swift */; };
 		8483DB86201ADC1C00BAF5A8 /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483DB85201ADC1C00BAF5A8 /* DocumentPickerView.swift */; };
 		8494BD6C2022F31F00D16EFF /* AddLabelViewController+Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494BD6B2022F31F00D16EFF /* AddLabelViewController+Property.swift */; };
+		8494BD702029787100D16EFF /* QuickPrintDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8494BD6F2029787100D16EFF /* QuickPrintDataModel.swift */; };
 		84A7194720109A0C0038E47D /* ElementVerticalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194620109A0C0038E47D /* ElementVerticalView.swift */; };
 		84A7194920109CDB0038E47D /* ElementHorizontalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194820109CDB0038E47D /* ElementHorizontalView.swift */; };
 		84A7194B2010AEA20038E47D /* SystemTemplateConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A7194A2010AEA20038E47D /* SystemTemplateConfigModel.swift */; };
@@ -66,7 +67,7 @@
 		933EFA6A1FF36B990036CCE4 /* HomeVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 933EFA681FF36B990036CCE4 /* HomeVC.xib */; };
 		93BD67561FF387B0001112D3 /* setViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93BD67551FF387B0001112D3 /* setViewController.swift */; };
 		93C21546200270C100E6C7B3 /* mapleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C21545200270C100E6C7B3 /* mapleButton.swift */; };
-		93C215C820039C1600E6C7B3 /* quickPrintVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C215C720039C1600E6C7B3 /* quickPrintVC.swift */; };
+		93C215C820039C1600E6C7B3 /* QuickPrintVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93C215C720039C1600E6C7B3 /* QuickPrintVC.swift */; };
 		93C215CC2003B3E500E6C7B3 /* mapleScroollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C215CA2003B3E500E6C7B3 /* mapleScroollView.m */; };
 		93E9EFF91FFCE67000B58FC5 /* setTBCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9EFF71FFCE66F00B58FC5 /* setTBCell.swift */; };
 		93E9EFFA1FFCE67000B58FC5 /* setTBCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E9EFF81FFCE67000B58FC5 /* setTBCell.xib */; };
@@ -117,6 +118,7 @@
 		8483DB822019C62D00BAF5A8 /* TemplateTextLable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateTextLable.swift; sourceTree = "<group>"; };
 		8483DB85201ADC1C00BAF5A8 /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
 		8494BD6B2022F31F00D16EFF /* AddLabelViewController+Property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddLabelViewController+Property.swift"; sourceTree = "<group>"; };
+		8494BD6F2029787100D16EFF /* QuickPrintDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPrintDataModel.swift; sourceTree = "<group>"; };
 		84A7194620109A0C0038E47D /* ElementVerticalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementVerticalView.swift; sourceTree = "<group>"; };
 		84A7194820109CDB0038E47D /* ElementHorizontalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementHorizontalView.swift; sourceTree = "<group>"; };
 		84A7194A2010AEA20038E47D /* SystemTemplateConfigModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemTemplateConfigModel.swift; sourceTree = "<group>"; };
@@ -139,7 +141,7 @@
 		933EFA681FF36B990036CCE4 /* HomeVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeVC.xib; sourceTree = "<group>"; };
 		93BD67551FF387B0001112D3 /* setViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setViewController.swift; sourceTree = "<group>"; };
 		93C21545200270C100E6C7B3 /* mapleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mapleButton.swift; sourceTree = "<group>"; };
-		93C215C720039C1600E6C7B3 /* quickPrintVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = quickPrintVC.swift; sourceTree = "<group>"; };
+		93C215C720039C1600E6C7B3 /* QuickPrintVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPrintVC.swift; sourceTree = "<group>"; };
 		93C215CA2003B3E500E6C7B3 /* mapleScroollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mapleScroollView.m; sourceTree = "<group>"; };
 		93C215CB2003B3E500E6C7B3 /* mapleScroollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mapleScroollView.h; sourceTree = "<group>"; };
 		93C215CD2003B40C00E6C7B3 /* MHTHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MHTHeader.h; sourceTree = "<group>"; };
@@ -394,7 +396,8 @@
 		93BD67521FF3875B001112D3 /* QuickPrint */ = {
 			isa = PBXGroup;
 			children = (
-				93C215C720039C1600E6C7B3 /* quickPrintVC.swift */,
+				93C215C720039C1600E6C7B3 /* QuickPrintVC.swift */,
+				8494BD6F2029787100D16EFF /* QuickPrintDataModel.swift */,
 			);
 			path = QuickPrint;
 			sourceTree = "<group>";
@@ -561,7 +564,8 @@
 				933EFA661FF351900036CCE4 /* MHTBase.swift in Sources */,
 				84264C8920105F9B0011DFEC /* ElementView.swift in Sources */,
 				84A7194F2011C2970038E47D /* TemplateCell.swift in Sources */,
-				93C215C820039C1600E6C7B3 /* quickPrintVC.swift in Sources */,
+				8494BD702029787100D16EFF /* QuickPrintDataModel.swift in Sources */,
+				93C215C820039C1600E6C7B3 /* QuickPrintVC.swift in Sources */,
 				84A7194920109CDB0038E47D /* ElementHorizontalView.swift in Sources */,
 				93C21546200270C100E6C7B3 /* mapleButton.swift in Sources */,
 				84264C8B20106E7E0011DFEC /* BarcodeElementView.swift in Sources */,
@@ -708,7 +712,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4ZSRSABKV3;
+				DEVELOPMENT_TEAM = JBTC579C38;
 				INFOPLIST_FILE = MHTLabelPrinter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -726,7 +730,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4ZSRSABKV3;
+				DEVELOPMENT_TEAM = JBTC579C38;
 				INFOPLIST_FILE = MHTLabelPrinter/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

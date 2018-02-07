@@ -32,6 +32,9 @@ class MHTNavC: UINavigationController {
         if(self.topViewController?.isKind(of: AddLabelViewController.self))! {
             let vc = self.topViewController as! AddLabelViewController
             vc.turnBackAction()
+        } else if (self.topViewController?.isKind(of: QuickPrintVC.self))! {
+            let vc = self.topViewController as! QuickPrintVC
+            vc.turnBackAction()
         } else {
             popViewController(animated: true)
         }
