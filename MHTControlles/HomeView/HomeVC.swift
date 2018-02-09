@@ -67,7 +67,7 @@ class HomeVC: UIViewController {
     
     //maple_mark-------🍁🍁🍁🍁🍁🍁连接蓝牙
     @IBAction func linkBluetoothBtn(_ sender: UIButton) {
-        self.navigationController?.pushViewController(bluetoothMVC(), animated: true)
+        self.navigationController?.pushViewController(BluetoothMVC(), animated: true)
     }
     
     //maple_mark-------🍁🍁🍁🍁🍁🍁新建标签
@@ -78,7 +78,7 @@ class HomeVC: UIViewController {
     
     //maple_mark-------🍁🍁🍁🍁🍁🍁打印标签
     @IBAction func printLabelBtn(_ sender: UIButton) {
-        self.navigationController?.pushViewController(bluetoothMVC(), animated: true)
+        self.navigationController?.pushViewController(BluetoothMVC(), animated: true)
     }
     
     //maple_mark-------🍁🍁🍁🍁🍁🍁快速打印

@@ -219,7 +219,7 @@ class QuickPrintVC: UIViewController {
         case 400:
             self.saveCurrentDataSource()
         case 401:
-            self.navigationController?.pushViewController(bluetoothMVC(), animated: true)
+            self.navigationController?.pushViewController(BluetoothMVC(), animated: true)
         default:
             if 300 <= sender.tag {
                 let index = sender.tag - 300

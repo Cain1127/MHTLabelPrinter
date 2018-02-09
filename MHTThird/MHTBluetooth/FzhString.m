@@ -204,7 +204,7 @@ static FzhString *dbManger=nil;
     
     NSMutableData *hexData = [[NSMutableData alloc] initWithCapacity:8];
     NSRange range;
-    if ([str length] %2 == 0) {
+    if ([str length] % 2 == 0) {
         range = NSMakeRange(0,2);
     } else {
         range = NSMakeRange(0,1);

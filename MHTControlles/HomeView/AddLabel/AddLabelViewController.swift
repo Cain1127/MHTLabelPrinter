@@ -32,6 +32,9 @@ class AddLabelViewController: UIViewController {
     // 当前编辑的数据
     var dataSource = TemplateModel()
     
+    // 当前选择中的元素下标
+    var viewSelectedElement: ElementView?
+    
     // 可以选择保存的文件夹数据源
     var documentDataSource: Array<SystemTemplateConfigModel>?
     
@@ -1259,7 +1262,34 @@ extension AddLabelViewController {
     
     // 打印事件
     @objc func printCurrentPage() {
-        self.navigationController?.pushViewController(bluetoothMVC(), animated: true)
+        if nil == FzhBluetooth.shareInstance().serviceArr || 0 >= FzhBluetooth.shareInstance().serviceArr.count {
+            self.navigationController?.pushViewController(BluetoothMVC(), animated: true)
+        } else {
+            // 生成一次界面图片
+            let viewImage = MHTBase.getImageFromView(view: self.editView)
+            
+            // 将图片转为base64
+            let imageData = UIImagePNGRepresentation(viewImage)
+            let base64String = imageData!.base64EncodedString()
+            
+            // 打印
+            ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "正在打印……"))
+//            FzhBluetooth.shareInstance().write(imageData, for: nil, completionBlock: {(ch, err) in
+//                ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "已打印"))
+//            }, return: { (peri, ch, dataString, err) in
+//                ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "打印失败"))
+//                print(err as Any)
+//            })
+            
+            var imageString = self.dataSource.labelViewBack!
+            imageString = imageString.replacingOccurrences(of: "\n", with: "")
+            FzhBluetooth.shareInstance().writeValue(imageString, for: nil, completionBlock: {(ch, err) in
+                ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "已打印"))
+            }, return: { (peri, ch, dataString, err) in
+                ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "打印失败"))
+                print(err as Any)
+            })
+        }
     }
     
     // 选择模板编辑

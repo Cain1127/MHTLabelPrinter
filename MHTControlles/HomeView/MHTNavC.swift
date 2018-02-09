@@ -35,6 +35,9 @@ class MHTNavC: UINavigationController {
         } else if (self.topViewController?.isKind(of: QuickPrintVC.self))! {
             let vc = self.topViewController as! QuickPrintVC
             vc.turnBackAction()
+        } else if (self.topViewController?.isKind(of: BluetoothMVC.self))! {
+            let vc = self.topViewController as! BluetoothMVC
+            vc.turnBackAction()
         } else {
             popViewController(animated: true)
         }

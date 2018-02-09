@@ -829,6 +829,10 @@ extension AddLabelViewController {
     }
     
     func createTextElementViewPropertyView(view: TextElementView) -> Void {
+        // 保存下标
+        self.viewSelectedElement = view
+        let model = self.dataSource.textControl![view.controlIndex!]
+        
         // 通用高度
         let normalHeight = CGFloat(40)
         let normalWidth = self.propertyScrollView.frame.width
@@ -872,8 +876,10 @@ extension AddLabelViewController {
         printDirectButton1.setTitleColor(UIColor.white, for: UIControlState.selected)
         printDirectButton1.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         printDirectButton1.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
-        printDirectButton1.isSelected = self.dataSource.printingDirection == 0
+        printDirectButton1.isSelected = model.rotate! == 0
+        printDirectButton1.tag = 4000 + 0
         self.propertyScrollView.addSubview(printDirectButton1)
+        printDirectButton1.addTarget(self, action: #selector(rotationalDirectionTextElement(sender:)), for: UIControlEvents.touchUpInside)
         
         let printDirectButton2 = UIButton()
         printDirectButton2.frame = CGRect.init(x: printDirectButton1.frame.maxX + buttonGap, y: printDirectButton1.frame.minY, width: printDirectButton1.frame.width, height: printDirectButton1.frame.height)
@@ -887,8 +893,10 @@ extension AddLabelViewController {
         printDirectButton2.setTitleColor(UIColor.white, for: UIControlState.selected)
         printDirectButton2.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         printDirectButton2.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
-        printDirectButton2.isSelected = self.dataSource.printingDirection == 90
+        printDirectButton2.isSelected = model.rotate! == 90
+        printDirectButton2.tag = 4000 + 90
         self.propertyScrollView.addSubview(printDirectButton2)
+        printDirectButton2.addTarget(self, action: #selector(rotationalDirectionTextElement(sender:)), for: UIControlEvents.touchUpInside)
         
         let printDirectButton3 = UIButton()
         printDirectButton3.frame = CGRect.init(x: printDirectButton2.frame.maxX + buttonGap, y: printDirectButton1.frame.minY, width: printDirectButton1.frame.width, height: printDirectButton1.frame.height)
@@ -902,8 +910,10 @@ extension AddLabelViewController {
         printDirectButton3.setTitleColor(UIColor.white, for: UIControlState.selected)
         printDirectButton3.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         printDirectButton3.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
-        printDirectButton3.isSelected = self.dataSource.printingDirection == 180
+        printDirectButton3.isSelected = model.rotate! == 180
+        printDirectButton3.tag = 4000 + 180
         self.propertyScrollView.addSubview(printDirectButton3)
+        printDirectButton3.addTarget(self, action: #selector(rotationalDirectionTextElement(sender:)), for: UIControlEvents.touchUpInside)
         
         let printDirectButton4 = UIButton()
         printDirectButton4.frame = CGRect.init(x: printDirectButton3.frame.maxX + buttonGap, y: printDirectButton1.frame.minY, width: printDirectButton1.frame.width, height: printDirectButton1.frame.height)
@@ -917,8 +927,10 @@ extension AddLabelViewController {
         printDirectButton4.setTitleColor(UIColor.white, for: UIControlState.selected)
         printDirectButton4.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.normal)
         printDirectButton4.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.selected)
-        printDirectButton4.isSelected = self.dataSource.printingDirection == 270
+        printDirectButton4.isSelected = model.rotate! == 270
+        printDirectButton4.tag = 4000 + 270
         self.propertyScrollView.addSubview(printDirectButton4)
+        printDirectButton4.addTarget(self, action: #selector(rotationalDirectionTextElement(sender:)), for: UIControlEvents.touchUpInside)
         
         // 分隔线
         let sepLabel2 = UILabel(frame: CGRect.init(x: CGFloat(0), y: printDirectLabel.frame.maxY, width: normalWidth, height: CGFloat(0.5)))
@@ -945,7 +957,9 @@ extension AddLabelViewController {
         centerHorizontalButton.setTitleColor(SYS_Color, for: UIControlState.highlighted)
         centerHorizontalButton.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.normal)
         centerHorizontalButton.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.highlighted)
+        centerHorizontalButton.tag = 50
         self.propertyScrollView.addSubview(centerHorizontalButton)
+        centerHorizontalButton.addTarget(self, action: #selector(positionChangeElement(sender:)), for: UIControlEvents.touchUpInside)
         
         // 垂直居中
         let centerVaticalButton = UIButton()
@@ -955,7 +969,9 @@ extension AddLabelViewController {
         centerVaticalButton.setTitleColor(SYS_Color, for: UIControlState.highlighted)
         centerVaticalButton.setBackgroundImage(UIImage(named: "BlueButton"), for: UIControlState.normal)
         centerVaticalButton.setBackgroundImage(UIImage(named: "WhiteButton"), for: UIControlState.highlighted)
+        centerVaticalButton.tag = 55
         self.propertyScrollView.addSubview(centerVaticalButton)
+        centerVaticalButton.addTarget(self, action: #selector(positionChangeElement(sender:)), for: UIControlEvents.touchUpInside)
         
         let sepLabel4 = UILabel(frame: CGRect.init(x: CGFloat(0), y: centerHorizontalButton.frame.maxY + 5, width: normalWidth, height: CGFloat(0.5)))
         sepLabel4.backgroundColor = UIColor.black
@@ -968,9 +984,11 @@ extension AddLabelViewController {
         
         let topPositionTextField = UITextField(frame: CGRect.init(x: topPositionLabel.frame.maxX + 16, y: topPositionLabel.frame.minY, width: normalWidth - nameLabel.frame.width - 16 - 16 - 80 - 10, height: normalHeight))
         topPositionTextField.delegate = self
-        topPositionTextField.text = "0"
+        topPositionTextField.text = view.frame.minY.description
         topPositionTextField.textAlignment = NSTextAlignment.right
         topPositionTextField.textColor = SYS_LIGHT_GREY
+        topPositionTextField.tag = 63
+        topPositionTextField.isUserInteractionEnabled = false
         self.propertyScrollView.addSubview(topPositionTextField)
         
         let topPositionAddButton = UIButton()
@@ -982,7 +1000,9 @@ extension AddLabelViewController {
         topPositionAddButton.layer.cornerRadius = 4
         topPositionAddButton.layer.borderColor = SYS_Color.cgColor
         topPositionAddButton.layer.borderWidth = 1
+        topPositionAddButton.tag = 60
         self.propertyScrollView.addSubview(topPositionAddButton)
+        topPositionAddButton.addTarget(self, action: #selector(xypointChangeAction(sender:)), for: UIControlEvents.touchUpInside)
         
         let topPositionReduceButton = UIButton()
         topPositionReduceButton.frame = CGRect(x: topPositionAddButton.frame.maxX + 5, y: topPositionTextField.frame.minY + 5, width: 40, height: 30)
@@ -993,7 +1013,9 @@ extension AddLabelViewController {
         topPositionReduceButton.layer.cornerRadius = 4
         topPositionReduceButton.layer.borderColor = SYS_Color.cgColor
         topPositionReduceButton.layer.borderWidth = 1
+        topPositionReduceButton.tag = 65
         self.propertyScrollView.addSubview(topPositionReduceButton)
+        topPositionReduceButton.addTarget(self, action: #selector(xypointChangeAction(sender:)), for: UIControlEvents.touchUpInside)
         
         let sepLabel5 = UILabel(frame: CGRect.init(x: CGFloat(0), y: topPositionLabel.frame.maxY, width: normalWidth, height: CGFloat(0.5)))
         sepLabel5.backgroundColor = UIColor.black
@@ -1006,9 +1028,11 @@ extension AddLabelViewController {
         
         let leftPositionTextField = UITextField(frame: CGRect.init(x: leftPositionLabel.frame.maxX + 16, y: leftPositionLabel.frame.minY, width: normalWidth - nameLabel.frame.width - 16 - 16 - 80 - 10, height: normalHeight))
         leftPositionTextField.delegate = self
-        leftPositionTextField.text = "0"
+        leftPositionTextField.text = view.frame.minX.description
         leftPositionTextField.textAlignment = NSTextAlignment.right
         leftPositionTextField.textColor = SYS_LIGHT_GREY
+        leftPositionTextField.tag = 73
+        leftPositionTextField.isUserInteractionEnabled = false
         self.propertyScrollView.addSubview(leftPositionTextField)
         
         let leftPositionAddButton = UIButton()
@@ -1020,7 +1044,9 @@ extension AddLabelViewController {
         leftPositionAddButton.layer.cornerRadius = 4
         leftPositionAddButton.layer.borderColor = SYS_Color.cgColor
         leftPositionAddButton.layer.borderWidth = 1
+        leftPositionAddButton.tag = 70
         self.propertyScrollView.addSubview(leftPositionAddButton)
+        leftPositionAddButton.addTarget(self, action: #selector(xypointChangeAction(sender:)), for: UIControlEvents.touchUpInside)
         
         let leftPositionReduceButton = UIButton()
         leftPositionReduceButton.frame = CGRect(x: leftPositionAddButton.frame.maxX + 5, y: leftPositionAddButton.frame.minY, width: 40, height: 30)
@@ -1031,7 +1057,9 @@ extension AddLabelViewController {
         leftPositionReduceButton.layer.cornerRadius = 4
         leftPositionReduceButton.layer.borderColor = SYS_Color.cgColor
         leftPositionReduceButton.layer.borderWidth = 1
+        leftPositionReduceButton.tag = 75
         self.propertyScrollView.addSubview(leftPositionReduceButton)
+        leftPositionReduceButton.addTarget(self, action: #selector(xypointChangeAction(sender:)), for: UIControlEvents.touchUpInside)
         
         let sepLabel6 = UILabel(frame: CGRect.init(x: CGFloat(0), y: leftPositionLabel.frame.maxY, width: normalWidth, height: CGFloat(0.5)))
         sepLabel6.backgroundColor = UIColor.black
@@ -1182,9 +1210,11 @@ extension AddLabelViewController {
         
         let wordSizeTextField = UITextField(frame: CGRect.init(x: wordSizeLabel.frame.maxX + 16, y: wordSizeLabel.frame.minY, width: normalWidth - nameLabel.frame.width - 16 - 16 - 80 - 10, height: normalHeight))
         wordSizeTextField.delegate = self
-        wordSizeTextField.text = "60"
+        wordSizeTextField.text = model.TEXT_SIZE?.description
         wordSizeTextField.textAlignment = NSTextAlignment.right
         wordSizeTextField.textColor = SYS_LIGHT_GREY
+        wordSizeTextField.isUserInteractionEnabled = false
+        wordSizeTextField.tag = 80
         self.propertyScrollView.addSubview(wordSizeTextField)
         
         let wordSizeAddButton = UIButton()
@@ -1196,7 +1226,9 @@ extension AddLabelViewController {
         wordSizeAddButton.layer.cornerRadius = 4
         wordSizeAddButton.layer.borderColor = SYS_Color.cgColor
         wordSizeAddButton.layer.borderWidth = 1
+        wordSizeAddButton.tag = 85
         self.propertyScrollView.addSubview(wordSizeAddButton)
+        wordSizeAddButton.addTarget(self, action: #selector(wordSizeChangeAction(sender:)), for: UIControlEvents.touchUpInside)
         
         let wordSizeReduceButton = UIButton()
         wordSizeReduceButton.frame = CGRect(x: wordSizeAddButton.frame.maxX + 5, y: wordSizeAddButton.frame.minY, width: 40, height: 30)
@@ -1207,7 +1239,9 @@ extension AddLabelViewController {
         wordSizeReduceButton.layer.cornerRadius = 4
         wordSizeReduceButton.layer.borderColor = SYS_Color.cgColor
         wordSizeReduceButton.layer.borderWidth = 1
+        wordSizeReduceButton.tag = 90
         self.propertyScrollView.addSubview(wordSizeReduceButton)
+        wordSizeReduceButton.addTarget(self, action: #selector(wordSizeChangeAction(sender:)), for: UIControlEvents.touchUpInside)
         
         let sepLabel9 = UILabel(frame: CGRect.init(x: CGFloat(0), y: wordSizeLabel.frame.maxY, width: normalWidth, height: CGFloat(0.5)))
         sepLabel9.backgroundColor = UIColor.black
@@ -2736,6 +2770,128 @@ extension AddLabelViewController {
             self.propertyScrollView.contentSize = CGSize(width: (self.mirrorPropertyView?.frame.width)!, height: self.propertyScrollView.contentSize.height - (self.mirrorPropertyView?.frame.height)!)
         }
     }
+    
+    // 文本框旋转方向变动
+    @objc func rotationalDirectionTextElement(sender: UIButton) -> Void {
+        // 判断是否已选择
+        if sender.isSelected {
+            return
+        }
+        
+        // 原来的按钮取消选择状态
+        let originTag = self.dataSource.textControl![(self.viewSelectedElement?.controlIndex)!].rotate! + 4000
+        let originButton = self.propertyScrollView.viewWithTag(originTag) as! UIButton
+        originButton.isSelected = false
+        sender.isSelected = true
+        
+        // 旋转角度
+        let rotation = sender.tag - 4000
+        
+        // 保存数据
+        self.dataSource.textControl![(self.viewSelectedElement?.controlIndex)!].rotate = rotation
+        
+        // 元素旋转
+        let transform = CGAffineTransform(rotationAngle: CGFloat(rotation) * CGFloat.pi / 180.0)
+        self.viewSelectedElement!.transform = transform
+    }
+    
+    // 位置变化
+    @objc func positionChangeElement(sender: UIButton) {
+        if 50 == sender.tag {
+            self.viewSelectedElement?.frame = CGRect(
+                x: (self.editView.frame.width - (self.viewSelectedElement?.frame.width)!) / 2,
+                y: (self.viewSelectedElement?.frame.minY)!,
+                width: (self.viewSelectedElement?.frame.width)!,
+                height: (self.viewSelectedElement?.frame.height)!)
+            self.resetModelRectWithView(view: self.viewSelectedElement!)
+            return
+        }
+        
+        if 55 == sender.tag {
+            self.viewSelectedElement?.frame = CGRect(
+                x: (self.viewSelectedElement?.frame.minX)!,
+                y: (self.editView.frame.height - (self.viewSelectedElement?.frame.height)!) / 2,
+                width: (self.viewSelectedElement?.frame.width)!,
+                height: (self.viewSelectedElement?.frame.height)!)
+            self.resetModelRectWithView(view: self.viewSelectedElement!)
+            return
+        }
+    }
+    
+    // x/y坐标变化
+    @objc func xypointChangeAction(sender: UIButton) -> Void {
+        // 增加y坐标
+        if 60 == sender.tag {
+            var newYPoint = (self.viewSelectedElement?.frame.minY)! + 1
+            let maxYPoint = self.editView.frame.height - (self.viewSelectedElement?.frame.height)!
+            if newYPoint > maxYPoint {
+                newYPoint = maxYPoint
+            }
+            self.viewSelectedElement?.frame.origin.y = newYPoint
+            let textField = self.propertyScrollView.viewWithTag(63) as! UITextField
+            textField.text = newYPoint.description
+            self.resetModelRectWithView(view: self.viewSelectedElement!)
+            return
+        }
+        
+        // 减少y坐标
+        if 65 == sender.tag {
+            var newYPoint = (self.viewSelectedElement?.frame.minY)! - 1
+            if newYPoint < 0 {
+                newYPoint = 0
+            }
+            self.viewSelectedElement?.frame.origin.y = newYPoint
+            let textField = self.propertyScrollView.viewWithTag(63) as! UITextField
+            textField.text = newYPoint.description
+            self.resetModelRectWithView(view: self.viewSelectedElement!)
+            return
+        }
+        
+        // 增加x坐标
+        if 70 == sender.tag {
+            var newXPoint = (self.viewSelectedElement?.frame.minX)! + 1
+            let maxXPoint = self.editView.frame.width - (self.viewSelectedElement?.frame.width)!
+            if newXPoint > maxXPoint {
+                newXPoint = maxXPoint
+            }
+            self.viewSelectedElement?.frame.origin.x = newXPoint
+            let textField = self.propertyScrollView.viewWithTag(73) as! UITextField
+            textField.text = newXPoint.description
+            self.resetModelRectWithView(view: self.viewSelectedElement!)
+            return
+        }
+        
+        // 减少x坐标
+        if 75 == sender.tag {
+            var newXPoint = (self.viewSelectedElement?.frame.minX)! - 1
+            if newXPoint < 0 {
+                newXPoint = 0
+            }
+            self.viewSelectedElement?.frame.origin.x = newXPoint
+            let textField = self.propertyScrollView.viewWithTag(73) as! UITextField
+            textField.text = newXPoint.description
+            self.resetModelRectWithView(view: self.viewSelectedElement!)
+            return
+        }
+    }
+    
+    // 字体变大事件
+    @objc func wordSizeChangeAction(sender: UIButton) -> Void {
+        if 85 == sender.tag {
+            let newFontSize = self.dataSource.textControl![(self.viewSelectedElement?.controlIndex)!].TEXT_SIZE! + 1
+            let textField = self.propertyScrollView.viewWithTag(80) as! UITextField
+            textField.text = newFontSize.description
+            return
+        }
+        
+        if 90 == sender.tag {
+            var newFontSize = self.dataSource.textControl![(self.viewSelectedElement?.controlIndex)!].TEXT_SIZE! - 1
+            newFontSize = newFontSize < 8 ? 8 : newFontSize
+            let textField = self.propertyScrollView.viewWithTag(80) as! UITextField
+            textField.text = newFontSize.description
+            return
+        }
+    }
 }
 
 // 属性窗口的输入框代理
@@ -2743,13 +2899,14 @@ extension AddLabelViewController: UITextFieldDelegate {
     // 结束输入事件
     func textFieldDidEndEditing(_ textField: UITextField) {
         let textInput = textField.text
-        if nil == textInput || 0 >= (textInput as! NSString).length {
+        if nil == textInput || 0 >= (textInput! as NSString).length {
             return
         }
         
         // 编辑窗口的名称编辑
         if textField.tag == 100 {
-            
+            self.dataSource.labelName = textInput
+            return
         }
     }
 }

@@ -71,7 +71,7 @@
 		93C215CC2003B3E500E6C7B3 /* mapleScroollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 93C215CA2003B3E500E6C7B3 /* mapleScroollView.m */; };
 		93E9EFF91FFCE67000B58FC5 /* setTBCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9EFF71FFCE66F00B58FC5 /* setTBCell.swift */; };
 		93E9EFFA1FFCE67000B58FC5 /* setTBCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93E9EFF81FFCE67000B58FC5 /* setTBCell.xib */; };
-		93E9EFFD1FFCFF9D00B58FC5 /* bluetoothMVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9EFFC1FFCFF9D00B58FC5 /* bluetoothMVC.swift */; };
+		93E9EFFD1FFCFF9D00B58FC5 /* BluetoothMVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E9EFFC1FFCFF9D00B58FC5 /* BluetoothMVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -147,7 +147,7 @@
 		93C215CD2003B40C00E6C7B3 /* MHTHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MHTHeader.h; sourceTree = "<group>"; };
 		93E9EFF71FFCE66F00B58FC5 /* setTBCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = setTBCell.swift; sourceTree = "<group>"; };
 		93E9EFF81FFCE67000B58FC5 /* setTBCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = setTBCell.xib; sourceTree = "<group>"; };
-		93E9EFFC1FFCFF9D00B58FC5 /* bluetoothMVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bluetoothMVC.swift; sourceTree = "<group>"; };
+		93E9EFFC1FFCFF9D00B58FC5 /* BluetoothMVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothMVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -442,7 +442,7 @@
 		93E9EFFB1FFCFF6400B58FC5 /* LinkBluetooth */ = {
 			isa = PBXGroup;
 			children = (
-				93E9EFFC1FFCFF9D00B58FC5 /* bluetoothMVC.swift */,
+				93E9EFFC1FFCFF9D00B58FC5 /* BluetoothMVC.swift */,
 			);
 			path = LinkBluetooth;
 			sourceTree = "<group>";
@@ -540,7 +540,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				933EFA691FF36B990036CCE4 /* HomeVC.swift in Sources */,
-				93E9EFFD1FFCFF9D00B58FC5 /* bluetoothMVC.swift in Sources */,
+				93E9EFFD1FFCFF9D00B58FC5 /* BluetoothMVC.swift in Sources */,
 				5CC11D9E2005D0600051D6D4 /* FzhBluetooth.m in Sources */,
 				8483DB7420170B4B00BAF5A8 /* RectElementView.swift in Sources */,
 				84A7194D2011C2850038E47D /* TemplateMenuCell.swift in Sources */,

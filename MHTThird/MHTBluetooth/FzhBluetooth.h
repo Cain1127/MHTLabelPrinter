@@ -24,7 +24,7 @@ typedef enum : NSUInteger {
 
 @end
 
-@interface FzhBluetooth : NSObject<CBPeripheralDelegate,CBCentralManagerDelegate,CBPeripheralManagerDelegate>
+@interface FzhBluetooth : NSObject<CBPeripheralDelegate, CBCentralManagerDelegate, CBPeripheralManagerDelegate>
 
 @property (assign,nonatomic) AutomaticConnectionEquipmenEnum connectionEquipment;
 
@@ -40,6 +40,9 @@ typedef enum : NSUInteger {
 
 /** 连接外设失败的回调 */
 @property (copy, nonatomic) FZConnectFailBlock connectFailBlock;
+
+/** 蓝牙设备的状态改变回调 */
+@property (copy, nonatomic) void(^peripheralStateChangeBlock)(CBPeripheral *peripheral);
 
 /** 获取蓝牙外设信号强度的回调  */
 @property (copy, nonatomic) FZGetRSSIBlock getRSSIBlock;
@@ -114,6 +117,8 @@ typedef enum : NSUInteger {
  *  @param characteristic 特性对象
  *  @param completionBlock 写入完成后的回调,只有type为CBCharacteristicWriteWithResponse时，才会回调
  */
+- (void)writeData:(NSData *)data forCharacteristic:(CBCharacteristic *)characteristic completionBlock:(FZWriteToCharacteristicBlock)completionBlock  returnBlock:(FZEquipmentReturnBlock)equipmentBlock;
+
 - (void)writeValue:(NSString *)dataStr forCharacteristic:(CBCharacteristic *)characteristic completionBlock:(FZWriteToCharacteristicBlock)completionBlock returnBlock:(FZEquipmentReturnBlock)equipmentBlock;
 
 /**
