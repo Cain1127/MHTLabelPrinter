@@ -17,12 +17,13 @@ class HomeVC: UIViewController {
     @IBOutlet weak var bluetoothL: UIButton!
     @IBOutlet weak var templateView: UIImageView!
     @IBOutlet weak var editButton: UIButton!
+    @IBOutlet weak var bottomChannelView: UIView!
     
     // 最后保存的模板对象
     var dataSource: TemplateModel?
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         
         // 创建沙盒模板文件夹
         print("document path: " + MHTBase.getTemplateDocumentPath())
@@ -36,7 +37,6 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         let mm = mapleButton()
         mm.intervalSpace = 30
         mm.typeNum = 3
@@ -78,7 +78,39 @@ class HomeVC: UIViewController {
     
     //maple_mark-------🍁🍁🍁🍁🍁🍁打印标签
     @IBAction func printLabelBtn(_ sender: UIButton) {
-        self.navigationController?.pushViewController(BluetoothMVC(), animated: true)
+        if nil == FzhBluetooth.shareInstance().serviceArr || 0 >= FzhBluetooth.shareInstance().serviceArr.count {
+            self.navigationController?.pushViewController(BluetoothMVC(), animated: true)
+        } else {
+            // 判断是否有最近编辑标签
+            if nil != self.dataSource && nil != self.dataSource?.labelViewBack {
+                // 打印
+//                var imageString = self.dataSource?.labelViewBack!
+//                imageString = imageString?.replacingOccurrences(of: "\n", with: "")
+                
+                /**
+                 * 测试打印字符串
+                 * 打印完整的Android代码是PrintfManager的realPrintfBitmapByLabelView方法
+                
+                 * 打印的指令集是TSCL文档。一般用到的是以下指令：
+                 * 第一步：初始化画布---> SIZE w(画布的宽度) mm,h(画布的高度) mm\r\n
+                 * 第二步：清除画布---> CLS\r\n
+                 * 第三步：发送打印数据---> BITMAP -8,0,w(图片的宽度)/8,h(图片的高度),1,加上 图片的二值化数据
+                 * 这里我们只需要把标签的图片发送过去即可。发送标签数据之后，需要发送(\r\n),告诉打印机，这条命令结束
+                 * 第四步：开始打印---> PRINT 1,number(此为变量，是打印的张数) \r\n
+                 * 注：---> 后面是对应的指令,括号里面的中文是对变量的说明，逗号都是英文。
+                 */
+                let imageString = "SIZE 40 mm,30 mm\r\nCLS\r\nTEXT 50,0,\"0\",0,3,3,\"TSPL 2\"\r\nPRINT 1,1\r\n"
+                
+                FzhBluetooth.shareInstance().writeValue(imageString, for: nil, completionBlock: {(ch, err) in
+                    ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "已打印"))
+                }, return: { (peri, ch, dataString, err) in
+                    ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "打印失败"))
+                    print(err as Any)
+                })
+            } else {
+                self.navigationController?.pushViewController(BluetoothMVC(), animated: true)
+            }
+        }
     }
     
     //maple_mark-------🍁🍁🍁🍁🍁🍁快速打印
@@ -144,7 +176,8 @@ class HomeVC: UIViewController {
         
         // 显示的模板图片
         let xpoint = (SCREEN_width - viewWidth) / 2
-        let ypoint = (self.templateView.bounds.height - viewHeight) / 2
+        let leftHeight = SCREEN_height - 64 - bottomChannelView.frame.height
+        let ypoint = (leftHeight - viewHeight) / 2
         let tempImageView = UIImageView.init(frame: CGRect(x: xpoint, y: ypoint, width: viewWidth, height: viewHeight))
         tempImageView.isUserInteractionEnabled = true
         

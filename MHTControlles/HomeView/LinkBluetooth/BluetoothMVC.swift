@@ -144,16 +144,17 @@ extension BluetoothMVC: UITableViewDelegate, UITableViewDataSource {
         
         // 更新数据
         let peripheral = self.searchDataSource[indexPath.row]
+        let periName = (peripheral.name == nil ? "" : peripheral.name!)
         if peripheral.state == .connected {
-            cell?.textLabel?.text = peripheral.name! + "(" + MHTBase.internationalStringWith(str: "已连接") + ")"
+            cell?.textLabel?.text = periName + "(" + MHTBase.internationalStringWith(str: "已连接") + ")"
         } else if peripheral.state == .connecting {
-            cell?.textLabel?.text = peripheral.name! + "(" + MHTBase.internationalStringWith(str: "正在连接") + ")"
+            cell?.textLabel?.text = periName + "(" + MHTBase.internationalStringWith(str: "正在连接") + ")"
         } else if peripheral.state == .disconnected {
-            cell?.textLabel?.text = peripheral.name! + "(" + MHTBase.internationalStringWith(str: "未连接") + ")"
+            cell?.textLabel?.text = periName + "(" + MHTBase.internationalStringWith(str: "未连接") + ")"
         } else if peripheral.state == .disconnecting {
-            cell?.textLabel?.text = peripheral.name! + "(" + MHTBase.internationalStringWith(str: "正在断开") + ")"
+            cell?.textLabel?.text = periName + "(" + MHTBase.internationalStringWith(str: "正在断开") + ")"
         } else {
-            cell?.textLabel?.text = peripheral.name
+            cell?.textLabel?.text = periName
         }
         cell?.detailTextLabel?.text = peripheral.identifier.uuidString
         

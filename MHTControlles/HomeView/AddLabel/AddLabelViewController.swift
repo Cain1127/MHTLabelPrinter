@@ -213,7 +213,7 @@ class AddLabelViewController: UIViewController {
         }
         
         // 保存新的比率
-        self.dataSource.proportion = proportion
+//        self.dataSource.proportion = proportion
         
         // 创建背景图片
         if(nil != self.dataSource.backgroundBitmap && !self.dataSource.backgroundBitmap!.isEmpty) {
@@ -245,6 +245,11 @@ class AddLabelViewController: UIViewController {
                                                                       height: CGFloat(model.H! / proportion)))
                     tempView.pro = proportion
                     tempView.updateDateUIWithModel(model: model, pro: proportion)
+                    
+//                    let newSaveRect = MHTBase.getSaveContentRect(frame: tempView.frame)
+//                    self.dataSource.textControl![i].selectRect = newSaveRect
+//                    self.dataSource.textControl![i].contentRect = newSaveRect
+                    
                     self.editView.addSubview(tempView)
                     tempView.controlIndex = i
                     tempView.tag = 1000 + i
@@ -275,6 +280,11 @@ class AddLabelViewController: UIViewController {
                                                                       height: CGFloat(model.H! / proportion)))
                     tempView.pro = proportion
                     tempView.updateUIWithModel(model: model, pro: proportion)
+                    
+//                    let newSaveRect = MHTBase.getSaveContentRect(frame: tempView.frame)
+//                    self.dataSource.textControl![i].selectRect = newSaveRect
+//                    self.dataSource.textControl![i].contentRect = newSaveRect
+                    
                     self.editView.addSubview(tempView)
                     tempView.controlIndex = i
                     tempView.tag = 1000 + i
@@ -315,6 +325,11 @@ class AddLabelViewController: UIViewController {
                 let barcodeImage = MHTBase.creatBarCodeImage(content: barcodeString, size: tempView.frame.size)
                 tempView.pro = proportion
                 tempView.updateUIWithModel(image: barcodeImage!, model: model, pro: proportion)
+                
+//                let newSaveRect = MHTBase.getSaveContentRect(frame: tempView.frame)
+//                self.dataSource.qcControls![i].selectRect = newSaveRect
+//                self.dataSource.qcControls![i].contentRect = newSaveRect
+                
                 self.editView.addSubview(tempView)
                 tempView.controlIndex = i
                 tempView.tag = 2000 + i
@@ -352,6 +367,11 @@ class AddLabelViewController: UIViewController {
                 let barcodeImage = MHTBase.creatQRCodeImage(content: barcodeString, iconName: nil, size: tempView.frame.size)
                 tempView.pro = proportion
                 tempView.updateUIWithModel(image: barcodeImage!, model: model, pro: proportion)
+                
+//                let newSaveRect = MHTBase.getSaveContentRect(frame: tempView.frame)
+//                self.dataSource.qrControls![i].selectRect = newSaveRect
+//                self.dataSource.qrControls![i].contentRect = newSaveRect
+                
                 self.editView.addSubview(tempView)
                 tempView.controlIndex = i
                 tempView.tag = 3000 + i
@@ -390,6 +410,11 @@ class AddLabelViewController: UIViewController {
                 let tempImage = UIImage(data: base64!)
                 tempView.pro = proportion
                 tempView.updateUIWithModel(image: tempImage!, imageModel: model, pro: proportion)
+                
+//                let newSaveRect = MHTBase.getSaveContentRect(frame: tempView.frame)
+//                self.dataSource.bitmapControls![i].selectRect = newSaveRect
+//                self.dataSource.bitmapControls![i].contentRect = newSaveRect
+                
                 self.editView.addSubview(tempView)
                 tempView.controlIndex = i
                 tempView.tag = 4000 + i
@@ -424,6 +449,11 @@ class AddLabelViewController: UIViewController {
                                                                      height: CGFloat(model.H! / proportion)))
                 tempView.pro = proportion
                 tempView.updateUIWithModel(model: model, pro: proportion)
+                
+//                let newSaveRect = MHTBase.getSaveContentRect(frame: tempView.frame)
+//                self.dataSource.lineControls![i].selectRect = newSaveRect
+//                self.dataSource.lineControls![i].contentRect = newSaveRect
+                
                 self.editView.addSubview(tempView)
                 tempView.controlIndex = i
                 tempView.tag = 5000 + i
@@ -458,6 +488,11 @@ class AddLabelViewController: UIViewController {
                                                                      height: CGFloat(model.H! / proportion)))
                 tempView.pro = proportion
                 tempView.updateUIWithModel(model: model, pro: proportion)
+                
+//                let newSaveRect = MHTBase.getSaveContentRect(frame: tempView.frame)
+//                self.dataSource.rectangleControls![i].selectRect = newSaveRect
+//                self.dataSource.rectangleControls![i].contentRect = newSaveRect
+                
                 self.editView.addSubview(tempView)
                 tempView.controlIndex = i
                 tempView.tag = 6000 + i
@@ -1102,7 +1137,7 @@ extension AddLabelViewController {
             
             if(self.isSaved) {
                 let labelModelViewController = LabelModelViewController()
-                labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: isUser: )
+                labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: isUser: type: doc:)
                 self.navigationController?.pushViewController(labelModelViewController, animated: true)
             } else {
                 let alertController = UIAlertController(title: "提示", message: "选择模板后将清空原来内容，是否确认选择模板？", preferredStyle: .actionSheet)
@@ -1110,7 +1145,7 @@ extension AddLabelViewController {
                 let okAction = UIAlertAction(title: "确定", style: .default, handler: {
                     action in
                     let labelModelViewController = LabelModelViewController()
-                    labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: isUser: )
+                    labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: isUser: type: doc:)
                     self.navigationController?.pushViewController(labelModelViewController, animated: true)
                 })
                 alertController.addAction(cancelAction)
@@ -1265,6 +1300,10 @@ extension AddLabelViewController {
         if nil == FzhBluetooth.shareInstance().serviceArr || 0 >= FzhBluetooth.shareInstance().serviceArr.count {
             self.navigationController?.pushViewController(BluetoothMVC(), animated: true)
         } else {
+            // 取消选择状态
+            self.clearElementSelected()
+            self.createPropertyView()
+            
             // 生成一次界面图片
             let viewImage = MHTBase.getImageFromView(view: self.editView)
             
@@ -1293,7 +1332,7 @@ extension AddLabelViewController {
     }
     
     // 选择模板编辑
-    func pickedTempateAction(model: TemplateModel, isUser: Bool) -> Void {
+    func pickedTempateAction(model: TemplateModel, isUser: Bool, type: Int, doc: String) -> Void {
         self.clearElementSelected()
         self.dataSource = model
         self.dataSource.saveDocument = SAVE_DOCUMENT_DEFAULT

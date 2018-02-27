@@ -19,12 +19,12 @@ class TemplateCell: UITableViewCell {
         self.titleLabel.font = UIFont.systemFont(ofSize: CGFloat(14 * MHTBase.autoScreen()))
         self.titleLabel.textAlignment = NSTextAlignment.center
         
-        self.selectedTitleLabel = UILabel.init(frame: CGRect(x: self.titleLabel.frame.maxX + 10, y: self.titleLabel.frame.minX, width: 60, height: 16))
+        self.selectedTitleLabel = UILabel.init(frame: CGRect(x: self.titleLabel.frame.maxX - 60, y: self.titleLabel.frame.minY, width: 60, height: 16))
         self.selectedTitleLabel.text = MHTBase.internationalStringWith(str: "已选择")
         self.selectedTitleLabel.font = UIFont.systemFont(ofSize: CGFloat(14 * MHTBase.autoScreen()))
         self.selectedTitleLabel.textAlignment = NSTextAlignment.center
         self.selectedTitleLabel.textColor = SYS_Color
-        self.selectedTitleLabel.isHidden = false
+        self.selectedTitleLabel.isHidden = true
         
         self.templateImageView = UIImageView.init(frame: CGRect(x: 16, y: 16, width: width - 16 * 2, height: height - 16 - 16 - 10))
         self.templateImageView.isUserInteractionEnabled = true

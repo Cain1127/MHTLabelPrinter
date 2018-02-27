@@ -20,19 +20,21 @@ class QuickPrintVC: UIViewController {
     // 真正的数据对象
     var modelDataSource: Array<TemplateModel>? = []
     
+    // 打印样式按钮
+    var printStyleButton: UIButton!
+    
+    // 打印纸张数量按钮
+    var printNumberButton: UIButton!
+    
     // 是否有编辑状态
     var isSave: Bool = true
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        
-        // 请求数据
-        self.getQuickPrintDataSource()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setQuickPrintUI()
+        
+        // 请求数据
+        self.getQuickPrintDataSource()
     }
 
     func setQuickPrintUI() -> Void {
@@ -56,7 +58,7 @@ class QuickPrintVC: UIViewController {
         
         // 打印方式
         let channelButtonWidth = (SCREEN_width - 48) / 2
-        let printStyleButton = UIButton()
+        self.printStyleButton = UIButton()
         printStyleButton.frame = CGRect(x: 16, y: 0, width: channelButtonWidth, height: channelView.frame.height)
         printStyleButton.addTarget(self, action: #selector(printStyleAction(sender:)), for: UIControlEvents.touchUpInside)
         printStyleButton.setTitleColor(UIColor.black, for: UIControlState.normal)
@@ -65,13 +67,13 @@ class QuickPrintVC: UIViewController {
         self.resetPrintStyleButtonTitle(sender: printStyleButton)
         
         // 打印张数
-        let printPageNumberButton = UIButton()
-        printPageNumberButton.frame = CGRect(x: printStyleButton.frame.maxX + 16, y: 0, width: channelButtonWidth, height: channelView.frame.height)
-        printPageNumberButton.addTarget(self, action: #selector(printNumberAction(sender:)), for: UIControlEvents.touchUpInside)
-        printPageNumberButton.setTitleColor(UIColor.black, for: UIControlState.normal)
-        channelView.addSubview(printPageNumberButton)
-        printPageNumberButton.titleLabel?.adjustsFontSizeToFitWidth = true
-        self.resetPrintNumberButtonTitle(sender: printPageNumberButton)
+        self.printNumberButton = UIButton()
+        printNumberButton.frame = CGRect(x: printStyleButton.frame.maxX + 16, y: 0, width: channelButtonWidth, height: channelView.frame.height)
+        printNumberButton.addTarget(self, action: #selector(printNumberAction(sender:)), for: UIControlEvents.touchUpInside)
+        printNumberButton.setTitleColor(UIColor.black, for: UIControlState.normal)
+        channelView.addSubview(printNumberButton)
+        printNumberButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        self.resetPrintNumberButtonTitle(sender: printNumberButton)
         
         // 底部按钮的宽高
         let widthSmallImage = (SCREEN_width - 32) / 3
@@ -136,8 +138,42 @@ class QuickPrintVC: UIViewController {
     }
     
     //maple_mark-------🍁🍁🍁🍁🍁🍁导航btn
-    @objc func quickPNavB(sender:UIBarButtonItem) -> Void {
+    @objc func quickPNavB(sender: UIBarButtonItem) -> Void {
+        var isDelete = false
+        for i in stride(from: self.buttonDataSource.count - 1, through: 0, by: -1) {
+            let button = self.buttonDataSource[i]
+            if button.isSelected {
+                isDelete = true
+                self.modelDataSource?.remove(at: i)
+                self.dataSource.fileNameArray?.remove(at: i)
+            }
+        }
         
+        if isDelete {
+            self.isSave = false
+            self.resetQuickViewButtonImage()
+        }
+    }
+    
+    // 删除图片后，重新整理底部显示的预览图片
+    func resetQuickViewButtonImage() -> Void {
+        // 先清空原来的图片
+        for i in 0 ..< self.buttonDataSource.count {
+            let button = self.buttonDataSource[i]
+            button.setImage(nil, for: UIControlState.normal)
+            button.isSelected = false
+            button.layer.borderColor = SYS_LIGHT_GREY.cgColor
+        }
+        
+        // 重新设置图片
+        for i in 0 ..< (self.modelDataSource?.count)! {
+            let model = self.modelDataSource![i]
+            var imageString = model.labelViewBack!
+            imageString = imageString.replacingOccurrences(of: "\n", with: "")
+            let base64 = Data(base64Encoded: imageString)
+            let image = UIImage(data: base64!)
+            self.buttonDataSource[i].setImage(image, for: UIControlState.normal)
+        }
     }
     
     // 打印方式按钮事件
@@ -146,6 +182,7 @@ class QuickPrintVC: UIViewController {
         let cancelAction = UIAlertAction(title: MHTBase.internationalStringWith(str: "普通打印"), style: .default, handler: {
             action in
             self.dataSource.printStyle = 0
+            self.isSave = false
             self.resetPrintStyleButtonTitle(sender: sender)
         })
         let waitAction = UIAlertAction(title: MHTBase.internationalStringWith(str: "序列打印"), style: .default, handler: {
@@ -198,6 +235,7 @@ class QuickPrintVC: UIViewController {
                 number = 1
             }
             
+            self.isSave = false
             self.dataSource.pageNumber = number
             self.resetPrintNumberButtonTitle(sender: sender)
         })
@@ -226,10 +264,16 @@ class QuickPrintVC: UIViewController {
                 // 判断原来是否有元素
                 if nil != self.dataSource.fileNameArray &&
                     index < (self.dataSource.fileNameArray?.count)! {
-                    
+                    sender.isSelected = !sender.isSelected
+                    if sender.isSelected {
+                        sender.layer.borderColor = SYS_Color.cgColor
+                    } else {
+                        sender.layer.borderColor = SYS_LIGHT_GREY.cgColor
+                    }
                 } else {
                     let labelModelViewController = LabelModelViewController()
-                    labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: isUser: )
+                    labelModelViewController.selectedFileNameArray = self.dataSource.fileNameArray
+                    labelModelViewController.selectedTemplateClosure = self.pickedTempateAction(model: isUser: type: doc:)
                     self.navigationController?.pushViewController(labelModelViewController, animated: true)
                 }
             } else {
@@ -249,30 +293,41 @@ extension QuickPrintVC {
             if nil == self.dataSource.fileNameArray {
                 self.dataSource.fileNameArray = []
             }
-            
+
             // 读取文件数据源
             let readConfigQueue = DispatchQueue.global(qos: .default)
-            readConfigQueue.async(group: nil, qos: .default, flags: [], execute: {
-                for _ in 0 ..< self.dataSource.fileNameArray!.count {
-                    for fileName in self.dataSource.fileNameArray! {
-                        // 获取文件路径
-                        let pathTemp = Bundle.main.path(forResource: fileName, ofType: "json")
-                        
-                        // 通过文件路径创建NSData
-                        if let jsonPathTemp = pathTemp {
-                            let jsonDataTemp = NSData.init(contentsOfFile: jsonPathTemp)
-                            let decoder = JSONDecoder()
-                            let templateModel = try! decoder.decode(TemplateModel.self, from: jsonDataTemp! as Data)
-                            self.modelDataSource?.append(templateModel)
+            let group = DispatchGroup()
+            readConfigQueue.async(group: group, qos: .default, flags: [], execute: {
+                for fileName in self.dataSource.fileNameArray! {
+                    // 获取文件路径
+                    var pathTemp = Bundle.main.path(forResource: fileName, ofType: "json")
+                    let fileArray = fileName.components(separatedBy: "|")
+                    if 3 == fileArray.count {
+                        if "1000" == fileArray[0] {
+                            pathTemp = Bundle.main.path(forResource: fileArray[1], ofType: "json")
+                        } else if "1001" == fileArray[0] {
+                            pathTemp = MHTBase.getTemplateDocumentPath() + "/" + fileArray[1] + "/" + fileArray[2]
                         }
+                    }
+                    
+                    // 通过文件路径创建NSData
+                    if let jsonPathTemp = pathTemp {
+                        let jsonDataTemp = NSData.init(contentsOfFile: jsonPathTemp)
+                        let decoder = JSONDecoder()
+                        let templateModel = try! decoder.decode(TemplateModel.self, from: jsonDataTemp! as Data)
+                        self.modelDataSource?.append(templateModel)
                     }
                 }
             })
-            
+
             // 主线程刷新数据
-            readConfigQueue.async(group: nil, qos: .default, flags: .barrier, execute: {
+            group.notify(queue: readConfigQueue) {
                 if 0 < (self.dataSource.fileNameArray?.count)! && 0 < (self.modelDataSource?.count)! {
                     DispatchQueue.main.async {
+                        // 显示最新的配置信息
+                        self.resetPrintStyleButtonTitle(sender: self.printStyleButton)
+                        self.resetPrintNumberButtonTitle(sender: self.printNumberButton)
+                        
                         for i in 0 ..< (self.modelDataSource?.count)! {
                             let model = self.modelDataSource![i]
                             var imageString = model.labelViewBack!
@@ -283,19 +338,35 @@ extension QuickPrintVC {
                         }
                     }
                 }
-            })
+            }
+            
+//            readConfigQueue.async(group: nil, qos: .default, flags: .barrier, execute: {
+//                if 0 < (self.dataSource.fileNameArray?.count)! && 0 < (self.modelDataSource?.count)! {
+//                    DispatchQueue.main.async {
+//                        for i in 0 ..< (self.modelDataSource?.count)! {
+//                            let model = self.modelDataSource![i]
+//                            var imageString = model.labelViewBack!
+//                            imageString = imageString.replacingOccurrences(of: "\n", with: "")
+//                            let base64 = Data(base64Encoded: imageString)
+//                            let image = UIImage(data: base64!)
+//                            self.buttonDataSource[i].setImage(image, for: UIControlState.normal)
+//                        }
+//                    }
+//                }
+//            })
         }
     }
     
     // 选择模板
-    func pickedTempateAction(model: TemplateModel, isUser: Bool) -> Void {
+    func pickedTempateAction(model: TemplateModel, isUser: Bool, type: Int, doc: String) -> Void {
         // 将保存状态改为未保存
         self.isSave = false
         
         // 判断是否是删除操作
+        let saveFileName = type.description + "|" + doc + "|" + model.fileName!
         for i in 0 ..< self.dataSource.fileNameArray!.count {
             let fileNameSelected = self.dataSource.fileNameArray![i]
-            if fileNameSelected == model.fileName {
+            if fileNameSelected == saveFileName {
                 // 删除数据源
                 self.modelDataSource?.remove(at: i)
                 self.dataSource.fileNameArray?.remove(at: i)
@@ -318,7 +389,7 @@ extension QuickPrintVC {
         
         // 保存数据源
         self.modelDataSource?.append(model)
-        self.dataSource.fileNameArray?.append(model.fileName!)
+        self.dataSource.fileNameArray?.append(saveFileName)
         var imageString = model.labelViewBack!
         imageString = imageString.replacingOccurrences(of: "\n", with: "")
         let base64 = Data(base64Encoded: imageString)
@@ -339,6 +410,7 @@ extension QuickPrintVC {
             let okAction = UIAlertAction(title: "保存", style: .default, handler: {
                 action in
                 self.saveCurrentDataSource()
+                self.navigationController?.popViewController(animated: true)
             })
             alertController.addAction(cancelAction)
             alertController.addAction(waitAction)

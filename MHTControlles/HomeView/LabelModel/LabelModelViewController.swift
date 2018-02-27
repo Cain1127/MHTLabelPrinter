@@ -30,7 +30,7 @@ class LabelModelViewController: UIViewController {
     fileprivate var dataSourceUserTemplate:Array<SystemTemplateConfigModel>?;
     
     // 选择模板的回调
-    var selectedTemplateClosure: ((_ model: TemplateModel, _ isUser: Bool) -> Void)?
+    var selectedTemplateClosure: ((_ model: TemplateModel, _ isUser: Bool, _ type: Int, _ doc: String) -> Void)?
     
     // 从快速打印进来时，已经选择的元素fileName数组
     var selectedFileNameArray: Array<String>? = []
@@ -318,7 +318,8 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
     // 判断当前的对象是否已选择，在快速打印时会显示这个属性
     func checkItemSelected(fileName: String) -> Bool {
         for selectedFileName in self.selectedFileNameArray! {
-            if selectedFileName == fileName {
+            let fileNameArray = selectedFileName.components(separatedBy: "|")
+            if 3 == fileNameArray.count && fileNameArray[2] == fileName {
                 return true
             }
         }
@@ -334,12 +335,14 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
             self.selectedIndexSystemTample = indexPath.row
 //            self.templateSystemTemplateTableView.setContentOffset(CGPoint.zero, animated: true)
             self.templateSystemTemplateTableView.reloadData()
+            return
         }
         
         if(tableView == self.menuUserTemplateTableView) {
             self.selectedIndexUserTample = indexPath.row
 //            self.templateSystemTemplateTableView.setContentOffset(CGPoint.zero, animated: true)
             self.templateUserTemplateTableView.reloadData()
+            return
         }
         
         // 选择模板或者点击模板进行编辑
@@ -356,9 +359,9 @@ extension LabelModelViewController: UITableViewDelegate, UITableViewDataSource {
                     let tempTempate = templateDataSource[indexPath.row]
                     if(nil != self.selectedTemplateClosure) {
                         if(tableView == templateSystemTemplateTableView) {
-                            self.selectedTemplateClosure!(tempTempate, false)
+                            self.selectedTemplateClosure!(tempTempate, false, 1000, self.dataSourceSystemTemplate![self.selectedIndexSystemTample].fileNameArray[indexPath.row])
                         } else {
-                            self.selectedTemplateClosure!(tempTempate, true)
+                            self.selectedTemplateClosure!(tempTempate, true, 1001, tempTempate.saveDocument!)
                         }
                         self.navigationController?.popViewController(animated: true)
                     } else {

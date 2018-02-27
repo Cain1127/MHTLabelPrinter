@@ -200,34 +200,34 @@ static NSString * const WRITE_SERVER_UUID = @"49535343-FE7D-4AE5-8FA9-9FAFD205E4
     _writeToCharacteristicBlock = completionBlock;
     _equipmentReturnBlock = equipmentBlock;
     
-//    NSMutableArray *sendArr = [[NSMutableArray alloc] init];
-//    if (dataStr.length > 40) {
-//        int leftCount = dataStr.length % 40;
-//        int count = (int)(dataStr.length / 40 + (leftCount > 0 ? 1 : 0));
-//        for (int i = 0; i < count; i ++) {
-//            if (i < count - 1) {
-//                [sendArr addObject:[dataStr substringWithRange:NSMakeRange(i * 40, 40)]];
-//            } else {
-//                [sendArr addObject:[dataStr substringWithRange:NSMakeRange(i * 40, leftCount)]];
-//            }
-//        }
+    NSMutableArray *sendArr = [[NSMutableArray alloc] init];
+    if (dataStr.length > 40) {
+        int leftCount = dataStr.length % 40;
+        int count = (int)(dataStr.length / 40 + (leftCount > 0 ? 1 : 0));
+        for (int i = 0; i < count; i ++) {
+            if (i < count - 1) {
+                [sendArr addObject:[dataStr substringWithRange:NSMakeRange(i * 40, 40)]];
+            } else {
+                [sendArr addObject:[dataStr substringWithRange:NSMakeRange(i * 40, leftCount)]];
+            }
+        }
         
-//        for (NSString *sendStr in sendArr) {
-//            NSData *data = [[FzhString sharedInstance] convertHexStrToData: sendStr];
-//            if (fzhPeripheral == nil) {
-//                NSString *desc = NSLocalizedString(@"Not connected devices", @"");
-//                NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
-//                NSError *error = [NSError errorWithDomain: @"com.okey.wearkit.ErrorDomain"
-//                                                     code: -101
-//                                                 userInfo: userInfo];
-//                _writeToCharacteristicBlock(nil, error);
-//                return;
-//            }
-//            [fzhPeripheral writeValue:data forCharacteristic: characteristic type:CBCharacteristicWriteWithResponse];
-//            writeCount++;
-//        }
-//        return;
-//    }
+        for (NSString *sendStr in sendArr) {
+            NSData *data = [[FzhString sharedInstance] convertHexStrToData: sendStr];
+            if (fzhPeripheral == nil) {
+                NSString *desc = NSLocalizedString(@"Not connected devices", @"");
+                NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : desc };
+                NSError *error = [NSError errorWithDomain: @"com.okey.wearkit.ErrorDomain"
+                                                     code: -101
+                                                 userInfo: userInfo];
+                _writeToCharacteristicBlock(nil, error);
+                return;
+            }
+            [fzhPeripheral writeValue:data forCharacteristic: characteristic type: CBCharacteristicWriteWithResponse];
+            writeCount++;
+        }
+        return;
+    }
     
     // 短于40长度时直接打印
     NSData *data = [[FzhString sharedInstance] convertHexStrToData:dataStr];
@@ -241,7 +241,7 @@ static NSString * const WRITE_SERVER_UUID = @"49535343-FE7D-4AE5-8FA9-9FAFD205E4
         return;
     }
     
-    [fzhPeripheral writeValue:data forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+    [fzhPeripheral writeValue:data forCharacteristic:characteristic type: CBCharacteristicWriteWithResponse];
     writeCount ++;
 }
 
@@ -433,7 +433,7 @@ didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic
     int tempRssi = [RSSI intValue];
     int absRssi = abs(tempRssi);
     float power = (absRssi-75)/(10*2.0);
-    double number = pow(10, power);//除0外，任何数的0次方等于1
+    double number = pow(10, power);// 除0外，任何数的0次方等于1
     return number;
 }
 
