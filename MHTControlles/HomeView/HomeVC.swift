@@ -99,14 +99,121 @@ class HomeVC: UIViewController {
                  * 第四步：开始打印---> PRINT 1,number(此为变量，是打印的张数) \r\n
                  * 注：---> 后面是对应的指令,括号里面的中文是对变量的说明，逗号都是英文。
                  */
-                let imageString = "SIZE 40 mm,30 mm\r\nCLS\r\nTEXT 50,0,\"0\",0,3,3,\"TSPL 2\"\r\nPRINT 1,1\r\n"
+//                let imageString = "SIZE 40 mm,30 mm\r\nCLS\r\nTEXT 10,10,\"0\",0,12,12,\"TSPL 2\"\r\nPRINT 1,1\r\n"
+//                let utf8EncodeData = imageString.data(using: String.Encoding.utf8, allowLossyConversion: true)
+//
+//                // 将NSData进行Base64编码
+//                let base64String = utf8EncodeData?.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: UInt(0)))
                 
-                FzhBluetooth.shareInstance().writeValue(imageString, for: nil, completionBlock: {(ch, err) in
-                    ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "已打印"))
+//                let byteArray: [UInt8] = Array(imageString.utf8)
+//                let printData = Data.init(bytes: byteArray)
+//                FzhBluetooth.shareInstance().write(printData, for: nil, completionBlock: {(ch, err) in
+//
+//                }, return: { (peri, ch, dataString, err) in
+//
+//                })
+
+//                FzhBluetooth.shareInstance().writeValue(imageString, for: nil, completionBlock: {(ch, err) in
+//                    ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "已打印"))
+//                }, return: { (peri, ch, dataString, err) in
+//                    ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "打印失败"))
+//                    print(err as Any)
+//                })
+                
+//                let byteArray = [0x0d, 0x0a]
+//                let byteData = Data(bytes: byteArray, count: byteArray.count)
+//
+                let imageString1 = "SIZE 40 mm,30 mm\r\n"
+                FzhBluetooth.shareInstance().writeValue(imageString1, for: nil, completionBlock: {(ch, err) in
+
                 }, return: { (peri, ch, dataString, err) in
-                    ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "打印失败"))
-                    print(err as Any)
+
                 })
+//
+//                FzhBluetooth.shareInstance().write(byteData, for: nil, completionBlock: {(ch, err) in
+//
+//                }, return: { (peri, ch, dataString, err) in
+//
+//                })
+
+                let imageString2 = "CLS\r\n"
+                FzhBluetooth.shareInstance().writeValue(imageString2, for: nil, completionBlock: {(ch, err) in
+
+                }, return: { (peri, ch, dataString, err) in
+
+                })
+//
+//                FzhBluetooth.shareInstance().write(byteData, for: nil, completionBlock: {(ch, err) in
+//
+//                }, return: { (peri, ch, dataString, err) in
+//
+//                })
+
+//                let imageString3 = "TEXT 80,80,\"0\",0,32,32,\"TSPL 2\"\r\n"
+//                let imageString3 = "BAR 80,80,300,100\r\n"
+                var imageString = (self.dataSource?.labelViewBack)!
+                imageString = imageString.replacingOccurrences(of: "\n", with: "")
+                let base64 = Data(base64Encoded: imageString)
+                let image = UIImage.init(data: base64!)
+                let imageData = UIImagePNGRepresentation(image!)
+//                let printImageString = String.init(data: imageData!, encoding: String.Encoding.utf8)!
+//                let imageString3 = "BITMAP 10,10,400,300,0," + printImageString + "\r\n"
+                let imageString3 = "BITMAP 10,10,400,300,0,"
+                FzhBluetooth.shareInstance().writeValue(imageString3, for: nil, completionBlock: {(ch, err) in
+
+                }, return: { (peri, ch, dataString, err) in
+
+                })
+                
+                FzhBluetooth.shareInstance().write(imageData, for: nil, completionBlock: {(ch, err) in
+
+                }, return: { (peri, ch, dataString, err) in
+
+                })
+                
+                let imageString31 = "\r\n"
+                FzhBluetooth.shareInstance().writeValue(imageString31, for: nil, completionBlock: {(ch, err) in
+                    
+                }, return: { (peri, ch, dataString, err) in
+                    
+                })
+                
+//                let byteArray = [66,73,84,77,65,80,32,49,48,48,44,49,48,48,44,50,44,49,54,44,49,44,0xfd,0x7f,0xf8,0x3f, 0xf0,0x0f, 0xe1,0x07,0xc3, 0x83, 0x87, 0xe1,0x0f,0xf1,0x1f,0xf0,0x1e, 0xf8,0x1c,0x38,0x00,0x00,0x00,0x00, 0xc1,0x83,0xff,0xff, 0xff,0xff, 0xff, 0xff,0x0d,0x0a]
+//                let printData = Data.init(bytes: byteArray, count: byteArray.count)
+////                let printData = self.dataSource?.labelViewBack?.data(using: .utf8)
+//                FzhBluetooth.shareInstance().write(printData, for: nil, completionBlock: {(ch, err) in
+//
+//                }, return: { (peri, ch, dataString, err) in
+//
+//                })
+//
+//                let imageString5 = "\r\n"
+//                FzhBluetooth.shareInstance().writeValue(imageString5, for: nil, completionBlock: {(ch, err) in
+//
+//                }, return: { (peri, ch, dataString, err) in
+//
+//                })
+
+                let imageString4 = "PRINT 1,1\r\n"
+                FzhBluetooth.shareInstance().writeValue(imageString4, for: nil, completionBlock: {(ch, err) in
+
+                }, return: { (peri, ch, dataString, err) in
+
+                })
+//
+//                FzhBluetooth.shareInstance().write(byteData, for: nil, completionBlock: {(ch, err) in
+//
+//                }, return: { (peri, ch, dataString, err) in
+//
+//                })
+                
+//                let imageString5 = self.dataSource?.labelViewBack
+//                FzhBluetooth.shareInstance().writeValue(imageString5, for: nil, completionBlock: {(ch, err) in
+//                    ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "已打印"))
+//                }, return: { (peri, ch, dataString, err) in
+//                    ToastView.instance.showToast(content: MHTBase.internationalStringWith(str: "打印失败"))
+//                    print(err as Any)
+//                })
             } else {
                 self.navigationController?.pushViewController(BluetoothMVC(), animated: true)
             }
